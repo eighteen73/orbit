@@ -1,0 +1,13 @@
+{
+    "name": "orphans/orbit",
+    "description": "Opinionated WordPress behaviour overrides",
+    "type": "wordpress-muplugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Orphans\\Orbit\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
