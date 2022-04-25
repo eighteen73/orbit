@@ -31,3 +31,4 @@ spl_autoload_register(
 );
 
 Admin\Settings::instance()->setup();
+Mail\Mail::instance()->setup();
