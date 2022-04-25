@@ -44,7 +44,7 @@ class CleanUI extends Singleton {
 		$menu->remove_node( 'search' );      // Search
 		// $menu->remove_node('site-name'); // Site Name
 		$menu->remove_node( 'themes' );      // Themes
-		$menu->remove_node( 'updates' );     // Updates
+		// $menu->remove_node( 'updates' );     // Updates
 		$menu->remove_node( 'view-site' );   // Visit Site
 		$menu->remove_node( 'view' );        // View
 		$menu->remove_node( 'widgets' );     // Widgets

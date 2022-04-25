@@ -15,7 +15,7 @@
 namespace Orbit;
 
 spl_autoload_register(
-	function( $class_name ) {
+	function ( $class_name ) {
 		$path_parts = explode( '\\', $class_name );
 
 		if ( ! empty( $path_parts ) ) {
@@ -31,5 +31,12 @@ spl_autoload_register(
 );
 
 Admin\Settings::instance()->setup();
-Admin\CleanUI::instance()->setup();
 Mail\Mail::instance()->setup();
+
+add_action(
+	'init',
+	function () {
+		Admin\CleanUI::instance()->setup();
+		Admin\HideUpdates::instance()->setup();
+	}
+);
