@@ -31,4 +31,5 @@ spl_autoload_register(
 );
 
 Admin\Settings::instance()->setup();
+Admin\CleanUI::instance()->setup();
 Mail\Mail::instance()->setup();

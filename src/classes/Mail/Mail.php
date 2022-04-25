@@ -6,6 +6,9 @@ use Orbit\Singleton;
 use Orbit\Traits\EnvReader;
 use PHPMailer\PHPMailer\PHPMailer;
 
+/**
+ * Inspired by https://github.com/wordplate/mail
+ */
 class Mail extends Singleton {
 
 	use EnvReader;
