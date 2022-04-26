@@ -15,11 +15,14 @@ class Mail extends Singleton {
 
 	private bool $enabled = false;
 
+	public function __construct() {
+		$this->enabled = $this->is_enabled();
+	}
+
 	/**
 	 * Setup module
 	 */
 	public function setup() {
-		$this->enabled = $this->is_enabled();
 		add_action( 'phpmailer_init', [ $this, 'mail_credentials' ] );
 		add_filter( 'wp_mail_from', [ $this, 'mail_from_address' ] );
 		add_filter( 'wp_mail_content_type', [ $this, 'mail_content_type' ] );

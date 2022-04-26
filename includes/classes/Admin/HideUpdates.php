@@ -11,11 +11,14 @@ class HideUpdates extends Singleton {
 
 	private bool $enabled = false;
 
+	public function __construct() {
+		$this->enabled = $this->is_enabled();
+	}
+
 	/**
 	 * Setup module
 	 */
 	public function setup() {
-		$this->enabled = $this->is_enabled();
 		add_action( 'admin_menu', [ $this, 'hide_updates_submenu_page' ] );
 		add_action( 'admin_bar_menu', [ $this, 'hide_updates_toolbar_item' ], 999 );
 		add_action( 'admin_init', [ $this, 'block_admin_pages' ] );
