@@ -2,10 +2,6 @@
 
 namespace Orbit;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
-
 /**
  * Abstract class
  */

@@ -17,7 +17,6 @@ class CleanUI extends Singleton {
 		add_action( 'admin_bar_menu', [ $this, 'clean_ui_toolbar_items' ], 999 );
 		add_action( 'wp_dashboard_setup', [ $this, 'clean_ui_dashboard_widgets' ] );
 		add_action( 'login_head', [ $this, 'clean_ui_logo' ] );
-
 	}
 
 	/**

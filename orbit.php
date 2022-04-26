@@ -15,6 +15,11 @@
 
 namespace Orbit;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 spl_autoload_register(
 	function ($class_name) {
 		$path_parts = explode('\\', $class_name);
