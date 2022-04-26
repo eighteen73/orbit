@@ -9,13 +9,13 @@ use Orbit\Singleton;
  */
 class HideUpdates extends Singleton {
 
-    private bool $enabled = false;
+	private bool $enabled = false;
 
 	/**
 	 * Setup module
 	 */
 	public function setup() {
-        $this->enabled = $this->is_enabled();
+		$this->enabled = $this->is_enabled();
 		add_action( 'admin_menu', [ $this, 'hide_updates_submenu_page' ] );
 		add_action( 'admin_bar_menu', [ $this, 'hide_updates_toolbar_item' ], 999 );
 		add_action( 'admin_init', [ $this, 'block_admin_pages' ] );
@@ -23,32 +23,32 @@ class HideUpdates extends Singleton {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_plugin_styles' ] );
 	}
 
-    public function is_enabled(  ) {
+	public function is_enabled(): bool {
 
-        // Plugin setting
-        $settings = get_option('orbit_settings');
-        if (!is_array($settings) || !isset($settings['hide_updates'])) {
-            return false;
-        }
-        if ($settings['hide_updates'] !== true) {
-            return false;
-        }
+		// Plugin setting
+		$settings = get_option( 'orbit_settings' );
+		if ( ! is_array( $settings ) || ! isset( $settings['hide_updates'] ) ) {
+			return false;
+		}
+		if ( $settings['hide_updates'] !== true ) {
+			return false;
+		}
 
-        // It's enabled, so check the user's role
-        $current_user    = wp_get_current_user();
-        $current_user_roles = $current_user->roles;
-        if (in_array('administrator', $current_user_roles)) {
-            return false;
-        }
+		// It's enabled, so check the user's role
+		$current_user       = wp_get_current_user();
+		$current_user_roles = $current_user->roles;
+		if ( in_array( 'administrator', $current_user_roles ) ) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * Remove submenu pages for users not allowed to see WordPress updates.
 	 */
 	public function hide_updates_submenu_page() {
-		if ( $this->is_enabled() ) {
+		if ( $this->enabled ) {
 			remove_submenu_page( 'index.php', 'update-core.php' );
 		}
 	}
@@ -56,9 +56,9 @@ class HideUpdates extends Singleton {
 	/**
 	 * Remove submenu pages for users not allowed to see WordPress updates.
 	 */
-	public function hide_updates_toolbar_item($menu) {
-        if ( $this->is_enabled() ) {
-            $menu->remove_node( 'updates' );
+	public function hide_updates_toolbar_item( $menu ) {
+		if ( $this->enabled ) {
+			$menu->remove_node( 'updates' );
 		}
 	}
 
@@ -67,7 +67,7 @@ class HideUpdates extends Singleton {
 	 */
 	public function block_admin_pages() {
 
-        if ( $this->is_enabled() ) {
+		if ( $this->enabled ) {
 			global $pagenow;
 
 			$blocked_admin_pages = [
@@ -109,7 +109,7 @@ class HideUpdates extends Singleton {
 	 * Enqueue plugin stylesheet to hide elements for users not allowed to see WordPress updates.
 	 */
 	public function enqueue_plugin_styles() {
-        if ( $this->is_enabled() ) {
+		if ( $this->enabled ) {
 			wp_enqueue_style( 'hide_updates_css', plugins_url( 'hide-updates.css', __FILE__ ) );
 		}
 	}

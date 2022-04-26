@@ -1,13 +1,23 @@
 {
-    "name": "orphans/orbit",
+    "name": "eighteen73/orbit",
     "description": "Opinionated WordPress behaviour overrides",
     "type": "wordpress-muplugin",
-    "license": "GPL-2.0-or-later",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Orbit": "src/classes/"
+            "Orbit\\": "includes/classes/"
         }
     },
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "eighteen73/phpcs-composer": "dev-main"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
 }

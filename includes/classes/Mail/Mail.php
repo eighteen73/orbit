@@ -13,13 +13,13 @@ class Mail extends Singleton {
 
 	use EnvReader;
 
-    private bool $enabled = false;
+	private bool $enabled = false;
 
 	/**
 	 * Setup module
 	 */
 	public function setup() {
-        $this->enabled = $this->is_enabled();
+		$this->enabled = $this->is_enabled();
 		add_action( 'phpmailer_init', [ $this, 'mail_credentials' ] );
 		add_filter( 'wp_mail_from', [ $this, 'mail_from_address' ] );
 		add_filter( 'wp_mail_content_type', [ $this, 'mail_content_type' ] );
@@ -28,13 +28,14 @@ class Mail extends Singleton {
 		}
 	}
 
-    public function is_enabled(  ) {
-        $settings = get_option('orbit_settings');
-        if (!is_array($settings) || !isset($settings['mail'])) {
-            return false;
-        }
-        return $settings['mail'] === true;
-    }
+	public function is_enabled(): bool {
+		$settings = get_option( 'orbit_settings' );
+		if ( ! is_array( $settings ) || ! isset( $settings['mail'] ) ) {
+			return false;
+		}
+
+		return $settings['mail'] === true;
+	}
 
 	/**
 	 * Set SMTP credentials

@@ -35,14 +35,14 @@ class Settings extends Singleton {
 	 */
 	public function settings_page() {
 		?>
-		<h1>Orbit Settings</h1>
-		<form action="options.php" method="post">
+        <h1>Orbit Settings</h1>
+        <form action="options.php" method="post">
 			<?php
 			settings_fields( 'orbit_settings' );
 			do_settings_sections( 'orbit_settings_page' );
 			?>
-			<input type="submit" name="submit" class="button button-primary" value="Save"/>
-		</form>
+            <input type="submit" name="submit" class="button button-primary" value="Save"/>
+        </form>
 		<?php
 	}
 

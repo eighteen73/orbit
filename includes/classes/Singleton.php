@@ -15,7 +15,7 @@ abstract class Singleton {
 	 *
 	 * @return self
 	 */
-	public static function instance() {
+	public static function instance(): Singleton {
 		static $instance;
 
 		if ( empty( $instance ) ) {
