@@ -38,6 +38,7 @@ spl_autoload_register(
 
 Admin\Settings::instance()->setup();
 Mail\Mail::instance()->setup();
+DisallowIndexing\DisallowIndexing::instance()->setup();
 
 add_action(
 	'init',
