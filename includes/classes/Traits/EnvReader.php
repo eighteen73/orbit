@@ -1,6 +1,6 @@
 <?php
 
-namespace Orbit\Traits;
+namespace Eighteen73\Orbit\Traits;
 
 trait EnvReader {
 	/**

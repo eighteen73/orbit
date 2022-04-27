@@ -1,6 +1,6 @@
 <?php
 
-namespace Orbit;
+namespace Eighteen73\Orbit;
 
 /**
  * Abstract class

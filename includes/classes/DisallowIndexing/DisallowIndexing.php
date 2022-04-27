@@ -1,8 +1,8 @@
 <?php
 
-namespace Orbit\DisallowIndexing;
+namespace Eighteen73\Orbit\DisallowIndexing;
 
-use Orbit\Singleton;
+use Eighteen73\Orbit\Singleton;
 
 class DisallowIndexing extends Singleton {
 

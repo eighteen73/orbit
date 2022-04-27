@@ -13,7 +13,7 @@
  * @package         Orbit
  */
 
-namespace Orbit;
+namespace Eighteen73\Orbit;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {

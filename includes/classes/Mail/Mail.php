@@ -1,9 +1,9 @@
 <?php
 
-namespace Orbit\Mail;
+namespace Eighteen73\Orbit\Mail;
 
-use Orbit\Singleton;
-use Orbit\Traits\EnvReader;
+use Eighteen73\Orbit\Singleton;
+use Eighteen73\Orbit\Traits\EnvReader;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
