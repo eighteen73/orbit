@@ -18,7 +18,7 @@ class DisallowIndexing extends Singleton {
 	}
 
 	public function is_enabled(): bool {
-		return WP_ENV !== 'production';
+		return wp_get_environment_type() !== 'production';
 	}
 
 	public function disallow(): int {
@@ -36,7 +36,7 @@ class DisallowIndexing extends Singleton {
 		$message = sprintf(
 			__('%1$s Search engine indexing has been discouraged because the current environment is %2$s.', 'orbit'),
 			'<strong>Orbit:</strong>',
-			'<code>'.WP_ENV.'</code>'
+			'<code>'.wp_get_environment_type().'</code>'
 		);
 		echo "<div class='notice notice-warning'><p>{$message}</p></div>";
 	}
