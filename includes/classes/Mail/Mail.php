@@ -3,15 +3,12 @@
 namespace Eighteen73\Orbit\Mail;
 
 use Eighteen73\Orbit\Singleton;
-use Eighteen73\Orbit\Traits\EnvReader;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Inspired by https://github.com/wordplate/mail
  */
 class Mail extends Singleton {
-
-	use EnvReader;
 
 	private bool $enabled = false;
 
@@ -26,7 +23,7 @@ class Mail extends Singleton {
 		add_action( 'phpmailer_init', [ $this, 'mail_credentials' ] );
 		add_filter( 'wp_mail_from', [ $this, 'mail_from_address' ] );
 		add_filter( 'wp_mail_content_type', [ $this, 'mail_content_type' ] );
-		if ( $this->env( 'ORBIT_MAIL_FROM_NAME' ) ) {
+		if ( getenv( 'ORBIT_MAIL_FROM_NAME' ) ) {
 			add_filter( 'wp_mail_from_name', [ $this, 'mail_from_name' ] );
 		}
 	}
@@ -48,12 +45,12 @@ class Mail extends Singleton {
 		$mail->SMTPAutoTLS = false;
 
 		$mail->SMTPAuth   = true;
-		$mail->SMTPSecure = $this->env( 'ORBIT_SMTP_ENCRYPTION', 'tls' );
+		$mail->SMTPSecure = getenv( 'ORBIT_SMTP_ENCRYPTION' ) ?: 'tls';
 
-		$mail->Host     = $this->env( 'ORBIT_SMTP_HOST' );
-		$mail->Port     = $this->env( 'ORBIT_SMTP_PORT', 587 );
-		$mail->Username = $this->env( 'ORBIT_SMTP_USERNAME' );
-		$mail->Password = $this->env( 'ORBIT_SMTP_PASSWORD' );
+		$mail->Host     = getenv( 'ORBIT_SMTP_HOST' );
+		$mail->Port     = getenv( 'ORBIT_SMTP_PORT' ) ?: 587;
+		$mail->Username = getenv( 'ORBIT_SMTP_USERNAME' );
+		$mail->Password = getenv( 'ORBIT_SMTP_PASSWORD' );
 
 		return $mail;
 	}
@@ -69,14 +66,14 @@ class Mail extends Singleton {
 	 * Set from address
 	 */
 	public function mail_from_address() {
-		return $this->env( 'ORBIT_MAIL_FROM_ADDRESS' );
+		return getenv( 'ORBIT_MAIL_FROM_ADDRESS' );
 	}
 
 	/**
 	 * Set from name
 	 */
 	public function mail_from_name() {
-		return $this->env( 'ORBIT_MAIL_FROM_NAME' );
+		return getenv( 'ORBIT_MAIL_FROM_NAME' );
 	}
 
 }

@@ -3,11 +3,8 @@
 namespace Eighteen73\Orbit\Admin;
 
 use Eighteen73\Orbit\Singleton;
-use Eighteen73\Orbit\Traits\EnvReader;
 
 class Settings extends Singleton {
-
-	use EnvReader;
 
 	/**
 	 * Setup module
