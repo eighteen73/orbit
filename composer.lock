@@ -88,12 +88,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eighteen73/phpcs-composer.git",
-                "reference": "49204d69ef78d4441786b1bcedaa3e6fbbcbef69"
+                "reference": "9b2d47aa0ca3c9be2e74b4d6bcfac3d065907754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eighteen73/phpcs-composer/zipball/49204d69ef78d4441786b1bcedaa3e6fbbcbef69",
-                "reference": "49204d69ef78d4441786b1bcedaa3e6fbbcbef69",
+                "url": "https://api.github.com/repos/eighteen73/phpcs-composer/zipball/9b2d47aa0ca3c9be2e74b4d6bcfac3d065907754",
+                "reference": "9b2d47aa0ca3c9be2e74b4d6bcfac3d065907754",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +122,7 @@
             "support": {
                 "source": "https://github.com/eighteen73/phpcs-composer/tree/main"
             },
-            "time": "2022-04-25T15:04:46+00:00"
+            "time": "2022-04-27T12:17:42+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",

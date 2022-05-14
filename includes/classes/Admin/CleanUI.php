@@ -23,10 +23,18 @@ class CleanUI extends Singleton {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items(): void {
-		remove_menu_page( 'edit-comments.php' ); // Comments
-		// remove_menu_page('edit.php?post_type=page'); // Pages
-		remove_menu_page( 'edit.php' );          // Posts
-		// remove_menu_page( 'index.php' );         // Dashboard
+		if ( ! carbon_get_theme_option( 'orbit_ui_menu_dashboard' ) ) {
+			remove_menu_page( 'index.php' );
+		}
+		if ( ! carbon_get_theme_option( 'orbit_ui_menu_posts' ) ) {
+			remove_menu_page( 'edit.php' );
+		}
+		if ( ! carbon_get_theme_option( 'orbit_ui_menu_pages' ) ) {
+			remove_menu_page( 'edit.php?post_type=page' );
+		}
+		if ( ! carbon_get_theme_option( 'orbit_ui_menu_comments' ) ) {
+			remove_menu_page( 'edit-comments.php' );
+		}
 		// remove_menu_page('upload.php'); // Media
 	}
 
@@ -39,11 +47,13 @@ class CleanUI extends Singleton {
 		$menu->remove_node( 'dashboard' );   // Dashboard
 		$menu->remove_node( 'edit' );        // Edit
 		$menu->remove_node( 'menus' );       // Menus
-		$menu->remove_node( 'new-content' ); // New Content
+		if ( ! carbon_get_theme_option( 'orbit_ui_toolbar_newcontent' ) ) {
+			$menu->remove_node( 'new-content' ); // New Content
+		}
 		$menu->remove_node( 'search' );      // Search
 		// $menu->remove_node('site-name'); // Site Name
 		$menu->remove_node( 'themes' );      // Themes
-		// $menu->remove_node( 'updates' );     // Updates
+		// $menu->remove_node( 'updates' );     // Updates (controlled by HideUpdates)
 		$menu->remove_node( 'view-site' );   // Visit Site
 		$menu->remove_node( 'view' );        // View
 		$menu->remove_node( 'widgets' );     // Widgets
@@ -67,15 +77,17 @@ class CleanUI extends Singleton {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo(): void {
-		if ( ! file_exists( get_theme_file_path( 'favicon.svg' ) ) ) {
-			echo '';
+		$attachment_id = (int) carbon_get_theme_option( 'orbit_ui_login_logo' );
+		if ( ! $attachment_id ) {
+            echo "<style> .login h1 { display: none; } </style>";
+			return;
 		}
-		$url = get_theme_file_uri( 'favicon.svg' );
 
-		$width = 200;
+		$image_src = wp_get_attachment_image_src( $attachment_id, 'medium' );
+		$width = 250;
 
 		$styles = [
-			sprintf( 'background-image: url(%s);', $url ),
+			sprintf( 'background-image: url(%s);', $image_src[0] ),
 			sprintf( 'width: %dpx;', $width ),
 			'background-position: center;',
 			'background-size: contain;',

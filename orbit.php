@@ -36,7 +36,7 @@ spl_autoload_register(
 	}
 );
 
-Admin\Settings::instance()->setup();
+Forms\Options::instance()->setup();
 Mail\Mail::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();
 
