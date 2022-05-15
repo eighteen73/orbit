@@ -21,16 +21,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 spl_autoload_register(
-	function ($class_name) {
-		$path_parts = explode('\\', $class_name);
+	function ( $class_name ) {
+		$path_parts = explode( '\\', $class_name );
 
-		if (!empty($path_parts)) {
+		if ( ! empty( $path_parts ) ) {
 			$package = $path_parts[0];
 
-			unset($path_parts[0]);
+			unset( $path_parts[0] );
 
-			if ('Orbit' === $package) {
-				require_once __DIR__ . '/includes/classes/' . implode('/', $path_parts) . '.php';
+			if ( 'Orbit' === $package ) {
+				require_once __DIR__ . '/includes/classes/' . implode( '/', $path_parts ) . '.php';
 			}
 		}
 	}
@@ -45,5 +45,7 @@ add_action(
 	function () {
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
+        Security\DisableXMLRPC::instance()->setup();
+        Security\HideVersion::instance()->setup();
 	}
 );

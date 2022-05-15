@@ -33,8 +33,36 @@ class Options extends Singleton {
 			->add_tab(
 				__( 'Security' ),
 				[
-					Field::make( 'checkbox', 'orbit_security_xmlrpc', __( 'Disable XML RPC' ) ),
-					Field::make( 'checkbox', 'orbit_security_userapi', __( 'Disable users API endpoints' ) ),
+
+					// Intro
+					Field::make( 'html', 'orbit_security_intro', __( 'Section Description' ) )
+						->set_html( '<p>We highy encourage all of these options to be left at the default value (checked) unless this website has very specific reason to re-enable a feature.</p>' ),
+
+					Field::make( 'checkbox', 'orbit_security_api', __( 'Disable JSON API' ) )->set_default_value( true )->set_help_text( 'Most simple websites have no use for WordPress\' so it can be disabled to remove an attack vector. Some website integrations do require it though so it can be enabled without significant risk when useful.' )->set_width( 50 ),
+
+					Field::make( 'checkbox', 'orbit_security_userapi', __( 'Disable user API endpoints' ) )->set_default_value( true )->set_help_text( 'When the JSON API is enabled it is still recommended that user endpoints are disabled unless specifically needed. These can expose user information.' )->set_conditional_logic(
+						[
+							[
+								'field' => 'orbit_security_api',
+								'value' => false,
+							],
+						]
+					)->set_width( 50 ),
+
+                    Field::make( 'checkbox', 'orbit_security_xmlrpc', __( 'Disable XML RPC' ) )->set_default_value( true )->set_help_text( 'This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks. If you <strong>must</strong> enable this, please try to limit it to necessary functioanlity and put request rate limiting in place.' ),
+
+					// Field::make( 'checkbox', 'orbit_security_feeds', __( 'Disable feeds' ) )->set_default_value( true )->set_help_text( '' )->set_width( 50 ),
+                    //
+					// Field::make( 'checkbox', 'orbit_security_userfeed', __( 'Disable comment feeds' ) )->set_default_value( true )->set_help_text( '' )->set_conditional_logic(
+					// 	[
+					// 		[
+					// 			'field' => 'orbit_security_feeds',
+					// 			'value' => false,
+					// 		],
+					// 	]
+					// )->set_width( 50 ),
+
+                    Field::make( 'checkbox', 'orbit_security_version', __( 'Hide WordPress version' ) )->set_default_value( true )->set_help_text( 'This could act as an hint for hackers to target the website with known vulnerabilities.' ),
 				]
 			)
 
@@ -46,7 +74,7 @@ class Options extends Singleton {
 				[
 
 					// Intro
-					Field::make( 'html', 'crb_html', __( 'Section Description' ) )
+					Field::make( 'html', 'orbit_ui_intro', __( 'Section Description' ) )
 						->set_html( '<p>Orbit automatically removes a lot of UI elements that are rarely used and can confuse some CMS users. The items below are a few that can be toggled on/off as needed.</p><p>Note this doesn\'t disable functionality so do not rely on it as a security feature. It only removes menu links.</p>' ),
 
 					// Menu items
