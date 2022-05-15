@@ -45,7 +45,8 @@ add_action(
 	function () {
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
-        Security\DisableXMLRPC::instance()->setup();
-        Security\HideVersion::instance()->setup();
+		Security\DisableXMLRPC::instance()->setup();
+		Security\HideVersion::instance()->setup();
+		Security\RemoveHeadLinks::instance()->setup();
 	}
 );
