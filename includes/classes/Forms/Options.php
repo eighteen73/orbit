@@ -16,18 +16,7 @@ class Options extends Singleton {
 	 * Setup module
 	 */
 	public function setup() {
-		add_action( 'after_setup_theme', [ $this, 'crb_load' ] );
 		add_action( 'carbon_fields_register_fields', [ $this, 'carbon_fields_register_fields' ] );
-	}
-
-	/**
-	 * Init the options form
-	 *
-	 * @return void
-	 */
-	public function crb_load() {
-		define( 'Carbon_Fields\URL', home_url( '/vendor/htmlburger/carbon-fields' ) );
-		Carbon_Fields::boot();
 	}
 
 	/**
