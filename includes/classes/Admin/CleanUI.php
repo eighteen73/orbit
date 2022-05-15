@@ -17,6 +17,7 @@ class CleanUI extends Singleton {
 		add_action( 'admin_bar_menu', [ $this, 'clean_ui_toolbar_items' ], 999 );
 		add_action( 'wp_dashboard_setup', [ $this, 'clean_ui_dashboard_widgets' ] );
 		add_action( 'login_head', [ $this, 'clean_ui_logo' ] );
+		add_filter( 'admin_footer_text', [ $this, 'remove_cms_footer_text' ] );
 	}
 
 	/**
@@ -73,13 +74,17 @@ class CleanUI extends Singleton {
 		unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );   // Quick Draft
 	}
 
+	public function remove_cms_footer_text(): string {
+		return '';
+	}
+
 	/**
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo(): void {
 		$attachment_id = (int) carbon_get_theme_option( 'orbit_ui_login_logo' );
 		if ( ! $attachment_id ) {
-            echo "<style> .login h1 { display: none; } </style>";
+			echo '<style> .login h1 { display: none; } </style>';
 			return;
 		}
 
