@@ -46,7 +46,7 @@ class CleanUI extends Singleton {
 		$menu->remove_node( 'comments' );    // Comments
 		$menu->remove_node( 'customize' );   // Customize
 		$menu->remove_node( 'dashboard' );   // Dashboard
-		$menu->remove_node( 'edit' );        // Edit
+		// $menu->remove_node( 'edit' );        // Edit
 		$menu->remove_node( 'menus' );       // Menus
 		if ( ! carbon_get_theme_option( 'orbit_ui_toolbar_newcontent' ) ) {
 			$menu->remove_node( 'new-content' ); // New Content
