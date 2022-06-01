@@ -56,7 +56,7 @@ class CleanUI extends Singleton {
 		$menu->remove_node( 'themes' );      // Themes
 		// $menu->remove_node( 'updates' );     // Updates (controlled by HideUpdates)
 		$menu->remove_node( 'view-site' );   // Visit Site
-		$menu->remove_node( 'view' );        // View
+		// $menu->remove_node( 'view' );        // View
 		$menu->remove_node( 'widgets' );     // Widgets
 		$menu->remove_node( 'wp-logo' );     // WordPress Logo
 	}
