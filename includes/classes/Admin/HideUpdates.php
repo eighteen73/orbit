@@ -87,31 +87,33 @@ class HideUpdates extends Singleton {
 		];
 
 		$block_current_page = false;
-
 		foreach ( $blocked_admin_pages as $block_admin_page ) {
 			$block_admin_page = explode( '?', $block_admin_page );
 
-			if ( $pagenow === $block_admin_page[0] ) {
+			// We're not in a relevant script so try the next one
+			if ( $pagenow !== $block_admin_page[0] ) {
+				continue;
+			}
+
+			// There's no param specified above so this is always a match
+			if ( ! isset( $block_admin_page[1] ) ) {
 				$block_current_page = true;
+				break;
 			}
 
-			if ( isset( $block_admin_page[1] ) ) {
-				parse_str( $block_admin_page[1], $query_params );
-
-				foreach ( $query_params as $key => $value ) {
-					if ( isset( $_GET[ $key ] ) && $_GET[ $key ] === $value ) {
-						$block_current_page = true;
-						break;
-					} else {
-						$block_current_page = false;
-					}
-				}
+			$request_query_params = [];
+			$blocked_query_params = [];
+			parse_str( $_SERVER['QUERY_STRING'], $request_query_params );
+			parse_str( $block_admin_page[1], $blocked_query_params );
+			if ( array_intersect_assoc( $request_query_params, $blocked_query_params ) ) {
+				$block_current_page = true;
+				break;
 			}
+		}
 
-			if ( $block_current_page ) {
-				wp_safe_redirect( admin_url( '/' ) );
-				exit;
-			}
+		if ( $block_current_page ) {
+			wp_safe_redirect( admin_url( '/' ) );
+			exit;
 		}
 	}
 
