@@ -71,11 +71,21 @@ class DisallowIndexing extends Singleton {
 		}
 
 		$message = sprintf(
+			/* translators: 1: Plugin name, 2: Current environment. */
 			__( '%1$s Search engine indexing has been discouraged because the current environment is %2$s.', 'orbit' ),
 			'<strong>Orbit:</strong>',
 			'<code>' . wp_get_environment_type() . '</code>'
 		);
-		echo "<div class='notice notice-warning'><p>{$message}</p></div>";
+
+		echo wp_kses(
+			"<div class='notice notice-warning'><p>{$message}</p></div>",
+			[
+				'div'    => [ 'class' => [] ],
+				'p'      => [],
+				'strong' => [],
+				'code'   => [],
+			]
+		);
 	}
 
 }

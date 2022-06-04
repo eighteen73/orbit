@@ -108,6 +108,7 @@ class CleanUI extends Singleton {
 	 */
 	public function clean_ui_logo() {
 		$attachment_id = (int) carbon_get_theme_option( 'orbit_ui_login_logo' );
+
 		if ( ! $attachment_id ) {
 			echo '<style> .login h1 { display: none; } </style>';
 
@@ -118,15 +119,14 @@ class CleanUI extends Singleton {
 		$width     = 250;
 
 		$styles = [
-			sprintf( 'background-image: url(%s);', $image_src[0] ),
-			sprintf( 'width: %dpx;', $width ),
-			'background-position: center;',
-			'background-size: contain;',
+			"background-image: url('{$image_src[0]}')",
+			"width: {$width}px",
+			'background-position: center',
+			'background-size: contain',
 		];
 
-		echo sprintf(
-			'<style> .login h1 a { %s } </style>',
-			implode( '', $styles )
-		);
+		$css = '<style> .login h1 a { ' . implode( '; ', $styles ) . ' } </style>';
+
+		echo wp_kses( $css, [ 'style' => [] ] );
 	}
 }
