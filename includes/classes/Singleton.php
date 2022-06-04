@@ -1,4 +1,9 @@
 <?php
+/**
+ * Singleton base class
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit;
 

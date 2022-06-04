@@ -1,4 +1,9 @@
 <?php
+/**
+ * Completely disable XML-RPC
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Security;
 

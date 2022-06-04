@@ -88,12 +88,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eighteen73/phpcs-composer.git",
-                "reference": "9b2d47aa0ca3c9be2e74b4d6bcfac3d065907754"
+                "reference": "37c5fa1e4b0dc7f9381d9be73ee785ddc5640cb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eighteen73/phpcs-composer/zipball/9b2d47aa0ca3c9be2e74b4d6bcfac3d065907754",
-                "reference": "9b2d47aa0ca3c9be2e74b4d6bcfac3d065907754",
+                "url": "https://api.github.com/repos/eighteen73/phpcs-composer/zipball/37c5fa1e4b0dc7f9381d9be73ee785ddc5640cb6",
+                "reference": "37c5fa1e4b0dc7f9381d9be73ee785ddc5640cb6",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +122,7 @@
             "support": {
                 "source": "https://github.com/eighteen73/phpcs-composer/tree/main"
             },
-            "time": "2022-04-27T12:17:42+00:00"
+            "time": "2022-06-04T11:29:18+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -302,12 +302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "b314140057170a81075556a71764f2f302e3b8be"
+                "reference": "5e2719947a22c3cd9a6545dbb66d44b81bc0a1e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b314140057170a81075556a71764f2f302e3b8be",
-                "reference": "b314140057170a81075556a71764f2f302e3b8be",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5e2719947a22c3cd9a6545dbb66d44b81bc0a1e6",
+                "reference": "5e2719947a22c3cd9a6545dbb66d44b81bc0a1e6",
                 "shasum": ""
             },
             "require": {
@@ -351,7 +351,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2022-04-18T00:25:09+00:00"
+            "time": "2022-05-31T22:48:23+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -416,5 +416,5 @@
         "php": ">=7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }

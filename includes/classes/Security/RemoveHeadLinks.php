@@ -1,4 +1,9 @@
 <?php
+/**
+ * Remove head links that we never use and potentially expose data
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Security;
 

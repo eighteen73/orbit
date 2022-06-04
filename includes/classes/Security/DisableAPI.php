@@ -1,4 +1,9 @@
 <?php
+/**
+ * Disable the REST API features
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Security;
 

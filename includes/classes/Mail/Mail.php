@@ -1,4 +1,9 @@
 <?php
+/**
+ * Override mail sending to use an SMTP server
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Mail;
 
@@ -13,7 +18,7 @@ class Mail extends Singleton {
 	/**
 	 * Setup module
 	 */
-	public function setup() {
+	public function setup(): void {
 
 		if ( carbon_get_theme_option( 'orbit_mail_enabled' ) !== true ) {
 			return;
@@ -33,17 +38,22 @@ class Mail extends Singleton {
 
 	/**
 	 * Set SMTP credentials
+	 *
+	 * @param PHPMailer $mail The PHPMailer instance
+	 *
+	 * @return PHPMailer
 	 */
 	public function mail_credentials( PHPMailer $mail ): PHPMailer {
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName -- these class properties are not our code
 		$mail->IsSMTP();
 		$mail->SMTPAutoTLS = false;
 
-		$mail->Host     = carbon_get_theme_option( 'separator_mail_host' );
-		$mail->Port     = carbon_get_theme_option( 'separator_mail_port' );
+		$mail->Host = carbon_get_theme_option( 'separator_mail_host' );
+		$mail->Port = carbon_get_theme_option( 'separator_mail_port' );
 
-		// If either 'ssl' or 'tls'
+		// Enable encruption if either 'ssl' or 'tls' are set
 		if ( carbon_get_theme_option( 'orbit_mail_encryption' ) !== 'none' ) {
-			$mail->SMTPAuth = true;
+			$mail->SMTPAuth   = true;
 			$mail->SMTPSecure = carbon_get_theme_option( 'separator_mail_encryption' );
 		}
 
@@ -51,7 +61,7 @@ class Mail extends Singleton {
 			$mail->Username = carbon_get_theme_option( 'separator_mail_username' );
 			$mail->Password = carbon_get_theme_option( 'separator_mail_password' );
 		}
-
+		// phpcs:enable
 		return $mail;
 	}
 

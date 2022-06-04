@@ -1,4 +1,9 @@
 <?php
+/**
+ * The options form for this plugin
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Forms;
 
@@ -125,8 +130,8 @@ class Options extends Singleton {
 						->set_options(
 							[
 								'none' => 'None',
-								'ssl' => 'SSL/TLS',
-								'tls' => 'STARTTLS',
+								'ssl'  => 'SSL/TLS',
+								'tls'  => 'STARTTLS',
 							]
 						)
 						->set_default_value( 'tls' )

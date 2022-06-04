@@ -1,4 +1,9 @@
 <?php
+/**
+ * Removes WordPress' version number from various places in the markup
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Security;
 
