@@ -65,11 +65,11 @@ class HideUpdates extends Singleton {
 	/**
 	 * Remove submenu pages for users not allowed to see WordPress updates.
 	 *
-	 * @param WP_Admin_Bar $menu The menu bar instance
+	 * @param \WP_Admin_Bar $menu The menu bar instance
 	 *
 	 * @return void
 	 */
-	public function hide_updates_toolbar_item( WP_Admin_Bar $menu ): void {
+	public function hide_updates_toolbar_item( \WP_Admin_Bar $menu ): void {
 		$menu->remove_node( 'updates' );
 	}
 
