@@ -123,7 +123,7 @@ class HideUpdates extends Singleton {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
-		wp_enqueue_style( 'hide_updates_css', plugins_url( 'hide-updates.css', __FILE__ ) );
+		wp_enqueue_style( 'hide_updates_css', WPMU_PLUGIN_URL . '/orbit/css/hide-updates.css' );
 	}
 
 }
