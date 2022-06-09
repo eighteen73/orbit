@@ -48,18 +48,18 @@ class Mail extends Singleton {
 		$mail->IsSMTP();
 		$mail->SMTPAutoTLS = false;
 
-		$mail->Host = carbon_get_theme_option( 'separator_mail_host' );
-		$mail->Port = carbon_get_theme_option( 'separator_mail_port' );
+		$mail->Host = carbon_get_theme_option( 'orbit_mail_host' );
+		$mail->Port = carbon_get_theme_option( 'orbit_mail_port' );
 
 		// Enable encruption if either 'ssl' or 'tls' are set
 		if ( carbon_get_theme_option( 'orbit_mail_encryption' ) !== 'none' ) {
 			$mail->SMTPAuth   = true;
-			$mail->SMTPSecure = carbon_get_theme_option( 'separator_mail_encryption' );
+			$mail->SMTPSecure = carbon_get_theme_option( 'orbit_mail_encryption' );
 		}
 
 		if ( carbon_get_theme_option( 'orbit_mail_auth' ) === true ) {
-			$mail->Username = carbon_get_theme_option( 'separator_mail_username' );
-			$mail->Password = carbon_get_theme_option( 'separator_mail_password' );
+			$mail->Username = carbon_get_theme_option( 'orbit_mail_username' );
+			$mail->Password = carbon_get_theme_option( 'orbit_mail_password' );
 		}
 		// phpcs:enable
 		return $mail;
