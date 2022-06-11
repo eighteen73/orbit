@@ -20,7 +20,7 @@ class CleanUI extends Singleton {
 	 * Setup module
 	 */
 	public function setup() {
-		add_action( 'admin_init', [ $this, 'clean_ui_menu_items' ] );
+		add_action( 'admin_menu', [ $this, 'clean_ui_menu_items' ] );
 		add_action( 'admin_bar_menu', [ $this, 'clean_ui_toolbar_items' ], 999 );
 		add_action( 'wp_dashboard_setup', [ $this, 'clean_ui_dashboard_widgets' ] );
 		add_action( 'login_head', [ $this, 'clean_ui_logo' ] );
