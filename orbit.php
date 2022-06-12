@@ -15,6 +15,8 @@
 namespace Eighteen73\Orbit;
 
 // Exit if accessed directly
+use Eighteen73\Orbit\Forms\SimpleSettings;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -50,3 +52,27 @@ add_action(
 		Security\RemoveHeadLinks::instance()->setup();
 	}
 );
+
+$settings = new SimpleSettings( 'orbit', 'Orbit Settings' );
+$section_id = $settings->add_section( 'UI Cleanup' );
+$settings->add_checkbox_group(
+	$section_id,
+	'menu',
+	'Menu Items',
+	[
+		'dashboard' => 'Show dashboard',
+		'posts' => 'Show posts',
+		'pages' => 'Show pages',
+		'comments' => 'Show comments',
+		'updates' => 'Show updates',
+	]
+);
+$settings->add_checkbox_group(
+	$section_id,
+	'toolbar',
+	'Toolbar Items',
+	[
+		'new_content' => 'Show new content button',
+	]
+);
+$settings->build();
