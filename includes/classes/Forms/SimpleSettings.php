@@ -58,9 +58,9 @@ class SimpleSettings {
 	 * @param string $title Settings page title
 	 */
 	public function __construct( string $option_group, string $title ) {
-		$this->title = $title;
-		$this->option_group =$this->sanitize( $option_group );
-		$this->option_id = "{$this->option_group}_options";
+		$this->title        = $title;
+		$this->option_group = $this->sanitize( $option_group );
+		$this->option_id    = "{$this->option_group}_options";
 		add_action( 'admin_menu', [ $this, 'add_page_callback' ] );
 	}
 
@@ -68,24 +68,46 @@ class SimpleSettings {
 	 * Add a new section to the form
 	 *
 	 * @param string $title Section title
+	 *
 	 * @return string
 	 */
-	public function add_section( string $title ): string {
-		$section_id = $this->sanitize( $title );
+	public function add_section( string $title, $intro = null ): string {
+		$section_id                       = $this->sanitize( $title );
 		$this->form_layout[ $section_id ] = [
-			'id' => $section_id,
-			'title' => $title,
+			'id'     => $section_id,
+			'title'  => $title,
+			'intro'  => $intro ?? null,
 			'fields' => [],
 		];
+
 		return $section_id;
 	}
 
-	public function add_checkbox_group( string $section_id, string $field_id, string $title, array $values ) {
-		$field_id = $this->sanitize( $field_id );
+	public function add_text_field( string $section_id, string $field_id, string $title ) {
+		$field_id                                     = $this->sanitize( $field_id );
 		$this->form_layout[ $section_id ]['fields'][] = [
-			'type' => 'checkbox_group',
-			'id' => $field_id,
+			'type'  => 'text',
+			'id'    => $field_id,
 			'title' => $title,
+		];
+	}
+
+	public function add_checkbox_group( string $section_id, string $field_id, string $title, array $values ) {
+		$field_id                                     = $this->sanitize( $field_id );
+		$this->form_layout[ $section_id ]['fields'][] = [
+			'type'   => 'checkbox_group',
+			'id'     => $field_id,
+			'title'  => $title,
+			'values' => $values,
+		];
+	}
+
+	public function add_radio_group( string $section_id, string $field_id, string $title, array $values ) {
+		$field_id                                     = $this->sanitize( $field_id );
+		$this->form_layout[ $section_id ]['fields'][] = [
+			'type'   => 'radio_group',
+			'id'     => $field_id,
+			'title'  => $title,
 			'values' => $values,
 		];
 	}
@@ -103,10 +125,12 @@ class SimpleSettings {
 	 * Convert a string into something usable as an ID
 	 *
 	 * @param string $string Original string
+	 *
 	 * @return array|string|string[]|null
 	 */
 	private function sanitize( string $string ) {
 		$string = strtolower( sanitize_title( $string ) );
+
 		return preg_replace( '/[^a-z0-9]+/', '_', $string );
 	}
 
@@ -153,9 +177,9 @@ class SimpleSettings {
 		// Show error/update messages
 		settings_errors( $messages );
 		?>
-		<div class="wrap">
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<form action="options.php" method="post">
+        <div class="wrap">
+            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <form action="options.php" method="post">
 				<?php
 				// Security fields for the registered setting
 				settings_fields( $this->option_group );
@@ -164,8 +188,8 @@ class SimpleSettings {
 				// Save settings button
 				submit_button( 'Save Settings' );
 				?>
-			</form>
-		</div>
+            </form>
+        </div>
 		<?php
 	}
 
@@ -175,51 +199,99 @@ class SimpleSettings {
 	 * @return void
 	 */
 	public function build_callback() {
-		ray()->clearAll();
-
 		register_setting( $this->option_group, $this->option_id );
 
 		foreach ( $this->form_layout as $section ) {
 			add_settings_section(
 				$section['id'],
 				$section['title'],
-				[ $this, 'render_section_callback' ],
+				fn() => $this->render_section_callback( $section['intro'] ),
 				$this->option_group
 			);
 
 			foreach ( $section['fields'] as $field ) {
-				add_settings_field(
-					$field['id'],
-					$field['title'],
-					[ $this, 'render_checkbox_group_callback' ],
-					$this->option_group,
-					$section['id'],
-					$field
-				);
+				switch ( $field['type'] ) {
+					case 'text':
+						add_settings_field(
+							$field['id'],
+							$field['title'],
+							[ $this, 'render_text_callback' ],
+							$this->option_group,
+							$section['id'],
+							$field
+						);
+						break;
+					case 'checkbox_group':
+						add_settings_field(
+							$field['id'],
+							$field['title'],
+							[ $this, 'render_checkbox_group_callback' ],
+							$this->option_group,
+							$section['id'],
+							$field
+						);
+						break;
+					case 'radio_group':
+						add_settings_field(
+							$field['id'],
+							$field['title'],
+							[ $this, 'render_radio_group_callback' ],
+							$this->option_group,
+							$section['id'],
+							$field
+						);
+						break;
+				}
 			}
 		}
 	}
 
-	public function render_section_callback( $args ) {
+	public function render_section_callback( $intro ) {
+		if ( ! $intro ) {
+			return;
+		}
+		$intro = is_array( $intro ) ? $intro : [ $intro ];
+		foreach ( $intro as $paragraph ) {
+			?>
+            <p><?php esc_html_e( $paragraph, $this->text_domain ); ?></p>
+			<?php
+		}
+	}
+
+	public function render_text_callback( $args ) {
 		?>
-		<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Follow the white rabbit.', $this->text_domain ); ?></p>
+        <div>
+            <fieldset>
+                <input name="<?php echo $args['id']; ?>" type="text" id="<?php echo $args['id']; ?>" value="">
+				<?php if ( isset( $args['hint'] ) && $args['hint'] ): ?>
+                    <p class="description">
+						<?php echo $args['hint']; ?>
+                    </p>
+				<?php endif; ?>
+            </fieldset>
+        </div>
 		<?php
 	}
 
 	public function render_checkbox_group_callback( $args ) {
 		$options = get_option( $this->option_id );
-		ray( $args, $options );
 		?>
-		<div>
-			<?php foreach ( $args['values'] as $value => $label ) : ?>
-			<fieldset>
-				<label for="<?php echo __($value, $this->text_domain); ?>">
-					<input name="<?php echo $value; ?>" type="checkbox" id="<?php echo $value; ?>" value="<?php echo $value; ?>">
-					<?php echo $label; ?>
-				</label>
-			</fieldset>
+        <div>
+			<?php foreach ( $args['values'] as $value => $info ) : ?>
+                <fieldset>
+                    <label>
+                        <input name="<?php echo $value; ?>" type="checkbox" id="<?php echo $value; ?>"
+                               value="<?php echo $value; ?>">
+						<?php echo $info['label']; ?>
+                    </label>
+					<?php if ( isset( $info['hint'] ) && $info['hint'] ): ?>
+                        <p class="description">
+							<?php echo $info['hint']; ?>
+                        </p>
+					<?php endif; ?>
+                </fieldset>
 			<?php endforeach; ?>
-		</div>
+        </div>
 		<?php
 		/*
 		// Get the value of the setting we've registered with register_setting()
@@ -238,5 +310,26 @@ class SimpleSettings {
 		</select>
 		<?php
 		*/
+	}
+
+	public function render_radio_group_callback( $args ) {
+		?>
+        <div>
+			<?php foreach ( $args['values'] as $value => $info ) : ?>
+                <fieldset>
+                    <label>
+                        <input name="<?php echo $args['id']; ?>" type="radio" id="<?php echo $args['id']; ?>_<?php echo $value; ?>"
+                               value="<?php echo $value; ?>">
+						<?php echo $info['label']; ?>
+                    </label>
+					<?php if ( isset( $info['hint'] ) && $info['hint'] ): ?>
+                        <p class="description">
+							<?php echo $info['hint']; ?>
+                        </p>
+					<?php endif; ?>
+                </fieldset>
+			<?php endforeach; ?>
+        </div>
+		<?php
 	}
 }
