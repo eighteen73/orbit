@@ -33,6 +33,7 @@ class DisableXMLRPC extends Singleton {
 	 * @return bool True is this class should take effect
 	 */
 	public function is_enabled(): bool {
-		return carbon_get_theme_option( 'orbit_security_xmlrpc' ) === true;
+		$options = get_option( 'orbit_options' );
+		return ! isset( $options['security'] ) || in_array( 'xmlrpc', $options['security'] );
 	}
 }

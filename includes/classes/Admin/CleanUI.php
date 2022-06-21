@@ -31,16 +31,18 @@ class CleanUI extends Singleton {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( ! carbon_get_theme_option( 'orbit_ui_menu_dashboard' ) ) {
+		$options = get_option( 'orbit_options' );
+
+		if ( ! isset( $options['menu'] ) || ! in_array( 'dashboard', $options['menu'] ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( ! carbon_get_theme_option( 'orbit_ui_menu_posts' ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'posts', $options['menu'] ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( ! carbon_get_theme_option( 'orbit_ui_menu_pages' ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'pages', $options['menu'] ) ) {
 			remove_menu_page( 'edit.php?post_type=page' );
 		}
-		if ( ! carbon_get_theme_option( 'orbit_ui_menu_comments' ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'comments', $options['menu'] ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
 
@@ -57,11 +59,13 @@ class CleanUI extends Singleton {
 	 * @return void
 	 */
 	public function clean_ui_toolbar_items( $menu ) {
+		$options = get_option( 'orbit_options' );
+
 		$menu->remove_node( 'comments' );
 		$menu->remove_node( 'customize' );
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
-		if ( ! carbon_get_theme_option( 'orbit_ui_toolbar_newcontent' ) ) {
+		if ( ! isset( $options['toolbar'] ) || ! in_array( 'new_content', $options['toolbar'] ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 		$menu->remove_node( 'search' );
@@ -107,7 +111,18 @@ class CleanUI extends Singleton {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$attachment_id = (int) carbon_get_theme_option( 'orbit_ui_login_logo' );
+		$options = get_option( 'orbit_options' );
+		ray( $options['login_image'] );
+
+		if ( empty( $options['login_image'] ) ) {
+			echo '';
+			return;
+		}
+
+		/*
+		 * Restore the following if going back to an attachment
+		 *
+		$attachment_id = (int) $options['login_image'];
 
 		if ( ! $attachment_id ) {
 			echo '<style> .login h1 { display: none; } </style>';
@@ -116,7 +131,11 @@ class CleanUI extends Singleton {
 		}
 
 		$image_src = wp_get_attachment_image_src( $attachment_id, 'medium' );
-		$width     = 250;
+		*/
+
+
+		$image_src = $options['login_image'];
+		$width = 250;
 
 		$styles = [
 			"background-image: url('{$image_src[0]}')",

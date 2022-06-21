@@ -37,7 +37,6 @@ spl_autoload_register(
 	}
 );
 
-Forms\Options::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();
 
 add_action(
@@ -53,7 +52,7 @@ add_action(
 	}
 );
 
-$settings = new SimpleSettings( 'orbit', 'Orbit Settings' );
+$settings = new SimpleSettings( 'orbit', 'Orbit' );
 
 $section_ui = $settings->add_section(
 	'UI Cleanup',
@@ -104,19 +103,29 @@ $settings->add_checkbox_group(
 	'security',
 	'Features',
 	[
-		'rest'  => [
+		'api_users'  => [
 			'label' => 'Disable user endpoints in REST API',
 			'hint' => 'You should disable the user endpoints if not needed. This helps user privacy, hides usernames from hackers, and adds a layer of protection in case some other code opens up a vulnerability in user management.',
 		],
-		'posts' => [
+		'xmlrpc' => [
 			'label' => 'Disable XML RPC',
 			'hint' => 'This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks. If you must enable this, please try to limit it to necessary functioanlity and put request rate limiting in place.',
 		],
-		'pages' => [
+		'version' => [
 			'label' => 'Hide WordPress version',
 			'hint' => 'This could act as an hint for hackers to target the website with known vulnerabilities.',
 		],
 	]
+);
+
+$section_login = $settings->add_section(
+	'Login Screen',
+	'Enter the URL of a company logo that you want to see on the CMS login screen.'
+);
+$settings->add_text_field(
+	$section_login,
+	'login_image',
+	'Image URL',
 );
 
 $section_email = $settings->add_section(

@@ -177,9 +177,9 @@ class SimpleSettings {
 		// Show error/update messages
 		settings_errors( $messages );
 		?>
-        <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-            <form action="options.php" method="post">
+		<div class="wrap">
+			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<form action="options.php" method="post">
 				<?php
 				// Security fields for the registered setting
 				settings_fields( $this->option_group );
@@ -188,8 +188,8 @@ class SimpleSettings {
 				// Save settings button
 				submit_button( 'Save Settings' );
 				?>
-            </form>
-        </div>
+			</form>
+		</div>
 		<?php
 	}
 
@@ -246,6 +246,12 @@ class SimpleSettings {
 		}
 	}
 
+	/**
+	 * Form section
+	 *
+	 * @param array|string $intro intro text
+	 * @return void
+	 */
 	public function render_section_callback( $intro ) {
 		if ( ! $intro ) {
 			return;
@@ -253,83 +259,95 @@ class SimpleSettings {
 		$intro = is_array( $intro ) ? $intro : [ $intro ];
 		foreach ( $intro as $paragraph ) {
 			?>
-            <p><?php esc_html_e( $paragraph, $this->text_domain ); ?></p>
+			<p><?php esc_html_e( $paragraph, $this->text_domain ); ?></p>
 			<?php
 		}
 	}
 
-	public function render_text_callback( $args ) {
+	/**
+	 * Text field
+	 *
+	 * @param array $args Field arguments
+	 * @return void
+	 */
+	public function render_text_callback( array $args ) {
+		$setting = get_option( 'orbit_options' );
 		?>
-        <div>
-            <fieldset>
-                <input name="<?php echo $args['id']; ?>" type="text" id="<?php echo $args['id']; ?>" value="">
-				<?php if ( isset( $args['hint'] ) && $args['hint'] ): ?>
-                    <p class="description">
-						<?php echo $args['hint']; ?>
-                    </p>
+		<div>
+			<fieldset>
+				<input type="text"
+					   name="orbit_options[<?php echo $args['id']; ?>]"
+					   value="<?php echo isset( $setting[ $args['id'] ] ) ? esc_attr( $setting[ $args['id'] ] ) : ''; ?>"
+				>
+				<?php if ( isset( $args['hint'] ) && $args['hint'] ) : ?>
+					<p class="description">
+						<?php echo esc_html( $args['hint'] ); ?>
+					</p>
 				<?php endif; ?>
-            </fieldset>
-        </div>
+			</fieldset>
+		</div>
 		<?php
 	}
 
-	public function render_checkbox_group_callback( $args ) {
-		$options = get_option( $this->option_id );
+	/**
+	 * Checkbox group
+	 *
+	 * @param array $args Field arguments
+	 * @return void
+	 */
+	public function render_checkbox_group_callback( array $args ) {
+		$setting = get_option( 'orbit_options' );
 		?>
-        <div>
+		<div>
 			<?php foreach ( $args['values'] as $value => $info ) : ?>
-                <fieldset>
-                    <label>
-                        <input name="<?php echo $value; ?>" type="checkbox" id="<?php echo $value; ?>"
-                               value="<?php echo $value; ?>">
-						<?php echo $info['label']; ?>
-                    </label>
-					<?php if ( isset( $info['hint'] ) && $info['hint'] ): ?>
-                        <p class="description">
-							<?php echo $info['hint']; ?>
-                        </p>
+				<fieldset>
+					<label>
+						<input type="checkbox"
+							   name="orbit_options[<?php echo $args['id']; ?>][]"
+							   value="<?php echo $value; ?>"
+							   <?php if ( isset( $setting[ $args['id'] ] ) && in_array( $value, $setting[ $args['id'] ] ) ) { echo 'checked'; } ?>
+						>
+						<?php echo esc_html( $info['label'] ); ?>
+					</label>
+					<?php if ( isset( $info['hint'] ) && $info['hint'] ) : ?>
+						<p class="description">
+							<?php echo esc_html( $info['hint'] ); ?>
+						</p>
 					<?php endif; ?>
-                </fieldset>
+				</fieldset>
 			<?php endforeach; ?>
-        </div>
+		</div>
 		<?php
-		/*
-		// Get the value of the setting we've registered with register_setting()
-		$options = get_option( 'wporg_options' );
-		?>
-		<select
-			id="<?php echo esc_attr( $args['label_for'] ); ?>"
-			data-custom="<?php echo esc_attr( $args['wporg_custom_data'] ); ?>"
-			name="wporg_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
-			<option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
-				<?php esc_html_e( 'red pill', $this->text_domain ) ); ?>
-			</option>
-			<option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
-				<?php esc_html_e( 'blue pill', $this->text_domain ) ); ?>
-			</option>
-		</select>
-		<?php
-		*/
 	}
 
-	public function render_radio_group_callback( $args ) {
+	/**
+	 * Radio group
+	 *
+	 * @param array $args Field arguments
+	 * @return void
+	 */
+	public function render_radio_group_callback( array $args ) {
+		$setting = get_option( 'orbit_options' );
 		?>
-        <div>
+		<div>
 			<?php foreach ( $args['values'] as $value => $info ) : ?>
-                <fieldset>
-                    <label>
-                        <input name="<?php echo $args['id']; ?>" type="radio" id="<?php echo $args['id']; ?>_<?php echo $value; ?>"
-                               value="<?php echo $value; ?>">
-						<?php echo $info['label']; ?>
-                    </label>
-					<?php if ( isset( $info['hint'] ) && $info['hint'] ): ?>
-                        <p class="description">
-							<?php echo $info['hint']; ?>
-                        </p>
+				<fieldset>
+					<label>
+						<input type="radio"
+							   name="orbit_options[<?php echo $args['id']; ?>]"
+							   value="<?php echo $value; ?>"
+							<?php if ( isset( $setting[ $args['id'] ] ) && $setting[ $args['id'] ] === $value ) { echo 'checked'; } ?>
+						>
+						<?php echo esc_html( $info['label'] ); ?>
+					</label>
+					<?php if ( isset( $info['hint'] ) && $info['hint'] ) : ?>
+						<p class="description">
+							<?php echo esc_html( $info['hint'] ); ?>
+						</p>
 					<?php endif; ?>
-                </fieldset>
+				</fieldset>
 			<?php endforeach; ?>
-        </div>
+		</div>
 		<?php
 	}
 }

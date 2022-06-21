@@ -20,7 +20,8 @@ class DisableAPI extends Singleton {
 	 * @return void
 	 */
 	public function setup() {
-		if ( carbon_get_theme_option( 'orbit_security_api_users' ) === true ) {
+		$options = get_option( 'orbit_options' );
+		if ( ! isset( $options['security'] ) || in_array( 'api_users', $options['security'] ) ) {
 			add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );
 		}
 	}

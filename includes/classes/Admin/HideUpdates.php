@@ -37,9 +37,10 @@ class HideUpdates extends Singleton {
 	 * @return bool
 	 */
 	public function is_allowed(): bool {
+		$options = get_option( 'orbit_options' );
 
 		// Plugin setting
-		if ( ! carbon_get_theme_option( 'orbit_ui_menu_updates' ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'updates', $options['menu'] ) ) {
 			return false;
 		}
 
