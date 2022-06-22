@@ -21,7 +21,7 @@ class DisableAPI extends Singleton {
 	 */
 	public function setup() {
 		$options = get_option( 'orbit_options' );
-		if ( ! isset( $options['security'] ) || in_array( 'api_users', $options['security'] ) ) {
+		if ( ! isset( $options['security'] ) || in_array( 'api_users', $options['security'], true ) ) {
 			add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );
 		}
 	}

@@ -1,4 +1,9 @@
 <?php
+/**
+ * A class to save repetitive code on the settings form
+ *
+ * @package Orbit
+ */
 
 namespace Eighteen73\Orbit\Forms;
 
@@ -7,14 +12,7 @@ namespace Eighteen73\Orbit\Forms;
  * really straightforward to set up. Things like making the page title the same as the
  * menu label.
  */
-class SimpleSettings {
-
-	/**
-	 * The text domain for translations
-	 *
-	 * @var string
-	 */
-	private string $text_domain = 'default';
+class SettingsHelper {
 
 	/**
 	 * The capability required
@@ -67,7 +65,8 @@ class SimpleSettings {
 	/**
 	 * Add a new section to the form
 	 *
-	 * @param string $title Section title
+	 * @param string            $title Section title
+	 * @param array|string|null $intro Section intro
 	 *
 	 * @return string
 	 */
@@ -83,6 +82,15 @@ class SimpleSettings {
 		return $section_id;
 	}
 
+	/**
+	 * Add a text field to the form
+	 *
+	 * @param string $section_id The section
+	 * @param string $field_id The field
+	 * @param string $title The field label
+	 *
+	 * @return void
+	 */
 	public function add_text_field( string $section_id, string $field_id, string $title ) {
 		$field_id                                     = $this->sanitize( $field_id );
 		$this->form_layout[ $section_id ]['fields'][] = [
@@ -92,6 +100,16 @@ class SimpleSettings {
 		];
 	}
 
+	/**
+	 * Add a checkbox group field to the form
+	 *
+	 * @param string $section_id The section
+	 * @param string $field_id The field
+	 * @param string $title The field label
+	 * @param array  $values The available options
+	 *
+	 * @return void
+	 */
 	public function add_checkbox_group( string $section_id, string $field_id, string $title, array $values ) {
 		$field_id                                     = $this->sanitize( $field_id );
 		$this->form_layout[ $section_id ]['fields'][] = [
@@ -102,6 +120,16 @@ class SimpleSettings {
 		];
 	}
 
+	/**
+	 * Add a radio group field to the form
+	 *
+	 * @param string $section_id The section
+	 * @param string $field_id The field
+	 * @param string $title The field label
+	 * @param array  $values The available options
+	 *
+	 * @return void
+	 */
 	public function add_radio_group( string $section_id, string $field_id, string $title, array $values ) {
 		$field_id                                     = $this->sanitize( $field_id );
 		$this->form_layout[ $section_id ]['fields'][] = [
@@ -169,7 +197,7 @@ class SimpleSettings {
 			add_settings_error(
 				$messages,
 				$messages,
-				__( 'Settings Saved', $this->text_domain ),
+				__( 'Settings Saved', 'default' ),
 				'updated'
 			);
 		}
@@ -250,6 +278,7 @@ class SimpleSettings {
 	 * Form section
 	 *
 	 * @param array|string $intro intro text
+	 *
 	 * @return void
 	 */
 	public function render_section_callback( $intro ) {
@@ -259,7 +288,7 @@ class SimpleSettings {
 		$intro = is_array( $intro ) ? $intro : [ $intro ];
 		foreach ( $intro as $paragraph ) {
 			?>
-			<p><?php esc_html_e( $paragraph, $this->text_domain ); ?></p>
+			<p><?php echo esc_html( $paragraph ); ?></p>
 			<?php
 		}
 	}
@@ -268,6 +297,7 @@ class SimpleSettings {
 	 * Text field
 	 *
 	 * @param array $args Field arguments
+	 *
 	 * @return void
 	 */
 	public function render_text_callback( array $args ) {
@@ -275,10 +305,7 @@ class SimpleSettings {
 		?>
 		<div>
 			<fieldset>
-				<input type="text"
-					   name="orbit_options[<?php echo $args['id']; ?>]"
-					   value="<?php echo isset( $setting[ $args['id'] ] ) ? esc_attr( $setting[ $args['id'] ] ) : ''; ?>"
-				>
+				<input type="text" name="orbit_options[<?php echo esc_attr( $args['id'] ); ?>]" value="<?php echo isset( $setting[ $args['id'] ] ) ? esc_attr( $setting[ $args['id'] ] ) : ''; ?>">
 				<?php if ( isset( $args['hint'] ) && $args['hint'] ) : ?>
 					<p class="description">
 						<?php echo esc_html( $args['hint'] ); ?>
@@ -293,6 +320,7 @@ class SimpleSettings {
 	 * Checkbox group
 	 *
 	 * @param array $args Field arguments
+	 *
 	 * @return void
 	 */
 	public function render_checkbox_group_callback( array $args ) {
@@ -302,11 +330,7 @@ class SimpleSettings {
 			<?php foreach ( $args['values'] as $value => $info ) : ?>
 				<fieldset>
 					<label>
-						<input type="checkbox"
-							   name="orbit_options[<?php echo $args['id']; ?>][]"
-							   value="<?php echo $value; ?>"
-							   <?php if ( isset( $setting[ $args['id'] ] ) && in_array( $value, $setting[ $args['id'] ] ) ) { echo 'checked'; } ?>
-						>
+						<input type="checkbox" name="orbit_options[<?php echo esc_attr( $args['id'] ); ?>][]" value="<?php echo esc_attr( $value ); ?>" <?php if ( isset( $setting[ $args['id'] ] ) && in_array( $value, $setting[ $args['id'] ], true ) ) { echo 'checked'; } ?>>
 						<?php echo esc_html( $info['label'] ); ?>
 					</label>
 					<?php if ( isset( $info['hint'] ) && $info['hint'] ) : ?>
@@ -324,6 +348,7 @@ class SimpleSettings {
 	 * Radio group
 	 *
 	 * @param array $args Field arguments
+	 *
 	 * @return void
 	 */
 	public function render_radio_group_callback( array $args ) {
@@ -333,11 +358,7 @@ class SimpleSettings {
 			<?php foreach ( $args['values'] as $value => $info ) : ?>
 				<fieldset>
 					<label>
-						<input type="radio"
-							   name="orbit_options[<?php echo $args['id']; ?>]"
-							   value="<?php echo $value; ?>"
-							<?php if ( isset( $setting[ $args['id'] ] ) && $setting[ $args['id'] ] === $value ) { echo 'checked'; } ?>
-						>
+						<input type="radio" name="orbit_options[<?php echo esc_attr( $args['id'] ); ?>]" value="<?php echo esc_attr( $value ); ?>" <?php if ( isset( $setting[ $args['id'] ] ) && $setting[ $args['id'] ] === $value ) { echo 'checked'; } ?>>
 						<?php echo esc_html( $info['label'] ); ?>
 					</label>
 					<?php if ( isset( $info['hint'] ) && $info['hint'] ) : ?>

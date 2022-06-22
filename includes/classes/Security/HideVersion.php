@@ -37,7 +37,7 @@ class HideVersion extends Singleton {
 	 */
 	public function is_enabled(): bool {
 		$options = get_option( 'orbit_options' );
-		return ! isset( $options['security'] ) || in_array( 'version', $options['security'] );
+		return ! isset( $options['security'] ) || in_array( 'version', $options['security'], true );
 	}
 
 	/**

@@ -40,7 +40,7 @@ class HideUpdates extends Singleton {
 		$options = get_option( 'orbit_options' );
 
 		// Plugin setting
-		if ( ! isset( $options['menu'] ) || ! in_array( 'updates', $options['menu'] ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'updates', $options['menu'], true ) ) {
 			return false;
 		}
 

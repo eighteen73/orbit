@@ -16,6 +16,7 @@ use Eighteen73\Orbit\Singleton;
  */
 class CleanUI extends Singleton {
 
+
 	/**
 	 * Setup module
 	 */
@@ -33,16 +34,16 @@ class CleanUI extends Singleton {
 	public function clean_ui_menu_items() {
 		$options = get_option( 'orbit_options' );
 
-		if ( ! isset( $options['menu'] ) || ! in_array( 'dashboard', $options['menu'] ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'dashboard', $options['menu'], true ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( ! isset( $options['menu'] ) || ! in_array( 'posts', $options['menu'] ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'posts', $options['menu'], true ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( ! isset( $options['menu'] ) || ! in_array( 'pages', $options['menu'] ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'pages', $options['menu'], true ) ) {
 			remove_menu_page( 'edit.php?post_type=page' );
 		}
-		if ( ! isset( $options['menu'] ) || ! in_array( 'comments', $options['menu'] ) ) {
+		if ( ! isset( $options['menu'] ) || ! in_array( 'comments', $options['menu'], true ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
 
@@ -65,7 +66,7 @@ class CleanUI extends Singleton {
 		$menu->remove_node( 'customize' );
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
-		if ( ! isset( $options['toolbar'] ) || ! in_array( 'new_content', $options['toolbar'] ) ) {
+		if ( ! isset( $options['toolbar'] ) || ! in_array( 'new_content', $options['toolbar'], true ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 		$menu->remove_node( 'search' );
@@ -133,9 +134,8 @@ class CleanUI extends Singleton {
 		$image_src = wp_get_attachment_image_src( $attachment_id, 'medium' );
 		*/
 
-
 		$image_src = $options['login_image'];
-		$width = 250;
+		$width     = 250;
 
 		$styles = [
 			"background-image: url('{$image_src[0]}')",
