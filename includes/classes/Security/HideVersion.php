@@ -27,8 +27,8 @@ class HideVersion {
 			return;
 		}
 		remove_action( 'wp_head', 'wp_generator' );
-		add_filter( 'style_loader_src', [ $this, 'obfuscateScriptOrStyleVersion' ], 20000 );
-		add_filter( 'script_loader_src', [ $this, 'obfuscateScriptOrStyleVersion' ], 20000 );
+		add_filter( 'style_loader_src', [ $this, 'obfuscate_script_or_style_version' ], 20000 );
+		add_filter( 'script_loader_src', [ $this, 'obfuscate_script_or_style_version' ], 20000 );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class HideVersion {
 	 * @param string $target_url The script or stylesheet URL
 	 * @return string
 	 */
-	public function obfuscateScriptOrStyleVersion( string $target_url ): string {
+	public function obfuscate_script_or_style_version( string $target_url ): string {
 		if ( ! preg_match( self::VERSIONED_URL_REGEX, $target_url, $matches ) ) {
 			return $target_url;
 		}

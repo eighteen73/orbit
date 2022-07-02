@@ -36,7 +36,7 @@ class DisallowIndexing {
 	 */
 	public function setup(): void {
 		add_action( 'pre_option_blog_public', [ $this, 'disallow' ] );
-		add_action( 'admin_notices', [ $this, 'showNotice' ] );
+		add_action( 'admin_notices', [ $this, 'show_notice' ] );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class DisallowIndexing {
 	 *
 	 * @return void|null
 	 */
-	public function showNotice() {
+	public function show_notice() {
 		if ( ! $this->enabled ) {
 			return null;
 		}

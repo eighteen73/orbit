@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:     Orbit
- * Plugin URI:      https://code.orphans.co.uk/packages/wordpress/orbit
+ * Plugin URI:      https://github.com/eighteen73/orbit
  * Description:     Opinionated WordPress behaviour overrides
  * Author:          Orphans Web Team
  * Author URI:      https://orphans.co.uk/websites
