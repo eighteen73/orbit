@@ -2,19 +2,17 @@
 
 Orbit moulds some of WordPress' default behaviour to simplify the CMS experience, protect users from changing settings that should be reserved for website developers, and reinforce some areas of the CMS that tend to be a little weak.
 
-The plugin is unapologetically opinionated to fit the needs and preferences of our web agency. We feel the choices we've made (including which ones are even configurable in the CMS) are sensible and pragmatic for the kinds of websites we work on and the control we like to hold back from website owners. We understand not everyone will agree with the choices we have made.
+The plugin is unapologetically opinionated to fit the needs and preferences of our web agency. We feel the choices we've made (including which ones are even configurable in the CMS) are sensible and pragmatic for the kinds of websites we work on and the control we tend to hold back from CMS users. We understand not everyone will agree with the choices we have made.
 
 ## Installation
 
-These instructions assume you are using [Nebula](https://github.com/eighteen73/nebula). That is a not a requirement but if you're using alternative foundation for WordPress you must ensure [Carbon Fields](https://carbonfields.net/) is installed as per [these instructions](https://docs.carbonfields.net/).
-
-To install the plugin run the following command:
+This plugin has no prerequisites. Assuming you're using a modern Composer workflow for WordPress development (such as our [Nebula](https://github.com/eighteen73/nebula) WordPress stack) just run the following command and Orbit will be installed as a must-use plugin:
 
 ```shell
 composer require eighteen73/orbit
 ```
 
-Orbit will be installed as a must-use plugin so it is automatically enabled.
+If necessary, you may install it manually by downloading a Zip archive from [GitHub](https://github.com/eighteen73/orbit) and extracting it to your plugins directory.
 
 ## Configuration
 
