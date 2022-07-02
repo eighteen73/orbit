@@ -14,7 +14,8 @@ use Eighteen73\Orbit\Singleton;
  * We have not given an option to disable this because there have never been
  * a case when these are needed.
  */
-class RemoveHeadLinks extends Singleton {
+class RemoveHeadLinks {
+	use Singleton;
 
 	/**
 	 * Run on init

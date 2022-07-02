@@ -14,7 +14,8 @@ use Eighteen73\Orbit\Singleton;
  *
  * Inspired by https://wordpress.org/plugins/hide-updates/
  */
-class HideUpdates extends Singleton {
+class HideUpdates {
+	use Singleton;
 
 	/**
 	 * Setup module

@@ -12,7 +12,8 @@ use Eighteen73\Orbit\Singleton;
 /**
  * Disallow robot indexing in non-production environments
  */
-class DisallowIndexing extends Singleton {
+class DisallowIndexing {
+	use Singleton;
 
 	/**
 	 * Whether this feature is enabled or not

@@ -13,7 +13,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 /**
  * Inspired by https://github.com/wordplate/mail
  */
-class Mail extends Singleton {
+class Mail {
+	use Singleton;
 
 	/**
 	 * Setup module

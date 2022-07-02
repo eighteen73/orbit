@@ -1,34 +1,46 @@
 <?php
 /**
- * Singleton base class
+ * Singleton trait
  *
  * @package Orbit
  */
 
 namespace Eighteen73\Orbit;
 
-/**
- * Abstract class
- */
-abstract class Singleton {
+trait Singleton {
+
 	/**
-	 * Return instance of class
+	 * The class instance
 	 *
-	 * @return self
+	 * @var self|null
 	 */
-	public static function instance(): Singleton {
-		static $instance;
+	private static $instance = null;
 
-		if ( empty( $instance ) ) {
-			$class = get_called_class();
-
-			$instance = new $class();
-
-			if ( method_exists( $instance, 'setup' ) ) {
-				$instance->setup();
-			}
+	/**
+	 * Get the current instance
+	 *
+	 * @return Singleton
+	 */
+	final public static function instance(): self {
+		if ( self::$instance === null ) {
+			self::$instance = new self();
 		}
+		return self::$instance;
+	}
 
-		return $instance;
+	/**
+	 * Constructor
+	 */
+	private function __construct() {
+		// Intentionally empty
+	}
+
+	/**
+	 * Class clone
+	 *
+	 * @return void
+	 */
+	private function __clone() {
+		// Intentionally empty
 	}
 }

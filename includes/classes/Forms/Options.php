@@ -14,7 +14,8 @@ use Eighteen73\Orbit\Singleton;
 /**
  * The options form for this plugin
  */
-class Options extends Singleton {
+class Options {
+	use Singleton;
 
 	/**
 	 * Setup module

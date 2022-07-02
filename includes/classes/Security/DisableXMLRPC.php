@@ -12,7 +12,8 @@ use Eighteen73\Orbit\Singleton;
 /**
  * Completely disable XML-RPC
  */
-class DisableXMLRPC extends Singleton {
+class DisableXMLRPC {
+	use Singleton;
 
 	/**
 	 * Run on init

@@ -14,7 +14,8 @@ use Eighteen73\Orbit\Singleton;
  *
  * Inspired by https://github.com/wordplate/clean-ui
  */
-class CleanUI extends Singleton {
+class CleanUI {
+	use Singleton;
 
 	/**
 	 * Setup module

@@ -12,7 +12,8 @@ use Eighteen73\Orbit\Singleton;
 /**
  * Removes WordPress' version number from various places in the markup
  */
-class HideVersion extends Singleton {
+class HideVersion {
+	use Singleton;
 
 	const VERSIONED_URL_REGEX = '/(.+\?(?:ver|version)=)([^&]+)(.*)/';
 

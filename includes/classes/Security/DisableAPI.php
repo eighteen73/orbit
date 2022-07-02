@@ -12,7 +12,8 @@ use Eighteen73\Orbit\Singleton;
 /**
  * Disable the REST API features
  */
-class DisableAPI extends Singleton {
+class DisableAPI {
+	use Singleton;
 
 	/**
 	 * Run on init
