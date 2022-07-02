@@ -7,7 +7,6 @@
 
 namespace Eighteen73\Orbit\Forms;
 
-use Carbon_Fields\Carbon_Fields;
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 use Eighteen73\Orbit\Singleton;
