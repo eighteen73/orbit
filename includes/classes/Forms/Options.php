@@ -65,7 +65,8 @@ class Options {
 
 					// Toolbar items
 					Field::make( 'separator', 'separator_toolbar', __( 'Toolbar items' ) ),
-					Field::make( 'checkbox', 'orbit_ui_toolbar_newcontent', __( 'Show new content button' ) ),
+					Field::make( 'checkbox', 'orbit_ui_toolbar_newcontent', __( 'Show new content button' ) )
+					     ->set_default_value( true ),
 
 					// Login screen
 					Field::make( 'separator', 'separator_login_logo', __( 'Login screen' ) ),
