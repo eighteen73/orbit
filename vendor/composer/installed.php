@@ -3,7 +3,7 @@
         'name' => 'eighteen73/orbit',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '83becb4d9a020da92e40c586ba1e9abf25b9d33e',
+        'reference' => 'e11720905fbf838180897e69abe6c0e051382354',
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'eighteen73/orbit' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '83becb4d9a020da92e40c586ba1e9abf25b9d33e',
+            'reference' => 'e11720905fbf838180897e69abe6c0e051382354',
             'type' => 'wordpress-muplugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -13,7 +13,7 @@
     "php": ">=7.4"
   },
   "require-dev": {
-    "eighteen73/phpcs-composer": "^v1.0.0",
+    "eighteen73/phpcs-composer": "^1.0.0",
     "htmlburger/carbon-fields": "^3.3"
   },
   "config": {
