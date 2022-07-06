@@ -21,7 +21,7 @@ class DisableAPI {
 	 * @return void
 	 */
 	public function setup() {
-		if ( carbon_get_theme_option( 'orbit_security_api_users' ) === true ) {
+		if ( get_option( '_orbit_security_api_users' ) === true ) {
 			add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );
 		}
 	}

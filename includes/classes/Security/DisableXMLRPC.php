@@ -34,6 +34,6 @@ class DisableXMLRPC {
 	 * @return bool True is this class should take effect
 	 */
 	public function is_enabled(): bool {
-		return carbon_get_theme_option( 'orbit_security_xmlrpc' ) === true;
+		return get_option( '_orbit_security_xmlrpc' ) === true;
 	}
 }

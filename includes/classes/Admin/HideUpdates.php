@@ -40,7 +40,7 @@ class HideUpdates {
 	public function is_allowed(): bool {
 
 		// Plugin setting
-		if ( ! carbon_get_theme_option( 'orbit_ui_menu_updates' ) ) {
+		if ( ! get_option( '_orbit_ui_menu_updates' ) ) {
 			return false;
 		}
 

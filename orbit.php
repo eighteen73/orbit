@@ -26,8 +26,10 @@ require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 add_action(
 	'after_setup_theme',
 	function() {
-		define( 'Carbon_Fields\URL', home_url( '/app/mu-plugins/orbit/vendor/htmlburger/carbon-fields' ) );
-		Carbon_Fields::boot();
+		if ( ! defined( 'Carbon_Fields\URL' ) ) {
+			define( 'Carbon_Fields\URL', home_url( '/app/mu-plugins/orbit/vendor/htmlburger/carbon-fields' ) );
+			Carbon_Fields::boot();
+		}
 	}
 );
 
