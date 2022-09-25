@@ -46,5 +46,6 @@ add_action(
 		Security\DisableXMLRPC::instance()->setup();
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
+		OtherFilters::instance()->setup();
 	}
 );
