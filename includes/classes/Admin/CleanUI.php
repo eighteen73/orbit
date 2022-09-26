@@ -32,16 +32,16 @@ class CleanUI {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( ! get_option( '_orbit_ui_menu_dashboard' ) ) {
+		if ( get_option( 'orbit_ui_menu_dashboard' ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( ! get_option( '_orbit_ui_menu_posts' ) ) {
+		if ( get_option( 'orbit_ui_menu_posts' ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( ! get_option( '_orbit_ui_menu_pages' ) ) {
+		if ( get_option( 'orbit_ui_menu_pages' ) ) {
 			remove_menu_page( 'edit.php?post_type=page' );
 		}
-		if ( ! get_option( '_orbit_ui_menu_comments' ) ) {
+		if ( get_option( 'orbit_ui_menu_comments' ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
 
@@ -62,9 +62,11 @@ class CleanUI {
 		$menu->remove_node( 'customize' );
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
-		if ( ! get_option( '_orbit_ui_toolbar_newcontent' ) ) {
+
+		if ( get_option( 'orbit_ui_toolbar_new_content' ) ) {
 			$menu->remove_node( 'new-content' );
 		}
+
 		$menu->remove_node( 'search' );
 		$menu->remove_node( 'themes' );
 		$menu->remove_node( 'view-site' );
@@ -108,7 +110,7 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$attachment_id = (int) get_option( '_orbit_ui_login_logo' );
+		$attachment_id = (int) get_option( 'orbit_ui_login_logo' );
 
 		if ( ! $attachment_id ) {
 			echo '<style> .login h1 { display: none; } </style>';

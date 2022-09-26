@@ -7,8 +7,6 @@
 
 namespace Eighteen73\Orbit\Forms;
 
-use Carbon_Fields\Container;
-use Carbon_Fields\Field;
 use Eighteen73\Orbit\Singleton;
 
 /**
@@ -21,151 +19,322 @@ class Options {
 	 * Setup module
 	 */
 	public function setup() {
-		add_action( 'carbon_fields_register_fields', [ $this, 'carbon_fields_register_fields' ] );
+		add_action( 'admin_menu', [ $this, 'register_menu' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
 	}
 
 	/**
-	 * Define the options form fields
+	 * Registers Orbits main menu.
 	 *
 	 * @return void
 	 */
-	public function carbon_fields_register_fields() {
+	public function register_menu() {
 
-		$mail_enabled_condition = [
-			[
-				'field' => 'orbit_mail_enabled',
-				'value' => true,
-			],
-		];
+		add_submenu_page(
+			'options-general.php',
+			'Orbit Settings',
+			'Orbit',
+			'manage_options',
+			'orbit',
+			[ $this, 'view' ],
+			100
+		);
+	}
 
-		Container::make( 'theme_options', __( 'Orbit Options' ) )
-			->set_page_parent( 'options-general.php' )
+	/**
+	 * Render the settings page view.
+	 *
+	 * @return void
+	 */
+	public function view() {
+		if ( isset( $_POST['orbit_settings_nonce'] ) && wp_verify_nonce( $_POST['orbit_settings_nonce'], plugin_basename( __FILE__ ) ) ) {
+			$this->save_fields( $_POST );
+		}
+		?>
+			<div class="wrap">
+				<h1><?php esc_attr_e( 'Orbit Settings', 'orbit' ); ?></h1>
 
-			/*
-			 * Tab: UI Cleanup
-			 */
-				->add_tab(
-					__( 'UI Cleanup' ),
-					[
+				<form class="form" action="" method="post">
+					<input
+						type="hidden"
+						name="orbit_settings_nonce"
+						id="orbit_settings_nonce"
+						value="<?php echo esc_attr( wp_create_nonce( plugin_basename( __FILE__ ) ) ); ?>"
+					>
 
-						// Intro
-						Field::make( 'html', 'orbit_ui_intro', __( 'Section Description' ) )
-							->set_html( '<p>Orbit automatically removes a lot of UI elements that are rarely used and can confuse some CMS users. The items below are a few that can be toggled on/off as needed.</p><p>Note this doesn\'t disable functionality so do not rely on it as a security feature. It only removes menu links.</p>' ),
+					<?php $this->section_ui(); ?>
+					<?php $this->section_security(); ?>
 
-						// Menu items
-						Field::make( 'separator', 'separator_menu', __( 'Menu items' ) ),
-						Field::make( 'checkbox', 'orbit_ui_menu_dashboard', __( 'Show dashboard' ) )
-							->set_default_value( true ),
-						Field::make( 'checkbox', 'orbit_ui_menu_posts', __( 'Show posts' ) )
-							->set_default_value( true ),
-						Field::make( 'checkbox', 'orbit_ui_menu_pages', __( 'Show pages' ) )
-							->set_default_value( true ),
-						Field::make( 'checkbox', 'orbit_ui_menu_comments', __( 'Show comments' ) ),
-						Field::make( 'checkbox', 'orbit_ui_menu_updates', __( 'Show updates' ) ),
+					<?php submit_button(); ?>
+				</form>
 
-						// Toolbar items
-						Field::make( 'separator', 'separator_toolbar', __( 'Toolbar items' ) ),
-						Field::make( 'checkbox', 'orbit_ui_toolbar_newcontent', __( 'Show new content button' ) )
-							->set_default_value( true ),
+			</div>
+		<?php
+	}
 
-						// Login screen
-						Field::make( 'separator', 'separator_login_logo', __( 'Login screen' ) ),
-						Field::make( 'image', 'orbit_ui_login_logo', __( 'Login logo' ) ),
-					]
-				)
+	/**
+	 * Render the UI section of the settings page.
+	 *
+	 * @return void
+	 */
+	public function section_ui() {
+		?>
+			<h2 class="title"><?php esc_attr_e( 'UI Cleanup', 'orbit' ); ?></h2>
+			<p>Orbit automatically removes a lot of UI elements that are rarely used and can confuse some CMS users. The items below are a few that can be toggled on/off as needed.<br>
+			Note this doesn't disable functionality so do not rely on it as a security feature. It only removes menu links.</p>
 
-			/*
-			 * Tab: Security
-			 */
-				->add_tab(
-					__( 'Security' ),
-					[
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row"><?php esc_attr_e( 'Disable menu items', 'orbit' ); ?></th>
+						<td>
+							<fieldset>
+								<legend class="screen-reader-text"><?php esc_attr_e( 'Disable menu items', 'orbit' ); ?></legend>
 
-						// Intro
-						Field::make( 'html', 'orbit_security_intro', __( 'Section Description' ) )
-							->set_html( '<p>We highy encourage all of these options to be left at the default value (checked) unless this website has very specific reason to re-enable a feature.</p>' ),
-						Field::make( 'checkbox', 'orbit_security_api_users', __( 'Disable user endpoints in REST API' ) )
-							->set_help_text( 'You should disable the user endpoints if not needed. This helps user privacy, hides usernames from hackers, and adds a layer of protection in case some other code opens up a vulnerability in user management.' )
-							->set_default_value( true ),
-						Field::make( 'checkbox', 'orbit_security_xmlrpc', __( 'Disable XML RPC' ) )
-							->set_help_text( 'This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks. If you <strong>must</strong> enable this, please try to limit it to necessary functioanlity and put request rate limiting in place.' )
-							->set_default_value( true ),
-						Field::make( 'checkbox', 'orbit_security_version', __( 'Hide WordPress version' ) )
-							->set_help_text( 'This could act as an hint for hackers to target the website with known vulnerabilities.' )
-							->set_default_value( true ),
-					]
-				)
+								<label>
+									<input
+										name="orbit_ui_menu_dashboard"
+										type="checkbox"
+										id="orbit_ui_menu_dashboard"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_ui_menu_dashboard' ), true ); ?>
+									>
 
-			/*
-			 * Tab: Email Config
-			 */
-				->add_tab(
-					__( 'Email Config' ),
-					[
-						// Intro
-						Field::make( 'html', 'orbit_mail_intro', __( 'Section Description' ) )
-							->set_html( '<p>Orbit can override the website\'s mail settings to send emails via SMTP. In most cases this is preferable over using an different plugin but if you need another plugin to manage emails you can disable this feature entirely.</p><p>Please note that if you are using our Nebula framework it will automatically override these (or any other) email settings in development environments to save emails from leaving your computer.</p>' ),
+									<?php esc_attr_e( 'Dashboard', 'orbit' ); ?>
+								</label>
 
-						Field::make( 'checkbox', 'orbit_mail_enabled', __( 'Use Orbit for email configuration' ) )
-							->set_default_value( false ),
+								<br>
 
-						// SMTP Settings
-						Field::make( 'separator', 'separator_identity', __( 'Email Identity' ) )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'text', 'orbit_mail_from_name', __( 'From name' ) )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'text', 'orbit_mail_from_address', __( 'From address' ) )
-							->set_conditional_logic( $mail_enabled_condition ),
+								<label>
+									<input
+										name="orbit_ui_menu_posts"
+										type="checkbox"
+										id="orbit_ui_menu_posts"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_ui_menu_posts' ), true ); ?>
+									>
 
-						// SMTP Settings
-						Field::make( 'separator', 'separator_smtp', __( 'SMTP Settings' ) )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'text', 'orbit_mail_host', __( 'Host' ) )
-							->set_attribute( 'placeholder', 'mail.example.com' )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'text', 'orbit_mail_port', __( 'Port' ) )
-							->set_attribute( 'type', 'number' )
-							->set_default_value( 587 )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'radio', 'orbit_mail_encryption', __( 'Encryption' ) )
-							->set_options(
-								[
-									'none' => 'None',
-									'ssl'  => 'SSL/TLS',
-									'tls'  => 'STARTTLS',
-								]
-							)
-							->set_default_value( 'tls' )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'checkbox', 'orbit_mail_auth', __( 'Requires authentication' ) )
-							->set_default_value( true )
-							->set_conditional_logic( $mail_enabled_condition ),
-						Field::make( 'text', 'orbit_mail_username', __( 'Username' ) )
-							->set_conditional_logic(
-								array_merge(
-									$mail_enabled_condition,
-									[
-										[
-											'field' => 'orbit_mail_auth',
-											'value' => true,
-										],
-									]
-								)
-							),
-						Field::make( 'text', 'orbit_mail_password', __( 'Password' ) )
-							->set_attribute( 'type', 'password' )
-							->set_conditional_logic(
-								array_merge(
-									$mail_enabled_condition,
-									[
-										[
-											'field' => 'orbit_mail_auth',
-											'value' => true,
-										],
-									]
-								)
-							),
-					]
-				);
+									<?php esc_attr_e( 'Posts', 'orbit' ); ?>
+								</label>
+
+								<br>
+
+								<label>
+									<input
+										name="orbit_ui_menu_comments"
+										type="checkbox"
+										id="orbit_ui_menu_comments"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_ui_menu_comments' ), true ); ?>
+									>
+
+									<?php esc_attr_e( 'Comments', 'orbit' ); ?>
+								</label>
+							</fieldset>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row"><?php esc_attr_e( 'Disable toolbar items', 'orbit' ); ?></th>
+						<td>
+							<fieldset>
+								<legend class="screen-reader-text">
+									<?php esc_attr_e( 'Disable toolbar items', 'orbit' ); ?>
+								</legend>
+
+								<label>
+									<input
+										name="orbit_ui_toolbar_new_content"
+										type="checkbox"
+										id="orbit_ui_toolbar_new_content"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_ui_toolbar_new_content' ), true ); ?>
+									>
+
+									<?php esc_attr_e( 'New content', 'orbit' ); ?>
+								</label>
+							</fieldset>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row">
+							<?php esc_attr_e( 'WordPress updates', 'orbit' ); ?>
+						</th>
+						<td>
+							<label>
+								<input
+									name="orbit_ui_wordpress_updates"
+									type="checkbox"
+									id="orbit_ui_wordpress_updates"
+									value="1"
+									<?php checked( 1, get_option( 'orbit_ui_wordpress_updates' ), true ); ?>
+								>
+
+								<?php esc_attr_e( 'Disable WordPress update nag', 'orbit' ); ?>
+							</label>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row">
+							<label for="orbit_ui_login_logo">
+								<?php esc_attr_e( 'Login logo', 'orbit' ); ?>
+							</label>
+						</th>
+						<td>
+							<input
+								id="orbit_ui_login_logo_button"
+								type="button"
+								class="button"
+								value="<?php esc_html_e( 'Select image', 'orbit' ); ?>"
+							>
+
+							<input
+								type="hidden"
+								name="orbit_ui_login_logo"
+								id="orbit_ui_login_logo"
+								value="<?php echo esc_attr( get_option( 'orbit_ui_login_logo' ) ); ?>"
+							>
+
+							<div class="login-logo-preview-wrapper" style="margin-top: 10px;">
+								<img
+									id="login-logo-preview"
+									src="<?php echo esc_url( wp_get_attachment_url( esc_attr( get_option( 'orbit_ui_login_logo' ) ) ) ); ?>"
+									width="100"
+								>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<?php
+	}
+
+	/**
+	 * Render the security section of the settings page.
+	 *
+	 * @return void
+	 */
+	public function section_security() {
+		?>
+			<h2 class="title"><?php esc_attr_e( 'Security', 'orbit' ); ?></h2>
+			<p>We highy encourage all of these options to be left at the default value (checked) unless this website has very specific reason to re-enable a feature.</p>
+
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row"><?php esc_attr_e( 'General', 'orbit' ); ?></th>
+						<td>
+							<fieldset>
+								<label>
+									<input
+										name="orbit_security_wordpress_version"
+										type="checkbox"
+										id="orbit_security_wordpress_version"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_security_wordpress_version' ), true ); ?>
+									>
+
+									<?php esc_attr_e( 'Hide WordPress version', 'orbit' ); ?>
+								</label>
+								<p class="description">This could act as an hint for hackers to target the website with known vulnerabilities.</p>
+
+								<br>
+
+								<label>
+									<input
+										name="orbit_security_xmlrpc"
+										type="checkbox"
+										id="orbit_security_xmlrpc"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_security_xmlrpc' ), true ); ?>
+									>
+
+									<?php esc_attr_e( 'Disable XML RPC', 'orbit' ); ?>
+								</label>
+
+								<p class="description">This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks.<br>If you must enable this, please try to limit it to necessary functioanlity and put request rate limiting in place.</p>
+							</fieldset>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row"><?php esc_attr_e( 'REST API', 'orbit' ); ?></th>
+						<td>
+							<fieldset>
+								<legend class="screen-reader-text">
+									<?php esc_attr_e( 'REST API', 'orbit' ); ?>
+								</legend>
+
+								<label for="orbit_security_rest_api_users">
+									<input
+										name="orbit_security_rest_api_users"
+										type="checkbox"
+										id="orbit_security_rest_api_users"
+										value="1"
+										<?php checked( 1, get_option( 'orbit_security_rest_api_users' ), true ); ?>
+									>
+
+									<?php esc_attr_e( 'Disable user endpoints in REST API', 'orbit' ); ?>
+								</label>
+
+								<p class="description">You should disable the user endpoints if not needed.<br>This helps user privacy, hides usernames from hackers, and adds a layer of protection in case some other code opens up a vulnerability in user management.</p>
+							</fieldset>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<?php
+	}
+
+	/**
+	 * Save plugin settings.
+	 *
+	 * @param array $data the $_POST data.
+	 *
+	 * @return void
+	 */
+	public function save_fields( $data ) {
+		update_option( 'orbit_ui_menu_dashboard', $data['orbit_ui_menu_dashboard'] ?? 0 );
+		update_option( 'orbit_ui_menu_posts', $data['orbit_ui_menu_posts'] ?? 0 );
+		update_option( 'orbit_ui_menu_comments', $data['orbit_ui_menu_comments'] ?? 0 );
+		update_option( 'orbit_ui_toolbar_new_content', $data['orbit_ui_toolbar_new_content'] ?? 0 );
+		update_option( 'orbit_security_wordpress_version', $data['orbit_security_wordpress_version'] ?? 0 );
+		update_option( 'orbit_security_xmlrpc', $data['orbit_security_xmlrpc'] ?? 0 );
+		update_option( 'orbit_security_rest_api_users', $data['orbit_security_rest_api_users'] ?? 0 );
+		update_option( 'orbit_ui_login_logo', $data['orbit_ui_login_logo'] ?? '' );
+		update_option( 'orbit_ui_wordpress_updates', $data['orbit_ui_wordpress_updates'] ?? 0 );
+		?>
+			<div class="updated">
+				<p>Settings saved.</p>
+			</div>
+		<?php
+	}
+
+	/**
+	 * Enqueue required scripts for settings.
+	 *
+	 * @param string $page The current page.
+	 *
+	 * @return void
+	 */
+	public function enqueue( $page ) {
+
+		if ( ! $page === 'options-general.php' ) {
+			return;
+		}
+
+		// Needed for media select/upload.
+		wp_enqueue_media();
+
+		// Enqueue settings JS.
+		wp_enqueue_script(
+			'orbit-settings',
+			ORBIT_URL . 'js/settings.js',
+			[ 'jquery' ],
+			'0.1',
+			true,
+		);
 	}
 }

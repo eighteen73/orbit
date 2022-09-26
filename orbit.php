@@ -14,24 +14,17 @@
 
 namespace Eighteen73\Orbit;
 
-use Carbon_Fields\Carbon_Fields;
-
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+// Useful global constants.
+define( 'ORBIT_URL', plugin_dir_url( __FILE__ ) );
+define( 'ORBIT_PATH', plugin_dir_path( __FILE__ ) );
+define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
-add_action(
-	'after_setup_theme',
-	function() {
-		if ( ! defined( 'Carbon_Fields\URL' ) ) {
-			define( 'Carbon_Fields\URL', home_url( '/app/mu-plugins/orbit/vendor/htmlburger/carbon-fields' ) );
-			Carbon_Fields::boot();
-		}
-	}
-);
+require_once ORBIT_PATH . 'vendor/autoload.php';
 
 Forms\Options::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();
