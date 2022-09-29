@@ -61,20 +61,21 @@ abstract class View {
 	 * Register a new object.
 	 *
 	 * @access public
-	 * @param  string  $name
-	 * @param  array   $args  {
+	 * @param string $name The view name
+	 * @param array  $args {
 	 *     @type string  $label        Internationalized text label.
 	 *     @type string  $icon         Dashicon icon in the form of `dashicons-icon-name`.
 	 *     @type string  $callback     Callback function for outputting the content for the view.
 	 * }
 	 * @return void
 	 */
-	public function __construct( $name, $args = array() ) {
+	public function __construct( $name, $args = [] ) {
 
 		foreach ( array_keys( get_object_vars( $this ) ) as $key ) {
 
-			if ( isset( $args[ $key ] ) )
+			if ( isset( $args[ $key ] ) ) {
 				$this->$key = $args[ $key ];
+			}
 		}
 
 		$this->name = sanitize_key( $name );
@@ -128,8 +129,9 @@ abstract class View {
 	 */
 	public function check_capabilities() {
 
-		if ( $this->capability && ! call_user_func_array( 'current_user_can', (array) $this->capability ) )
+		if ( $this->capability && ! call_user_func_array( 'current_user_can', (array) $this->capability ) ) {
 			return false;
+		}
 
 		return true;
 	}
