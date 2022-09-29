@@ -32,7 +32,6 @@ DisallowIndexing\DisallowIndexing::instance()->setup();
 add_action(
 	'init',
 	function () {
-		Mail\Mail::instance()->setup();
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
 		Security\DisableAPI::instance()->setup();

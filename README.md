@@ -39,11 +39,6 @@ All available configuration is done via the menu link _Settings > Orbit Options_
     - Oembed links
     - Windows Live Writer manifest links
 
-### Emails
-
-- SMTP settings for email sending (configurable)
-- Email sender name and address (configurable)
-
 ### Other Safety Measures
 
 - Disallow robot indexing in non-production environments
