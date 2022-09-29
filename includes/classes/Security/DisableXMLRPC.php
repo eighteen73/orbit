@@ -21,19 +21,10 @@ class DisableXMLRPC {
 	 * @return void
 	 */
 	public function setup() {
-		if ( ! $this->is_enabled() ) {
+		if ( ! get_option( 'orbit_security_xmlrpc' ) ) {
 			return;
 		}
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 		remove_action( 'wp_head', 'rsd_link' );
-	}
-
-	/**
-	 * Detects whether this feature's setting is enabled
-	 *
-	 * @return bool True is this class should take effect
-	 */
-	public function is_enabled(): bool {
-		return get_option( '_orbit_security_xmlrpc' ) === true;
 	}
 }

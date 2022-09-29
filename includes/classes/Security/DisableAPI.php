@@ -21,9 +21,10 @@ class DisableAPI {
 	 * @return void
 	 */
 	public function setup() {
-		if ( get_option( '_orbit_security_api_users' ) === true ) {
-			add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );
+		if ( ! get_option( 'orbit_security_rest_api_users' ) ) {
+			return;
 		}
+		add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );
 	}
 
 	/**
