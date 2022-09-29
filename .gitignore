@@ -1,8 +1,4 @@
-# Exclude all of vendor apart from the useful autoloader
-/vendor/*
-!/vendor/autoload.php
-!/vendor/composer
-
+/vendor
 .idea
 .DS_Store
 composer.lock
