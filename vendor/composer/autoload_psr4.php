@@ -8,5 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'Eighteen73\\Orbit\\' => array($baseDir . '/includes/classes'),
     'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => array($vendorDir . '/dealerdirect/phpcodesniffer-composer-installer/src'),
-    'Carbon_Fields\\' => array($vendorDir . '/htmlburger/carbon-fields/core'),
 );

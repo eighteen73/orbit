@@ -2,7 +2,6 @@
 /vendor/*
 !/vendor/autoload.php
 !/vendor/composer
-!/vendor/htmlburger
 
 .idea
 .DS_Store
