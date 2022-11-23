@@ -21,7 +21,7 @@ class DisableXMLRPC {
 	 * @return void
 	 */
 	public function setup() {
-		if ( ! get_option( 'orbit_security_xmlrpc' ) ) {
+		if ( ! get_option( 'orbit_security_xmlrpc', true ) ) {
 			return;
 		}
 		add_filter( 'xmlrpc_enabled', '__return_false' );

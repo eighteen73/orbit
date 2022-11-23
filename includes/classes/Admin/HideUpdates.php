@@ -40,7 +40,7 @@ class HideUpdates {
 	public function is_allowed(): bool {
 
 		// Plugin setting
-		if ( get_option( 'orbit_ui_wordpress_updates' ) ) {
+		if ( get_option( 'orbit_ui_wordpress_updates', true ) ) {
 			return false;
 		}
 

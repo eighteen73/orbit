@@ -168,7 +168,7 @@ class Options {
 									type="checkbox"
 									id="orbit_ui_wordpress_updates"
 									value="1"
-									<?php checked( 1, get_option( 'orbit_ui_wordpress_updates' ), true ); ?>
+									<?php checked( 1, get_option( 'orbit_ui_wordpress_updates', true ), true ); ?>
 								>
 
 								<?php esc_attr_e( 'Disable WordPress update nag', 'orbit' ); ?>
@@ -233,7 +233,7 @@ class Options {
 										type="checkbox"
 										id="orbit_security_wordpress_version"
 										value="1"
-										<?php checked( 1, get_option( 'orbit_security_wordpress_version' ), true ); ?>
+										<?php checked( 1, get_option( 'orbit_security_wordpress_version', true ), true ); ?>
 									>
 
 									<?php esc_attr_e( 'Hide WordPress version', 'orbit' ); ?>
@@ -248,7 +248,7 @@ class Options {
 										type="checkbox"
 										id="orbit_security_xmlrpc"
 										value="1"
-										<?php checked( 1, get_option( 'orbit_security_xmlrpc' ), true ); ?>
+										<?php checked( 1, get_option( 'orbit_security_xmlrpc', true ), true ); ?>
 									>
 
 									<?php esc_attr_e( 'Disable XML RPC', 'orbit' ); ?>
@@ -273,7 +273,7 @@ class Options {
 										type="checkbox"
 										id="orbit_security_rest_api_users"
 										value="1"
-										<?php checked( 1, get_option( 'orbit_security_rest_api_users' ), true ); ?>
+										<?php checked( 1, get_option( 'orbit_security_rest_api_users', true ), true ); ?>
 									>
 
 									<?php esc_attr_e( 'Disable user endpoints in REST API', 'orbit' ); ?>
