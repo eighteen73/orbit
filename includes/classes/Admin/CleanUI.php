@@ -38,9 +38,6 @@ class CleanUI {
 		if ( get_option( 'orbit_ui_menu_posts' ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( get_option( 'orbit_ui_menu_pages' ) ) {
-			remove_menu_page( 'edit.php?post_type=page' );
-		}
 		if ( get_option( 'orbit_ui_menu_comments' ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
@@ -67,6 +64,7 @@ class CleanUI {
 			$menu->remove_node( 'new-content' );
 		}
 
+		$menu->remove_node( 'wpseo-menu' );
 		$menu->remove_node( 'search' );
 		$menu->remove_node( 'themes' );
 		$menu->remove_node( 'view-site' );
@@ -75,7 +73,7 @@ class CleanUI {
 
 		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
 		// $menu->remove_node( 'edit' );
-		// $menu->remove_node('site-name');
+		// $menu->remove_node( 'site-name' );
 		// $menu->remove_node( 'updates' );  // this is controlled by HideUpdates
 		// $menu->remove_node( 'view' );
 		// phpcs:enable
