@@ -33,7 +33,6 @@ class RemoveHeadLinks {
 		// Disable oEmbed discovery links and auto discovery
 		remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
 		remove_action( 'wp_head', 'wp_oembed_add_host_js' );
-		remove_action( 'rest_api_init', 'wp_oembed_register_route' );
 		remove_filter( 'oembed_dataparse', 'wp_filter_oembed_result' );
 		add_filter( 'embed_oembed_discover', '__return_false' );
 		add_filter( 'rewrite_rules_array', [ $this, 'disable_embeds_rewrites' ] );
