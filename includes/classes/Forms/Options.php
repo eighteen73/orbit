@@ -80,8 +80,8 @@ class Options {
 	public function section_ui() {
 		?>
 			<h2 class="title"><?php esc_attr_e( 'UI Cleanup', 'orbit' ); ?></h2>
-			<p>Orbit automatically removes a lot of UI elements that are rarely used and can confuse some CMS users. The items below are a few that can be toggled on/off as needed.<br>
-			Note this doesn't disable functionality so do not rely on it as a security feature. It only removes menu links.</p>
+			<p><?php _e( 'Orbit automatically removes a lot of UI elements that are rarely used and can confuse some CMS users. The items below are a few that can be toggled on/off as needed.', 'orbit' ); ?><br>
+			<?php _e( 'Note this doesn\'t disable functionality so do not rely on it as a security feature. It only removes menu links.', 'orbit' ); ?></p>
 
 			<table class="form-table">
 				<tbody>
@@ -219,7 +219,7 @@ class Options {
 	public function section_security() {
 		?>
 			<h2 class="title"><?php esc_attr_e( 'Security', 'orbit' ); ?></h2>
-			<p>We highy encourage all of these options to be left at the default value (checked) unless this website has very specific reason to re-enable a feature.</p>
+			<p><?php _e( 'We highy encourage all of these options to be left at the default value (checked) unless this website has very specific reason to re-enable a feature.', 'orbit' ); ?></p>
 
 			<table class="form-table">
 				<tbody>
@@ -238,7 +238,7 @@ class Options {
 
 									<?php esc_attr_e( 'Hide WordPress version', 'orbit' ); ?>
 								</label>
-								<p class="description">This could act as an hint for hackers to target the website with known vulnerabilities.</p>
+								<p class="description"><?php _e( 'This could act as an hint for hackers to target the website with known vulnerabilities.', 'orbit' ); ?></p>
 
 								<br>
 
@@ -254,7 +254,7 @@ class Options {
 									<?php esc_attr_e( 'Disable XML RPC', 'orbit' ); ?>
 								</label>
 
-								<p class="description">This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks.<br>If you must enable this, please try to limit it to necessary functioanlity and put request rate limiting in place.</p>
+								<p class="description"><?php _e( 'This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks.', 'orbit' ); ?><br><?php _e( 'If you must enable this, please try to limit it to necessary functioanlity and put request rate limiting in place.', 'orbit' ); ?></p>
 							</fieldset>
 						</td>
 					</tr>
@@ -279,7 +279,7 @@ class Options {
 									<?php esc_attr_e( 'Disable user endpoints in REST API', 'orbit' ); ?>
 								</label>
 
-								<p class="description">You should disable the user endpoints if not needed.<br>This helps user privacy, hides usernames from hackers, and adds a layer of protection in case some other code opens up a vulnerability in user management.</p>
+								<p class="description"><?php _e( 'You should disable the user endpoints if not needed.<br>This helps user privacy, hides usernames from hackers, and adds a layer of protection in case some other code opens up a vulnerability in user management.', 'orbit' ); ?></p>
 							</fieldset>
 						</td>
 					</tr>
@@ -307,7 +307,7 @@ class Options {
 		update_option( 'orbit_ui_wordpress_updates', $data['orbit_ui_wordpress_updates'] ?? 0 );
 		?>
 			<div class="updated">
-				<p>Settings saved.</p>
+				<p><?php _e( 'Settings saved.', 'orbit' ); ?></p>
 			</div>
 		<?php
 	}
