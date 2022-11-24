@@ -10,7 +10,8 @@
   },
   "minimum-stability": "stable",
   "require": {
-    "php": ">=7.4"
+    "php": ">=7.4",
+    "eighteen73/settings-api": "^1.0"
   },
   "require-dev": {
     "eighteen73/phpcs-composer": "^1.0.0"
