@@ -101,11 +101,11 @@ class Options {
 				'type'    => 'multicheck',
 				'name'    => __( 'General', 'orbit' ),
 				'options' => [
-					'wordpress_version' => [
+					'expose_wordpress_version' => [
 						'label' => __( 'Display the WordPress version', 'orbit' ),
 						'desc'  => __( 'This could act as an hint for hackers to target a website with known vulnerabilities.', 'orbit' ),
 					],
-					'xmlrpc'            => [
+					'enable_xmlrpc'            => [
 						'label' => __( 'Enable XML-RPC', 'orbit' ),
 						'desc'  => __( 'This outdated way of communicating with WordPress leaves websites open to brute force and DDoS attacks.<br>If you must enable this, please try to limit it to necessary functionality and put request rate limiting in place elsewhere.', 'orbit' ),
 					],
@@ -121,7 +121,7 @@ class Options {
 				'type'    => 'multicheck',
 				'name'    => __( 'REST API', 'orbit' ),
 				'options' => [
-					'users' => [
+					'enable_user_endpoints' => [
 						'label' => __( 'Enable user endpoints in the REST API', 'orbit' ),
 						'desc'  => __( 'You should allow Orbit to disable the user endpoints if not needed.<br>This helps user privacy, hides usernames from hackers, and adds a layer of protection in case some other code opens up a vulnerability in user management.', 'orbit' ),
 					],

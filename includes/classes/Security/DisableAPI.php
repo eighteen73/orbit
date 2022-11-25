@@ -22,7 +22,7 @@ class DisableAPI {
 	 * @return void
 	 */
 	public function setup() {
-		if ( ! Options::get_option( 'orbit_security.rest_api.users', false ) ) {
+		if ( Options::get_option( 'orbit_security.rest_api.enable_user_endpoints', false ) ) {
 			return;
 		}
 		add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );

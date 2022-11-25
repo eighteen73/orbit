@@ -118,7 +118,6 @@ class CleanUI {
 			return;
 		}
 
-
 		$styles = [
 			"background-image: url('{$image}')",
 			"width: {$width}px",

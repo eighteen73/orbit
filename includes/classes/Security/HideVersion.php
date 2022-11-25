@@ -24,7 +24,7 @@ class HideVersion {
 	 * @return void
 	 */
 	public function setup() {
-		if ( Options::get_option( 'orbit_security.general.wordpress_version', false ) ) {
+		if ( Options::get_option( 'orbit_security.general.expose_wordpress_version', false ) ) {
 			return;
 		}
 		remove_action( 'wp_head', 'wp_generator' );
