@@ -109,18 +109,18 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$image_src = Options::get_option( 'orbit_ui.login_logo', null );
+		$image = (string) Options::get_option( 'orbit_ui.login_logo' );
+		$width = 250;
 
-		if ( ! $image_src ) {
+		if ( ! $image ) {
 			echo '<style> .login h1 { display: none; } </style>';
 
 			return;
 		}
 
-		$width = 250;
 
 		$styles = [
-			"background-image: url('{$image_src}')",
+			"background-image: url('{$image}')",
 			"width: {$width}px",
 			'background-position: center',
 			'background-size: contain',
