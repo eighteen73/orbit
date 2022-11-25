@@ -7,6 +7,7 @@
 
 namespace Eighteen73\Orbit\Security;
 
+use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
 
 /**
@@ -21,7 +22,7 @@ class DisableAPI {
 	 * @return void
 	 */
 	public function setup() {
-		if ( ! get_option( 'orbit_security_rest_api_users', true ) ) {
+		if ( ! Options::get_option( 'orbit_security.rest_api.users', false ) ) {
 			return;
 		}
 		add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );

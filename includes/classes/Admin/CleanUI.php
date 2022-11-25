@@ -7,6 +7,7 @@
 
 namespace Eighteen73\Orbit\Admin;
 
+use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
 
 /**
@@ -32,13 +33,13 @@ class CleanUI {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( get_option( 'orbit_ui_menu_dashboard' ) ) {
+		if ( Options::get_option( 'orbit_ui.disable_menu_items.dashboard', false ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( get_option( 'orbit_ui_menu_posts' ) ) {
+		if ( Options::get_option( 'orbit_ui.disable_menu_items.posts', false ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( get_option( 'orbit_ui_menu_comments' ) ) {
+		if ( Options::get_option( 'orbit_ui.disable_menu_items.comments', false ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
 
@@ -60,7 +61,7 @@ class CleanUI {
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
 
-		if ( get_option( 'orbit_ui_toolbar_new_content' ) ) {
+		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.new_content', false ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 
@@ -108,7 +109,7 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$attachment_id = (int) get_option( 'orbit_ui_login_logo' );
+		$attachment_id = (int) Options::get_option( 'orbit_ui.login_logo', 0 );
 
 		if ( ! $attachment_id ) {
 			echo '<style> .login h1 { display: none; } </style>';
