@@ -109,19 +109,18 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$attachment_id = (int) Options::get_option( 'orbit_ui.login_logo', 0 );
+		$image_src = Options::get_option( 'orbit_ui.login_logo', null );
 
-		if ( ! $attachment_id ) {
+		if ( ! $image_src ) {
 			echo '<style> .login h1 { display: none; } </style>';
 
 			return;
 		}
 
-		$image_src = wp_get_attachment_image_src( $attachment_id, 'medium' );
-		$width     = 250;
+		$width = 250;
 
 		$styles = [
-			"background-image: url('{$image_src[0]}')",
+			"background-image: url('{$image_src}')",
 			"width: {$width}px",
 			'background-position: center',
 			'background-size: contain',
