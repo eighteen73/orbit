@@ -50,6 +50,7 @@ add_action(
 		Admin\HideUpdates::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
+		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
 		OtherFilters::instance()->setup();
