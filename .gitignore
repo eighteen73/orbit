@@ -1,4 +1,11 @@
-/vendor
+# Composer
+vendor/
+lib/vendor/
+
+# Lock files
+composer.lock
+!lib/composer.lock
+
+# Local files
 .idea
 .DS_Store
-composer.lock
