@@ -24,21 +24,7 @@ define( 'ORBIT_URL', plugin_dir_url( __FILE__ ) );
 define( 'ORBIT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
-spl_autoload_register(
-	function ( $class_name ) {
-		$path_parts = explode( '\\', $class_name );
-
-		if ( ! empty( $path_parts ) ) {
-			$package = $path_parts[0];
-
-			unset( $path_parts[0] );
-
-			if ( 'Orbit' === $package ) {
-				require_once __DIR__ . '/includes/classes/' . implode( '/', $path_parts ) . '.php';
-			}
-		}
-	}
-);
+require_once 'autoload.php';
 
 Forms\Options::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();

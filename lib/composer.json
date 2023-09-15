@@ -1,0 +1,31 @@
+{
+    "name": "eighteen73/orbit-lib",
+    "description": "Orbit dependencies",
+    "minimum-stability": "stable",
+    "require-dev": {
+        "coenjacobs/mozart": "^0.7.1",
+        "eighteen73/settings-api": "^1.1"
+    },
+    "scripts": {
+		"post-install-cmd": [
+			"\"./vendor/bin/mozart\" compose"
+		],
+		"post-update-cmd": [
+			"\"./vendor/bin/mozart\" compose"
+		]
+    },
+	"extra": {
+		"mozart": {
+			"dep_namespace": "Eighteen73\\Orbit\\Vendor\\",
+			"dep_directory": "/packages/",
+			"packages": [
+				"eighteen73/settings-api"
+			],
+			"excluded_packages": [
+			],
+			"classmap_directory": "/classes/",
+			"classmap_prefix": "Eighteen73_Orbit_Vendor_",
+			"delete_vendor_directories": true
+		} 
+	}
+}
