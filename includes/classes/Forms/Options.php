@@ -8,7 +8,7 @@
 namespace Eighteen73\Orbit\Forms;
 
 use Eighteen73\Orbit\Singleton;
-use Eighteen73\SettingsApi\SettingsApi;
+use Eighteen73\Orbit\Vendor\Eighteen73\SettingsApi\SettingsApi;
 
 /**
  * The options form for this plugin
