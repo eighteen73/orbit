@@ -27,7 +27,7 @@ class HideAuthor {
 	/**
 	 * Remove ?author=x page to avoid promoting CMS usernames
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function author_page_404() {
 		global $wp_query;

@@ -8,6 +8,8 @@
  * @param string $class The fully-qualified class name
  *
  * @return void
+ *
+ * @package Orbit
  */
 
 spl_autoload_register(
