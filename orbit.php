@@ -3,11 +3,12 @@
  * Plugin Name:     Orbit
  * Plugin URI:      https://github.com/eighteen73/orbit
  * Description:     Opinionated WordPress behaviour overrides
- * Author:          Orphans Web Team
- * Author URI:      https://orphans.co.uk/websites
+ * Author:          eighteen73
+ * Author URI:      https://eighteen73.co.uk
  * Text Domain:     orbit
  * Domain Path:     /languages
  * Version:         1.0.0
+ * Update URI:      https://github.com/eighteen73/orbit
  *
  * @package         Orbit
  */
