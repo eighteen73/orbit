@@ -35,7 +35,7 @@ class HealthCheck {
 			'/up',
 			[
 				'methods' => 'GET',
-				'callback' => [ $this, 'run_heathcheck' ],
+				'callback' => [ $this, 'run_health_check' ],
 			]
 		);
 	}
@@ -47,7 +47,7 @@ class HealthCheck {
 	 * @param WP_REST_Request $data The request data
 	 * @return string
 	 */
-	public function run_heathcheck( $data ) {
+	public function run_health_check( $data ) {
 		return 'ok';
 	}
 }
