@@ -43,3 +43,7 @@ All available configuration is done via the menu link _Settings > Orbit Options_
 
 - Disallow robot indexing in non-production environments
 - Disable updates
+
+### Other Features
+
+- Adds endpoint "/wp-json/orbit/up" for use as quick website availability check

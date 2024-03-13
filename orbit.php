@@ -41,5 +41,6 @@ add_action(
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
 		OtherFilters::instance()->setup();
+		HealthCheck::instance()->setup();
 	}
 );
