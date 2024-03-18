@@ -34,8 +34,9 @@ class HealthCheck {
 			'orbit',
 			'/up',
 			[
-				'methods' => 'GET',
-				'callback' => [ $this, 'run_health_check' ],
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'run_health_check' ],
+				'permission_callback' => '__return_true',
 			]
 		);
 	}

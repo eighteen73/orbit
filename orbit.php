@@ -7,7 +7,7 @@
  * Author URI:      https://eighteen73.co.uk
  * Text Domain:     orbit
  * Domain Path:     /languages
- * Version:         1.0.0
+ * Version:         1.4.1
  * Update URI:      https://github.com/eighteen73/orbit
  *
  * @package         Orbit
