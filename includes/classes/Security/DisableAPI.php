@@ -35,11 +35,13 @@ class DisableAPI {
 	 * @return array
 	 */
 	public function disable_users( array $endpoints ): array {
-		if ( isset( $endpoints['/wp/v2/users'] ) ) {
-			unset( $endpoints['/wp/v2/users'] );
-		}
-		if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
-			unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+		if ( ! is_user_logged_in() && ! is_admin() ) {
+			if ( isset( $endpoints['/wp/v2/users'] ) ) {
+				unset( $endpoints['/wp/v2/users'] );
+			}
+			if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+				unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+			}
 		}
 		return $endpoints;
 	}
