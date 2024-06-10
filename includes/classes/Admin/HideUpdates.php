@@ -125,6 +125,6 @@ class HideUpdates {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
-		wp_enqueue_style( 'hide_updates_css', WPMU_PLUGIN_URL . '/orbit/css/hide-updates.css' );
+		wp_enqueue_style( 'hide_updates_css', ORBIT_URL . 'css/hide-updates.css' );
 	}
 }
