@@ -7,8 +7,8 @@
 
 namespace Eighteen73\Orbit\Security;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
+use function Eighteen73\Orbit\get_setting;
 
 /**
  * Removes WordPress' version number from various places in the markup
@@ -24,7 +24,7 @@ class HideVersion {
 	 * @return void
 	 */
 	public function setup() {
-		if ( Options::get_option( 'orbit_security.general.expose_wordpress_version', false ) ) {
+		if ( get_setting( 'expose_wordpress_version', false ) ) {
 			return;
 		}
 		remove_action( 'wp_head', 'wp_generator' );

@@ -7,8 +7,8 @@
 
 namespace Eighteen73\Orbit\Security;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
+use function Eighteen73\Orbit\get_setting;
 
 /**
  * Completely disable XML-RPC
@@ -22,7 +22,7 @@ class DisableXMLRPC {
 	 * @return void
 	 */
 	public function setup() {
-		if ( Options::get_option( 'orbit_security.general.enable_xmlrpc', false ) ) {
+		if ( get_setting( 'enable_xmlrpc', false ) ) {
 			return;
 		}
 		add_filter( 'xmlrpc_enabled', '__return_false' );

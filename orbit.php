@@ -27,20 +27,5 @@ define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
 require_once 'autoload.php';
 
-Forms\Options::instance()->setup();
-DisallowIndexing\DisallowIndexing::instance()->setup();
-
-add_action(
-	'init',
-	function () {
-		Admin\CleanUI::instance()->setup();
-		Admin\HideUpdates::instance()->setup();
-		Security\DisableAPI::instance()->setup();
-		Security\DisableXMLRPC::instance()->setup();
-		Security\HideAuthor::instance()->setup();
-		Security\HideVersion::instance()->setup();
-		Security\RemoveHeadLinks::instance()->setup();
-		OtherFilters::instance()->setup();
-		HealthCheck::instance()->setup();
-	}
-);
+// Initialize the plugin
+Setup::instance()->setup();

@@ -7,8 +7,8 @@
 
 namespace Eighteen73\Orbit\Admin;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
+use function Eighteen73\Orbit\get_setting;
 
 /**
  * Hide update options for non-admin users
@@ -40,8 +40,7 @@ class HideUpdates {
 	 */
 	public function is_allowed(): bool {
 
-		// Plugin setting
-		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.wordpress_updates', false ) ) {
+		if ( get_setting( 'disable_toolbar_items', 'wordpress_updates', false ) ) {
 			return false;
 		}
 
@@ -125,6 +124,10 @@ class HideUpdates {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
+		if ( ! $this->is_allowed() ) {
+			return;
+		}
+
 		wp_enqueue_style( 'hide_updates_css', WPMU_PLUGIN_URL . '/orbit/css/hide-updates.css' );
 	}
 }

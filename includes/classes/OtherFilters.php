@@ -20,7 +20,5 @@ class OtherFilters {
 	 *
 	 * @return void
 	 */
-	public function setup() {
-		add_filter( 'rocket_set_wp_cache_constant', '__return_false' );
-	}
+	public function setup() {}
 }

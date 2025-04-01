@@ -7,8 +7,8 @@
 
 namespace Eighteen73\Orbit\Admin;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
+use function Eighteen73\Orbit\get_setting;
 
 /**
  * Simplify the CMS UI by removing unwanted elements
@@ -33,13 +33,13 @@ class CleanUI {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.dashboard', false ) ) {
+		if ( get_setting( 'disable_menu_items', 'dashboard', false ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.posts', false ) ) {
+		if ( get_setting( 'disable_menu_items', 'posts', false ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.comments', false ) ) {
+		if ( get_setting( 'disable_menu_items', 'comments', false ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
 
@@ -61,7 +61,7 @@ class CleanUI {
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
 
-		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.new_content', false ) ) {
+		if ( get_setting( 'disable_toolbar_items', 'new_content', false ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 
@@ -109,7 +109,7 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$image = (string) Options::get_option( 'orbit_ui.login_logo' );
+		$image = (string) get_setting( 'login_logo' );
 		$width = 250;
 
 		if ( ! $image ) {

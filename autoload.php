@@ -31,3 +31,6 @@ spl_autoload_register(
 		}
 	}
 );
+
+// Load helper functions
+require_once ORBIT_INC . 'functions.php';
