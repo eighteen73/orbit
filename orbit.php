@@ -29,6 +29,7 @@ require_once 'autoload.php';
 
 Forms\Options::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();
+Performance\Fast404::instance()->setup();
 
 add_action(
 	'init',
