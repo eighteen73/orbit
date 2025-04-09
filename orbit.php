@@ -27,7 +27,6 @@ define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
 require_once 'autoload.php';
 
-Forms\Options::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();
 
 add_action(
