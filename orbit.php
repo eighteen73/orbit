@@ -34,6 +34,7 @@ add_action(
 	function () {
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
+		Admin\EnvironmentName::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
 		Security\HideAuthor::instance()->setup();

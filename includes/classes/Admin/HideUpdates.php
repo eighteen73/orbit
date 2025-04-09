@@ -7,7 +7,6 @@
 
 namespace Eighteen73\Orbit\Admin;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
 
 /**
