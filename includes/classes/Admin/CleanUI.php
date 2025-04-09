@@ -33,19 +33,20 @@ class CleanUI {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.dashboard', false ) ) {
+		if ( apply_filters( 'orbit_enable_disable_menu_item_dashboard', false ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.posts', false ) ) {
+		if ( apply_filters( 'orbit_enable_disable_menu_item_posts', false ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.comments', false ) ) {
+		if ( apply_filters( 'orbit_enable_disable_menu_item_comments', false ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
 
-		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
-		// remove_menu_page('upload.php');  // Media management
-		// phpcs:enable
+		// Example for future use:
+		// if ( apply_filters( 'orbit_enable_menu_item_media', false ) ) {
+		//     remove_menu_page( 'upload.php' );
+		// }
 	}
 
 	/**
@@ -61,7 +62,7 @@ class CleanUI {
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
 
-		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.new_content', false ) ) {
+		if ( apply_filters( 'orbit_enable_disable_toolbar_item_new_content', false ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 
@@ -109,12 +110,11 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$image = (string) Options::get_option( 'orbit_ui.login_logo' );
+		$image = (string) apply_filters( 'orbit_login_logo_url', '' );
 		$width = 250;
 
-		if ( ! $image ) {
+		if ( ! $image || $image === '' ) {
 			echo '<style> .login h1 { display: none; } </style>';
-
 			return;
 		}
 

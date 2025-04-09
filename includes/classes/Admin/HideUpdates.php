@@ -40,8 +40,7 @@ class HideUpdates {
 	 */
 	public function is_allowed(): bool {
 
-		// Plugin setting
-		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.wordpress_updates', false ) ) {
+		if ( apply_filters( 'orbit_enable_disable_toolbar_item_wordpress_updates', false ) ) {
 			return false;
 		}
 
