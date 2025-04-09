@@ -110,7 +110,7 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$image = (string) apply_filters( 'orbit_login_logo_url', '' );
+		$image = (string) apply_filters( 'orbit_enable_login_logo', '' );
 		$width = 250;
 
 		if ( ! $image || $image === '' ) {
