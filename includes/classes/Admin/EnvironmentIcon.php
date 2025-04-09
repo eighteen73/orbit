@@ -1,6 +1,6 @@
 <?php
 /**
- * Hide update options for non-admin users
+ * Add an icon to the toolbar to indicate the environment
  *
  * @package Orbit
  */
@@ -15,7 +15,7 @@ use WP_Admin_Bar;
  *
  * Inspired by https://wordpress.org/plugins/hide-updates/
  */
-class EnvironmentName {
+class EnvironmentIcon {
 	use Singleton;
 
 	/**
@@ -27,8 +27,8 @@ class EnvironmentName {
 		}
 
 		add_action( 'admin_bar_menu', [ $this, 'add_environment_name_to_toolbar' ], 0 );
-		add_action( 'admin_head', [ $this, 'add_admin_styles' ] );
-		add_action( 'wp_head', [ $this, 'add_admin_styles' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_plugin_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_plugin_styles' ] );
 	}
 
 	/**
@@ -42,7 +42,6 @@ class EnvironmentName {
 			return false;
 		}
 
-		// It's enabled, so check the user's role
 		$current_user       = wp_get_current_user();
 		$current_user_roles = $current_user->roles;
 		if ( in_array( 'administrator', $current_user_roles, true ) ) {
@@ -57,37 +56,25 @@ class EnvironmentName {
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar
 	 */
-	public function add_environment_name_to_toolbar( WP_Admin_Bar $wp_admin_bar ) {
+	public function add_environment_name_to_toolbar( \WP_Admin_Bar $wp_admin_bar ) {
 		$env = wp_get_environment_type();
 
 		$wp_admin_bar->add_node( [
-			'id'    => 'orbit-environment-name',
-			'title' => strtoupper( $env ),
+			'id'    => 'orbit-environment-icon',
+			'title' => '<span class="ab-icon dashicons-before dashicons-info" title="Environment: ' . esc_attr( ucfirst( $env ) ) . '"></span>',
+			'parent' => 'top-secondary',
 			'meta'  => [
-				'class' => 'orbit-env-toolbar',
-				'title' => 'Current environment: ' . $env,
+				'class' => 'orbit-env-toolbar orbit-env-' . esc_attr( $env ),
 			],
 		] );
 	}
 
-	public function add_admin_styles() {
-		$env = wp_get_environment_type();
-
-		$colors = [
-			'production' => '#d63638',
-			'staging'    => '#eab308',
-			'development'=> '#16a34a',
-		];
-
-		$color = $colors[ $env ] ?? '#64748b';
-
-		echo '<style>
-			#wp-admin-bar-orbit-environment-name > .ab-item {
-				background-color: ' . esc_attr( $color ) . ';
-				color: #fff !important;
-				font-weight: bold;
-
-			}
-		</style>';
+	/**
+	 * Enqueue plugin stylesheet to color the icon.
+	 *
+	 * @return void
+	 */
+	public function enqueue_plugin_styles(): void {
+		wp_enqueue_style( 'environment_icon_css', WPMU_PLUGIN_URL . '/orbit/css/environment-icon.css' );
 	}
 }

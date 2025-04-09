@@ -1,0 +1,26 @@
+.orbit-env-toolbar {
+	--color--production: #d63638;
+	--color--staging: #eab308;
+	--color--development: #16a34a;
+}
+
+#wpadminbar .orbit-env-toolbar .ab-icon {
+	margin-right: 0;
+}
+
+#wpadminbar .orbit-env-toolbar .ab-icon::before {
+	color: var(--color--development);
+	top: 2px;
+}
+
+#wpadminbar .orbit-env-toolbar.orbit-env-development .ab-icon::before {
+	color: var(--color--development);
+}
+
+#wpadminbar .orbit-env-toolbar.orbit-env-staging .ab-icon::before {
+	color: var(--color--staging);
+}
+
+#wpadminbar .orbit-env-toolbar.orbit-env-production .ab-icon::before {
+	color: var(--color--production);
+}
