@@ -1,6 +1,6 @@
 <?php
 /**
- * Add permissions for editors to access key site areas
+ *  Add Gravity Forms capabilities to editors and shop managers
  *
  * @package Orbit
  */
