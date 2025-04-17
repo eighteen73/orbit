@@ -9,6 +9,9 @@ namespace Eighteen73\Orbit\Capabilities;
 
 use Eighteen73\Orbit\Singleton;
 
+/**
+ * Add user management capabilities to editors and shop managers
+ */
 class Users {
 	use Singleton;
 
@@ -48,10 +51,8 @@ class Users {
 					if ( $role->has_cap( $cap ) ) {
 						$role->remove_cap( $cap );
 					}
-				} else {
-					if ( ! $role->has_cap( $cap ) ) {
+				} elseif ( ! $role->has_cap( $cap ) ) {
 						$role->add_cap( $cap );
-					}
 				}
 			}
 		}

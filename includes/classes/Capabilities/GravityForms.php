@@ -9,6 +9,9 @@ namespace Eighteen73\Orbit\Capabilities;
 
 use Eighteen73\Orbit\Singleton;
 
+/**
+ * Add Gravity Forms capabilities to editors and shop managers
+ */
 class GravityForms {
 	use Singleton;
 
@@ -27,10 +30,10 @@ class GravityForms {
 
 		$roles = [
 			'editor',
-			'shop_manager'
+			'shop_manager',
 		];
 		$caps = [
-			'gform_full_access'
+			'gform_full_access',
 		];
 
 		foreach ( $roles as $role_name ) {
@@ -45,10 +48,8 @@ class GravityForms {
 					if ( $role->has_cap( $cap ) ) {
 						$role->remove_cap( $cap );
 					}
-				} else {
-					if ( ! $role->has_cap( $cap ) ) {
+				} elseif ( ! $role->has_cap( $cap ) ) {
 						$role->add_cap( $cap );
-					}
 				}
 			}
 		}

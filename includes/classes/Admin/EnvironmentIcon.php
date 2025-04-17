@@ -54,19 +54,21 @@ class EnvironmentIcon {
 	/**
 	 * Add the environment name to the admin toolbar
 	 *
-	 * @param WP_Admin_Bar $wp_admin_bar
+	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar instance.
 	 */
 	public function add_environment_name_to_toolbar( \WP_Admin_Bar $wp_admin_bar ) {
 		$env = wp_get_environment_type();
 
-		$wp_admin_bar->add_node( [
-			'id'    => 'orbit-environment-icon',
-			'title' => '<span class="ab-icon dashicons-before dashicons-info" title="Environment: ' . esc_attr( ucfirst( $env ) ) . '"></span>',
-			'parent' => 'top-secondary',
-			'meta'  => [
-				'class' => 'orbit-env-toolbar orbit-env-' . esc_attr( $env ),
-			],
-		] );
+		$wp_admin_bar->add_node(
+			[
+				'id'    => 'orbit-environment-icon',
+				'title' => '<span class="ab-icon dashicons-before dashicons-info" title="Environment: ' . esc_attr( ucfirst( $env ) ) . '"></span>',
+				'parent' => 'top-secondary',
+				'meta'  => [
+					'class' => 'orbit-env-toolbar orbit-env-' . esc_attr( $env ),
+				],
+			]
+		);
 	}
 
 	/**

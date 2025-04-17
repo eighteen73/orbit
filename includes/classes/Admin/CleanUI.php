@@ -45,7 +45,7 @@ class CleanUI {
 
 		// Example for future use:
 		// if ( apply_filters( 'orbit_enable_menu_item_media', false ) ) {
-		//     remove_menu_page( 'upload.php' );
+		// remove_menu_page( 'upload.php' );
 		// }
 	}
 
