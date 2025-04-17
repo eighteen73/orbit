@@ -35,6 +35,7 @@ add_action(
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
 		Admin\EnvironmentIcon::instance()->setup();
+		Capabilities\GravityForms::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
 		Security\HideAuthor::instance()->setup();
