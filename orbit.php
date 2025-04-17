@@ -29,6 +29,7 @@ require_once 'autoload.php';
 
 DisallowIndexing\DisallowIndexing::instance()->setup();
 
+
 add_action(
 	'init',
 	function () {
@@ -44,5 +45,6 @@ add_action(
 		Security\RemoveHeadLinks::instance()->setup();
 		OtherFilters::instance()->setup();
 		HealthCheck::instance()->setup();
+		RemoteFiles::instance()->setup();
 	}
 );
