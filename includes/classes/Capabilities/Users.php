@@ -26,7 +26,7 @@ class Users {
 	 * Add or remove user-related capabilities based on a filter.
 	 */
 	public function manage_user_caps(): void {
-		$disable_user_caps = apply_filters( 'orbit_enable_disable_user_caps_access', false );
+		$disable_user_caps = ! apply_filters( 'orbit_enable_user_caps_access', true );
 
 		$roles = [
 			'editor',
@@ -35,6 +35,8 @@ class Users {
 
 		$caps = [
 			'list_users',
+			'create_users',
+			'edit_users',
 		];
 
 		foreach ( $roles as $role_name ) {

@@ -33,20 +33,15 @@ class CleanUI {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( apply_filters( 'orbit_enable_disable_menu_item_dashboard', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_menu_item_dashboard', true ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( apply_filters( 'orbit_enable_disable_menu_item_posts', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_menu_item_posts', true ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( apply_filters( 'orbit_enable_disable_menu_item_comments', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_menu_item_comments', false ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
-
-		// Example for future use:
-		// if ( apply_filters( 'orbit_enable_menu_item_media', false ) ) {
-		// remove_menu_page( 'upload.php' );
-		// }
 	}
 
 	/**
@@ -62,7 +57,7 @@ class CleanUI {
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
 
-		if ( apply_filters( 'orbit_enable_disable_toolbar_item_new_content', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_toolbar_item_new_content', true ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 

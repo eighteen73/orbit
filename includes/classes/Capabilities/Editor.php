@@ -26,7 +26,7 @@ class Editor {
 	 * Add or remove site editor capabilities based on a filter.
 	 */
 	public function manage_editor_caps(): void {
-		$disable_user_caps = apply_filters( 'orbit_enable_disable_editor_caps_access', false );
+		$disable_user_caps = ! apply_filters( 'orbit_enable_editor_caps_access', true );
 
 		$roles = [
 			'editor',

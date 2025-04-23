@@ -26,14 +26,23 @@ class GravityForms {
 	 * Add or remove Gravity Forms capabilities based on a filter.
 	 */
 	public function manage_gravity_forms_caps(): void {
-		$disable_gf_access = apply_filters( 'orbit_enable_disable_gravity_forms_access', false );
+		$disable_gf_access = ! apply_filters( 'orbit_enable_gravity_forms_access', true );
 
 		$roles = [
 			'editor',
 			'shop_manager',
 		];
+
 		$caps = [
-			'gform_full_access',
+			'gravityforms_create_form',
+			'gravityforms_edit_forms',
+			'gravityforms_view_entries',
+			'gravityforms_edit_entries',
+			'gravityforms_export_entries',
+			'gravityforms_view_entry_notes',
+			'gravityforms_edit_entry_notes',
+			'gravityforms_view_settings',
+			'gravityforms_edit_settings',
 		];
 
 		foreach ( $roles as $role_name ) {

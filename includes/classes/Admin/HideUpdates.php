@@ -39,8 +39,8 @@ class HideUpdates {
 	 */
 	public function is_allowed(): bool {
 
-		if ( apply_filters( 'orbit_enable_disable_toolbar_item_wordpress_updates', false ) ) {
-			return false;
+		if ( apply_filters( 'orbit_enable_wordpress_updates', false ) ) {
+			return true;
 		}
 
 		// It's enabled, so check the user's role
@@ -123,6 +123,6 @@ class HideUpdates {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
-		wp_enqueue_style( 'orbit-hide-updates-css', WPMU_PLUGIN_URL . '/orbit/css/hide-updates.css' );
+		wp_enqueue_style( 'hide_updates_css', WPMU_PLUGIN_URL . '/orbit/css/hide-updates.css' );
 	}
 }

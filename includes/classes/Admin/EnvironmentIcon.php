@@ -38,7 +38,7 @@ class EnvironmentIcon {
 	 */
 	public function is_allowed(): bool {
 
-		if ( apply_filters( 'orbit_enable_disable_admin_environment_name', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_admin_environment_name', true ) ) {
 			return false;
 		}
 

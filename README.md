@@ -44,7 +44,7 @@ If necessary, you may install it manually by downloading a Zip archive from [Git
 ### Other Safety Measures
 
 - Disallow robot indexing in non-production environments
-- Disable updates
+- Disable updates (configurable via `orbit_enable_wordpress_updates`)
 
 ### Other Features
 
@@ -53,21 +53,21 @@ If necessary, you may install it manually by downloading a Zip archive from [Git
 
 ## Available Filters
 
-The following filters can be used to override the default behavior of certain features. Set the filter to `true` to enable the feature or override the default disabling behavior.
+The following filters can be used to override the default behavior of certain features. Set the filter to `true` to enable the feature, or `false` to disable it.
 
--   `orbit_enable_disable_toolbar_item_wordpress_updates`: Control the visibility of the WordPress updates item in the toolbar. Default `false` (hidden).
+-   `orbit_enable_wordpress_updates`: Control the visibility of the WordPress updates item in the toolbar. Default `false` (hidden).
 -   `orbit_enable_xmlrpc`: Enable or disable XML-RPC functionality. Default `false` (disabled).
--   `orbit_enable_disable_user_caps_access`: Control access based on user capabilities. Default `false`.
--   `orbit_enable_disable_editor_caps_access`: Control access based on editor capabilities. Default `false`.
--   `orbit_enable_expose_wordpress_version`: Show or hide the WordPress version in the site's frontend markup. Default `false` (hidden).
--   `orbit_enable_disable_gravity_forms_access`: Control access related to Gravity Forms. Default `false`.
--   `orbit_enable_disable_admin_environment_name`: Control the display of the environment name in the admin area. Default `false`.
--   `orbit_enable_disable_menu_item_dashboard`: Control the visibility of the Dashboard menu item. Default `false` (hidden).
--   `orbit_enable_disable_menu_item_posts`: Control the visibility of the Posts menu item. Default `false` (hidden).
--   `orbit_enable_disable_menu_item_comments`: Control the visibility of the Comments menu item. Default `false` (hidden).
--   `orbit_enable_disable_toolbar_item_new_content`: Control the visibility of the "New Content" item in the toolbar. Default `false` (hidden).
+-   `orbit_enable_user_caps_access`: Enable Orbit's user capability restrictions. Default `false` (disabled).
+-   `orbit_enable_editor_caps_access`: Enable Orbit's editor capability restrictions. Default `false` (disabled).
+-   `orbit_enable_exposing_wordpress_version`: Show or hide the WordPress version in the site's frontend markup. Default `false` (hidden).
+-   `orbit_enable_gravity_forms_access`: Enable Orbit's Gravity Forms capability restrictions. Default `false` (disabled).
+-   `orbit_enable_admin_environment_name`: Control the display of the environment name in the admin area. Default `false` (hidden).
+-   `orbit_enable_menu_item_dashboard`: Control the visibility of the Dashboard menu item. Default `false` (hidden).
+-   `orbit_enable_menu_item_posts`: Control the visibility of the Posts menu item. Default `false` (hidden).
+-   `orbit_enable_menu_item_comments`: Control the visibility of the Comments menu item and toolbar item. Default `false` (hidden).
+-   `orbit_enable_toolbar_item_new_content`: Control the visibility of the "New Content" item in the toolbar. Default `false` (hidden).
 -   `orbit_enable_login_logo`: Enable replacement of the login logo. Default `true` (enabled).
--   `orbit_login_logo_url`: Provide a URL to replace the default WordPress login logo. Default `false` (disabled).
+-   `orbit_login_logo_url`: Provide a URL to replace the default WordPress login logo. No default.
 -   `orbit_enable_rest_api_user_endpoints`: Enable or disable REST API user endpoints. Default `false` (disabled).
 -   `orbit_remote_files_url`: Override the production URL used for loading remote media files. Default value comes from `ORBIT_REMOTE_FILES_URL`.
 
@@ -80,7 +80,10 @@ You can use standard WordPress functions like `__return_true` and `__return_fals
 add_filter( 'orbit_enable_xmlrpc', '__return_true' );
 
 // Example: Show the WordPress version in the site markup (Orbit hides it by default)
-add_filter( 'orbit_enable_expose_wordpress_version', '__return_true' );
+add_filter( 'orbit_enable_exposing_wordpress_version', '__return_true' );
+
+// Example: Enable the Posts menu item (Orbit hides it by default)
+add_filter( 'orbit_enable_menu_item_posts', '__return_true' );
 
 // Example: Disable the login logo replacement (Orbit enables it by default)
 add_filter( 'orbit_enable_login_logo', '__return_false' );
