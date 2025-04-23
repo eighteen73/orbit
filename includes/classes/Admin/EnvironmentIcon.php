@@ -77,6 +77,6 @@ class EnvironmentIcon {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
-		wp_enqueue_style( 'environment_icon_css', WPMU_PLUGIN_URL . '/orbit/css/environment-icon.css' );
+		wp_enqueue_style( 'orbit-environment-icon-css', WPMU_PLUGIN_URL . '/orbit/css/environment-icon.css' );
 	}
 }
