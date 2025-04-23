@@ -24,7 +24,7 @@ class RemoteFiles {
 	 *
 	 * @var string|null
 	 */
-	public ?string $production_url = null;
+	public ?string $files_url = null;
 
 	/**
 	 * Holds list of upload directories
@@ -40,13 +40,12 @@ class RemoteFiles {
 	 * @return void
 	 */
 	public function setup() {
-		// Development only
 		if ( ! $this->is_safe_environment() ) {
 			return;
 		}
 
-		$this->production_url = $this->get_production_url();
-		if ( ! $this->production_url ) {
+		$this->files_url = $this->get_files_url();
+		if ( ! $this->files_url ) {
 			return;
 		}
 
@@ -229,12 +228,12 @@ class RemoteFiles {
 			return $image_url;
 		}
 
-		$production_url = esc_url( $this->production_url );
-		if ( empty( $production_url ) ) {
+		$files_url = esc_url( $this->files_url );
+		if ( empty( $files_url ) ) {
 			return $image_url;
 		}
 
-		return str_replace( trailingslashit( home_url() ), trailingslashit( $production_url ), $image_url );
+		return str_replace( trailingslashit( home_url() ), trailingslashit( $files_url ), $image_url );
 	}
 
 	/**
@@ -254,43 +253,43 @@ class RemoteFiles {
 			return $image_url;
 		}
 
-		$production_url = esc_url( $this->production_url );
-		if ( empty( $production_url ) ) {
+		$files_url = esc_url( $this->files_url );
+		if ( empty( $files_url ) ) {
 			return $image_url;
 		}
 
-		return $production_url . $image_url;
+		return $files_url . $image_url;
 	}
 
 
 	/**
-	 * Return the production URL
+	 * Return the file URL
 	 *
 	 * @return string|null
 	 */
-	public function get_production_url(): ?string {
-		$production_url = getenv( 'ORBIT_REMOTE_PRODUCTION_URL' );
+	public function get_files_url(): ?string {
+		$files_url = getenv( 'ORBIT_REMOTE_FILES_URL' );
 
-		if ( ! $production_url ) {
+		if ( ! $files_url ) {
 			try {
-				$production_url = Config::get( 'ORBIT_REMOTE_PRODUCTION_URL' );
+				$files_url = Config::get( 'ORBIT_REMOTE_FILES_URL' );
 			} catch ( UndefinedConfigKeyException $e ) {
 				// continue to satellite fallback
 			}
 		}
 
-		if ( ! $production_url ) {
-			$production_url = getenv( 'SATELLITE_PRODUCTION_URL' );
+		if ( ! $files_url ) {
+			$files_url = getenv( 'SATELLITE_PRODUCTION_URL' );
 
-			if ( ! $production_url ) {
+			if ( ! $files_url ) {
 				try {
-					$production_url = Config::get( 'SATELLITE_PRODUCTION_URL' );
+					$files_url = Config::get( 'SATELLITE_PRODUCTION_URL' );
 				} catch ( UndefinedConfigKeyException $e ) {
 					return null;
 				}
 			}
 		}
 
-		return apply_filters( 'orbit_remote_url', $production_url );
+		return apply_filters( 'orbit_remote_files_url', $files_url );
 	}
 }
