@@ -72,13 +72,6 @@ class CleanUI {
 		$menu->remove_node( 'view-site' );
 		$menu->remove_node( 'widgets' );
 		$menu->remove_node( 'wp-logo' );
-
-		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
-		// $menu->remove_node( 'edit' );
-		// $menu->remove_node( 'site-name' );
-		// $menu->remove_node( 'updates' );  // this is controlled by HideUpdates
-		// $menu->remove_node( 'view' );
-		// phpcs:enable
 	}
 
 	/**
@@ -90,11 +83,6 @@ class CleanUI {
 		unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_site_health'] );
 		unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'] );
 		unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
-
-		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
-		// unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity'] );
-		// unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);
-		// phpcs:enable
 	}
 
 	/**
@@ -110,7 +98,11 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$image = (string) apply_filters( 'orbit_enable_login_logo', '' );
+		if ( ! apply_filters( 'orbit_enable_login_logo', true ) ) {
+			return;
+		}
+
+		$image = (string) apply_filters( 'orbit_login_logo_url', '' );
 		$width = 250;
 
 		if ( ! $image || $image === '' ) {
