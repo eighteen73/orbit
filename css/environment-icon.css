@@ -1,7 +1,7 @@
 .orbit-env-toolbar {
-	--color--production: #d63638;
+	--color--production: #16a34a;
 	--color--staging: #eab308;
-	--color--development: #16a34a;
+	--color--development: #d63638;
 }
 
 #wpadminbar .orbit-env-toolbar .ab-icon {
