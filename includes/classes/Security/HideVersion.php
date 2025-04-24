@@ -23,7 +23,7 @@ class HideVersion {
 	 * @return void
 	 */
 	public function setup() {
-		if ( apply_filters( 'orbit_enable_exposing_wordpress_version', false ) ) {
+		if ( apply_filters( 'orbit_enable_expose_wordpress_version', false ) ) {
 			return;
 		}
 		remove_action( 'wp_head', 'wp_generator' );
