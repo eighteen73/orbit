@@ -7,7 +7,6 @@
 
 namespace Eighteen73\Orbit\Security;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
 
 /**
@@ -24,7 +23,7 @@ class HideVersion {
 	 * @return void
 	 */
 	public function setup() {
-		if ( Options::get_option( 'orbit_security.general.expose_wordpress_version', false ) ) {
+		if ( apply_filters( 'orbit_enable_expose_wordpress_version', false ) ) {
 			return;
 		}
 		remove_action( 'wp_head', 'wp_generator' );

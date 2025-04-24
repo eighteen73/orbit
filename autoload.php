@@ -15,8 +15,7 @@
 spl_autoload_register(
 	function ( $class ) {
 		$namspaces = [
-			'Eighteen73\\Orbit\\'         => __DIR__ . '/includes/classes/',
-			'Eighteen73\\Orbit\\Vendor\\' => __DIR__ . '/lib/packages/',
+			'Eighteen73\\Orbit\\' => __DIR__ . '/includes/classes/',
 		];
 		foreach ( $namspaces as $prefix => $base_dir ) {
 			$len = strlen( $prefix );

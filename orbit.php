@@ -7,7 +7,7 @@
  * Author URI:      https://eighteen73.co.uk
  * Text Domain:     orbit
  * Domain Path:     /languages
- * Version:         1.4.2
+ * Version:         2.0.0
  * Update URI:      https://github.com/eighteen73/orbit
  *
  * @package         Orbit
@@ -27,14 +27,18 @@ define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
 require_once 'autoload.php';
 
-Forms\Options::instance()->setup();
 DisallowIndexing\DisallowIndexing::instance()->setup();
+
 
 add_action(
 	'init',
 	function () {
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
+		Admin\EnvironmentIcon::instance()->setup();
+		Capabilities\GravityForms::instance()->setup();
+		Capabilities\Users::instance()->setup();
+		Capabilities\Editor::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
 		Security\HideAuthor::instance()->setup();
@@ -42,5 +46,6 @@ add_action(
 		Security\RemoveHeadLinks::instance()->setup();
 		OtherFilters::instance()->setup();
 		HealthCheck::instance()->setup();
+		RemoteFiles::instance()->setup();
 	}
 );

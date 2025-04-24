@@ -7,7 +7,6 @@
 
 namespace Eighteen73\Orbit\Admin;
 
-use Eighteen73\Orbit\Forms\Options;
 use Eighteen73\Orbit\Singleton;
 
 /**
@@ -40,9 +39,8 @@ class HideUpdates {
 	 */
 	public function is_allowed(): bool {
 
-		// Plugin setting
-		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.wordpress_updates', false ) ) {
-			return false;
+		if ( apply_filters( 'orbit_enable_wordpress_updates', false ) ) {
+			return true;
 		}
 
 		// It's enabled, so check the user's role

@@ -33,19 +33,15 @@ class CleanUI {
 	 * Remove menu items
 	 */
 	public function clean_ui_menu_items() {
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.dashboard', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_menu_item_dashboard', true ) ) {
 			remove_menu_page( 'index.php' );
 		}
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.posts', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_menu_item_posts', true ) ) {
 			remove_menu_page( 'edit.php' );
 		}
-		if ( Options::get_option( 'orbit_ui.disable_menu_items.comments', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_menu_item_comments', false ) ) {
 			remove_menu_page( 'edit-comments.php' );
 		}
-
-		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
-		// remove_menu_page('upload.php');  // Media management
-		// phpcs:enable
 	}
 
 	/**
@@ -61,7 +57,7 @@ class CleanUI {
 		$menu->remove_node( 'dashboard' );
 		$menu->remove_node( 'menus' );
 
-		if ( Options::get_option( 'orbit_ui.disable_toolbar_items.new_content', false ) ) {
+		if ( ! apply_filters( 'orbit_enable_toolbar_item_new_content', true ) ) {
 			$menu->remove_node( 'new-content' );
 		}
 
@@ -71,13 +67,6 @@ class CleanUI {
 		$menu->remove_node( 'view-site' );
 		$menu->remove_node( 'widgets' );
 		$menu->remove_node( 'wp-logo' );
-
-		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
-		// $menu->remove_node( 'edit' );
-		// $menu->remove_node( 'site-name' );
-		// $menu->remove_node( 'updates' );  // this is controlled by HideUpdates
-		// $menu->remove_node( 'view' );
-		// phpcs:enable
 	}
 
 	/**
@@ -89,11 +78,6 @@ class CleanUI {
 		unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_site_health'] );
 		unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'] );
 		unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
-
-		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- we want to keep these for later reference in case they are enabled
-		// unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity'] );
-		// unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);
-		// phpcs:enable
 	}
 
 	/**
@@ -109,12 +93,15 @@ class CleanUI {
 	 * Nice logo for the login page
 	 */
 	public function clean_ui_logo() {
-		$image = (string) Options::get_option( 'orbit_ui.login_logo' );
+		if ( ! apply_filters( 'orbit_enable_login_logo', true ) ) {
+			return;
+		}
+
+		$image = (string) apply_filters( 'orbit_login_logo_url', '' );
 		$width = 250;
 
-		if ( ! $image ) {
+		if ( ! $image || $image === '' ) {
 			echo '<style> .login h1 { display: none; } </style>';
-
 			return;
 		}
 
