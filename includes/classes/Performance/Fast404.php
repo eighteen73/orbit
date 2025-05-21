@@ -17,9 +17,27 @@ use Roots\WPConfig\Exceptions\UndefinedConfigKeyException;
 class Fast404 {
 	use Singleton;
 
+	/**
+	 * Asset filename property.
+	 *
+	 * @var string|null Asset filename.
+	 * The filename of the requested asset.
+	 */
 	private ?string $filename = null;
+
+	/**
+	 * Fast 404s enabled flag.
+	 *
+	 * @var bool|null Whether fast 404s are enabled.
+	 */
 	private ?bool $enable_fast_404 = null;
-	private $error_message = "404 (Not Found)";
+
+	/**
+	 * Error message property.
+	 *
+	 * @var string The error message to display.
+	 */
+	private string $error_message = '404 (Not Found)';
 
 	/**
 	 * Run on init
@@ -28,7 +46,6 @@ class Fast404 {
 	 */
 	public function setup(): void {
 		$this->enable_fast_404 = $this->get_enable_fast_404();
-		dump($this->enable_fast_404);
 		if ( ! $this->enable_fast_404 ) {
 			return;
 		}
@@ -56,20 +73,20 @@ class Fast404 {
 			return;
 		}
 
-        $this->filename = wp_parse_url( $request_uri, PHP_URL_PATH );
+		$this->filename = wp_parse_url( $request_uri, PHP_URL_PATH );
 		if ( ! $this->filename || $this->filename === '' || ltrim( $this->filename, '/' ) === 'favicon.ico' ) {
 			return;
 		}
 
-        $req_ext = $this->get_request_extension();
-        if ( ! $req_ext || ! in_array( $req_ext, $this->get_extensions(), true ) ) {
-            return;
-        }
+		$req_ext = $this->get_request_extension();
+		if ( ! $req_ext || ! in_array( $req_ext, $this->get_extensions(), true ) ) {
+			return;
+		}
 
-        http_response_code( 404 );
+		http_response_code( 404 );
 
-        die( $this->error_message );
-    }
+		die( esc_html( $this->error_message ) );
+	}
 
 	/**
 	 * Extracts the file extension from the current request URI.
@@ -98,7 +115,7 @@ class Fast404 {
 	 *
 	 * @return array List of static file extensions eligible for fast 404s.
 	 */
-	static function get_extensions(): array {
+	private static function get_extensions(): array {
 		$wp_ext_types = wp_get_ext_types();
 		$extensions   = [];
 
