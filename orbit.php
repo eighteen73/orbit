@@ -28,6 +28,7 @@ define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 require_once 'autoload.php';
 
 DisallowIndexing\DisallowIndexing::instance()->setup();
+Performance\Fast404::instance()->setup();
 
 
 add_action(
