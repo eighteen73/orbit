@@ -19,6 +19,7 @@ $footer_text_color = apply_filters( 'orbit_branded_emails_footer_text_color', '#
 <style>
     body {
 		background: <?php echo esc_attr( $background_color ); ?>;
+		font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 		padding: 20px;
     }
 
@@ -31,6 +32,16 @@ $footer_text_color = apply_filters( 'orbit_branded_emails_footer_text_color', '#
 		margin: 0 auto;
 		padding: 20px;
     }
+
+	.email-header img {
+		max-height: 100px;
+		width: auto;
+	}
+
+	.email-content {
+		margin-bottom: 40px;
+		margin-top: 40px;
+	}
 
     .email-footer {
 		color: <?php echo esc_attr( $footer_text_color ); ?>;

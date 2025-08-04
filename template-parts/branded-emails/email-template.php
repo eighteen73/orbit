@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+$header_logo = apply_filters( 'orbit_branded_emails_header_logo', '' );
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,12 +22,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<title><?php echo esc_attr( $email_subject ); ?></title>
 		<?php Templates::include_template_part( 'branded-emails/email-styles.php' ); ?>
 	</head>
+
 	<body>
 		<div class="email-wrapper">
-			<?php echo wpautop( $email_content ); ?>
+			<div class="email-header">
+				<?php
+				if ( ! empty( $header_logo ) ) {
+					echo '<p style="margin-top:0;"><img src="' . esc_url( $header_logo ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" /></p>';
+				} else {
+					echo '<h1>' . esc_html( get_bloginfo( 'name' ) ) . '</h1>';
+				}
+				?>
+			</div>
+
+			<div class="email-content">
+				<?php echo wpautop( $email_content ); ?>
+			</div>
 
 			<div class="email-footer">
-				Sent from <?php echo esc_html( get_bloginfo('name') ); ?>
+				Sent from <?php echo esc_html( get_bloginfo('name', 'display') ); ?>
 			</div>
 		</div>
 	</body>

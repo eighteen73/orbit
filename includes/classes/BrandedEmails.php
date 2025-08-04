@@ -22,7 +22,7 @@ class BrandedEmails {
 	 * @return void
 	 */
 	public function setup() {
-		if ( apply_filters( 'orbit_disable_branded_emails', false ) ) {
+		if ( apply_filters( 'orbit_branded_emails_disable', false ) ) {
 			return;
 		}
 
