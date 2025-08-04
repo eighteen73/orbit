@@ -24,7 +24,7 @@ $email_subject = $args['email_subject'] ?? get_bloginfo( 'name', 'display' );
 	<head>
 		<meta charset="UTF-8">
 		<title><?php echo esc_attr( $email_subject ); ?></title>
-		<?php Templates::include_template_part( 'branded-emails/email-styles.php' ); ?>
+		<?php Templates::include_template( 'branded-emails/email-styles.php' ); ?>
 	</head>
 
 	<body>

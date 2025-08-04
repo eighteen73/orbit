@@ -64,7 +64,7 @@ class BrandedEmails {
 
 		ob_start();
 
-		Templates::include_template_part(
+		Templates::include_template(
 			'branded-emails/email-template.php',
 			[
 				'email_content' => $args['message'],
@@ -104,7 +104,7 @@ class BrandedEmails {
 	public function apply_branded_email_template_to_gf_notifications( $template ) {
 		ob_start();
 
-		Templates::include_template_part(
+		Templates::include_template(
 			'branded-emails/email-template.php',
 			[
 				'email_content' => '{message}',
