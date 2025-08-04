@@ -36,13 +36,14 @@ class Templates {
 	 * Function to include the template file from the get_template_part function.
 	 *
 	 * @param string $template_name The name of the template file.
+	 * @param array  $args          Optional. Associative array of variables to make available in the template.
 	 */
 	public static function include_template_part( string $template_name, array $args = [] ) {
 
 		$template_path = self::get_template_part( $template_name );
 
-		extract( $args );
-
-		include $template_path;
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
 	}
 }

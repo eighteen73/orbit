@@ -3,7 +3,8 @@
  * Branded Email Template
  * This file can be overridden in your theme.
  *
- * Available variables:
+ * @package         Orbit
+ *
  * @var string $email_content
  */
 
@@ -14,7 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $header_logo = apply_filters( 'orbit_branded_emails_header_logo', '' );
+$email_content = $args['email_content'] ?? '';
+$email_subject = $args['email_subject'] ?? get_bloginfo( 'name', 'display' );
 ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -36,11 +40,11 @@ $header_logo = apply_filters( 'orbit_branded_emails_header_logo', '' );
 			</div>
 
 			<div class="email-content">
-				<?php echo wpautop( $email_content ); ?>
+				<?php echo wp_kses_post( wpautop( $email_content ) ); ?>
 			</div>
 
 			<div class="email-footer">
-				Sent from <?php echo esc_html( get_bloginfo('name', 'display') ); ?>
+				Sent from <?php echo esc_html( get_bloginfo( 'name', 'display' ) ); ?>
 			</div>
 		</div>
 	</body>

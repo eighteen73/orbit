@@ -75,9 +75,12 @@ class BrandedEmails {
 		$styled_message = ob_get_clean();
 
 		// Remove existing Content-Type headers (at this point we've already established it's not HTML)
-		$headers = array_filter( $headers, function ( $header ) {
-			return stripos( $header, 'Content-Type:' ) === false;
-		} );
+		$headers = array_filter(
+			$headers,
+			function ( $header ) {
+				return stripos( $header, 'Content-Type:' ) === false;
+			}
+		);
 
 		// Add HTML Content-Type
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
@@ -89,6 +92,15 @@ class BrandedEmails {
 		return $args;
 	}
 
+	/**
+	 * Provides a branded HTML template for Gravity Forms email notifications.
+	 *
+	 * `{message}` and `{subject}` placeholders will be replaced by
+	 * Gravity Forms with the actual notification content.
+	 *
+	 * @param string $template The original email template string (usually empty).
+	 * @return string The modified email template with placeholders for message and subject.
+	 */
 	public function apply_branded_email_template_to_gf_notifications( $template ) {
 		ob_start();
 
