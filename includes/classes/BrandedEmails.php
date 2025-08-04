@@ -15,7 +15,6 @@ class BrandedEmails {
 
 	use Environment;
 	use Singleton;
-	use Templates;
 
 	/**
 	 * Primary constructor
