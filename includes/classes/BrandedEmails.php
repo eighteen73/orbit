@@ -29,6 +29,12 @@ class BrandedEmails {
 		add_filter( 'wp_mail', [ $this, 'apply_branded_email_template' ] );
 	}
 
+	/**
+	 * Wraps the original email message in a branded HTML email template.
+	 *
+	 * @param array $args Array of arguments passed to wp_mail().
+	 * @return array Modified $args array with the email message wrapped in branded HTML.
+	 */
 	public function apply_branded_email_template( $args ) {
 		ob_start();
 
