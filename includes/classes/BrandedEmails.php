@@ -151,11 +151,13 @@ class BrandedEmails {
 		return [
 			'background_color' => apply_filters(
 				'orbit_branded_emails_background_color',
+				get_option( 'woocommerce_email_background_color' ) ?:
 				'#ffffff'
 			),
 
 			'body_background_color' => apply_filters(
 				'orbit_branded_emails_body_background_color',
+				get_option( 'woocommerce_email_body_background_color' ) ?:
 				'#ffffff'
 			),
 
@@ -163,37 +165,44 @@ class BrandedEmails {
 				'orbit_branded_emails_body_border_color',
 				self::orbit_branded_emails_resolve_color(
 					$global_settings['custom']['color']['border'] ?? '',
-					'#EDEFF1'
-				)
+				) ?:
+				'#EDEFF1'
 			),
 
 			'body_text_color' => apply_filters(
 				'orbit_branded_emails_body_text_color',
+				get_option( 'woocommerce_email_text_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['color']['contrast'] ?? '',
-					'#3F474D'
-				)
+					$global_settings['color']['contrast'] ?? ''
+				) ?:
+				'#3F474D'
 			),
 
 			'link_color' => apply_filters(
 				'orbit_branded_emails_link_color',
+				get_option( 'woocommerce_email_base_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['custom']['color']['link'] ?? '',
-					'#8549FF'
-				)
+					$global_settings['custom']['color']['link'] ?? ''
+				) ?:
+				'#8549FF'
 			),
 
 			'footer_text_color' => apply_filters(
 				'orbit_branded_emails_footer_text_color',
+				get_option( 'woocommerce_email_footer_text_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['color']['contrast'] ?? '',
-					'#3F474D'
-				)
+					$global_settings['color']['contrast'] ?? ''
+				) ?:
+				'#3F474D'
 			),
 
 			'font_family' => '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif',
 
-			'logo_image_width' => apply_filters( 'orbit_branded_emails_logo_image_width', 200 ),
+			'logo_image_width' => apply_filters(
+				'orbit_branded_emails_logo_image_width',
+				get_option( 'woocommerce_email_header_image_width' ) ?:
+				120
+			),
 		];
 	}
 
