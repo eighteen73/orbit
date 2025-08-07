@@ -25,6 +25,7 @@ define( 'ORBIT_URL', plugin_dir_url( __FILE__ ) );
 define( 'ORBIT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
+require_once ORBIT_PATH . '/vendor/autoload.php';
 require_once 'autoload.php';
 
 DisallowIndexing\DisallowIndexing::instance()->setup();

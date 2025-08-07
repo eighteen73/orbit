@@ -7,6 +7,8 @@
 
 namespace Eighteen73\Orbit;
 
+use Exception;
+use Pelago\Emogrifier\CssInliner;
 /**
  * This class is built upon BE Media from Production so all due credit to those authors.
  * http://www.github.com/billerickson/be-media-from-production
@@ -62,18 +64,6 @@ class BrandedEmails {
 			return $args;
 		}
 
-		ob_start();
-
-		Templates::include_template(
-			'branded-emails/email-template.php',
-			[
-				'email_content' => $args['message'],
-				'email_subject' => isset( $args['subject'] ) ? $args['subject'] : '',
-			]
-		);
-
-		$styled_message = ob_get_clean();
-
 		// Remove existing Content-Type headers (at this point we've already established it's not HTML)
 		$headers = array_filter(
 			$headers,
@@ -85,9 +75,23 @@ class BrandedEmails {
 		// Add HTML Content-Type
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 
+		ob_start();
+
+		Templates::include_template(
+			'branded-emails/email-template.php',
+			[
+				'email_content' => $args['message'],
+				'email_subject' => isset( $args['subject'] ) ? $args['subject'] : '',
+			]
+		);
+
+		$raw_email_content = ob_get_clean();
+
+		$email_content = $this->style_inline( $raw_email_content );
+
 		// Set updated headers and message
 		$args['headers'] = $headers;
-		$args['message'] = $styled_message;
+		$args['message'] = $email_content;
 
 		return $args;
 	}
@@ -112,8 +116,26 @@ class BrandedEmails {
 			]
 		);
 
-		$template = ob_get_clean();
+		$raw_email_content = ob_get_clean();
 
-		return $template;
+		$email_content = $this->style_inline( $raw_email_content );
+
+		return $email_content;
+	}
+
+	/**
+	 * Apply inline styles to email content.
+	 *
+	 * @param string|null $email_content Content that will receive inline styles.
+	 * @return string The email content with inline styles applied.
+	 */
+	public function style_inline( $email_content ) {
+		try {
+			$inlined_content = CssInliner::fromHtml( $email_content )->inlineCss()->render();
+		} catch ( Exception $e ) {
+			$inlined_content = $email_content;
+		}
+
+		return $inlined_content;
 	}
 }

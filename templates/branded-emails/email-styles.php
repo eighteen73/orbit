@@ -18,6 +18,7 @@ $body_text_color = apply_filters( 'orbit_branded_emails_body_text_color', $globa
 $link_color = apply_filters( 'orbit_branded_emails_link_color', $global_settings['custom']['color']['link'] ?? '#8549FF' );
 $footer_text_color = apply_filters( 'orbit_branded_emails_footer_text_color', $global_settings['color']['contrast'] ?? '#3F474D' );
 $font_family = '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif';
+$logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 );
 ?>
 
 <style>
