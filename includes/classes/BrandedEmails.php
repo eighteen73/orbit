@@ -8,7 +8,8 @@
 namespace Eighteen73\Orbit;
 
 use Exception;
-use Pelago\Emogrifier\CssInliner;
+use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\CssInliner;
+
 /**
  * This class is built upon BE Media from Production so all due credit to those authors.
  * http://www.github.com/billerickson/be-media-from-production

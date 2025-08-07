@@ -19,11 +19,31 @@
 		}
 	},
 	"require-dev": {
-		"eighteen73/wordpress-coding-standards": "^2.0.0"
+		"eighteen73/wordpress-coding-standards": "^2.0.0",
+		"coenjacobs/mozart": "^0.7.1"
 	},
+  "extra": {
+    "mozart": {
+        "dep_namespace": "Eighteen73\\Orbit\\Dependencies\\",
+        "dep_directory": "/includes/Dependencies/",
+        "classmap_directory": "/includes/classes/dependencies/",
+        "classmap_prefix": "Eighteen73_Orbit_",
+        "packages": [
+            "pelago/emogrifier"
+        ]
+    }
+  },
   "scripts": {
     "test": [
       "phpcs"
+    ],
+    "post-install-cmd": [
+        "\"vendor/bin/mozart\" compose",
+        "composer dump-autoload"
+    ],
+    "post-update-cmd": [
+        "\"vendor/bin/mozart\" compose",
+        "composer dump-autoload"
     ]
   }
 }
