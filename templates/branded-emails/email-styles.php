@@ -196,7 +196,6 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 		text-decoration: none;
 		text-transform: capitalize;
 		vertical-align: middle;
-		margin-left: 24px;
 		max-width: 100%;
 	}
 
