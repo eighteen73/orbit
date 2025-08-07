@@ -6,35 +6,29 @@
  * @package         Orbit
  */
 
+namespace Eighteen73\Orbit;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$global_settings = wp_get_global_settings();
-$background_color = apply_filters( 'orbit_branded_emails_background_color', '#ffffff' );
-$body_background_color = apply_filters( 'orbit_branded_emails_body_background_color', '#ffffff' );
-$body_border_color = apply_filters( 'orbit_branded_emails_body_border_color', $global_settings['custom']['color']['border'] ?? '#EDEFF1' );
-$body_text_color = apply_filters( 'orbit_branded_emails_body_text_color', $global_settings['color']['contrast'] ?? '#3F474D' );
-$link_color = apply_filters( 'orbit_branded_emails_link_color', $global_settings['custom']['color']['link'] ?? '#8549FF' );
-$footer_text_color = apply_filters( 'orbit_branded_emails_footer_text_color', $global_settings['color']['contrast'] ?? '#3F474D' );
-$font_family = '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif';
-$logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 );
+$css_variables = BrandedEmails::get_css_variables();
 ?>
 
 <style>
 	body {
-		background: <?php echo esc_attr( $background_color ); ?>;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		background: <?php echo esc_attr( $css_variables['background_color'] ); ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		padding: 0;
 		text-align: center;
 	}
 
 	#outer_wrapper {
-		background: <?php echo esc_attr( $background_color ); ?>;
+		background: <?php echo esc_attr( $css_variables['background_color'] ); ?>;
 	}
 
 	#inner_wrapper {
-		background-color: <?php echo esc_attr( $body_background_color ); ?>;
+		background-color: <?php echo esc_attr( $css_variables['body_background_color'] ); ?>;
 		border-radius: 6px;
 	}
 
@@ -47,23 +41,23 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	#template_container {
-		background-color: <?php echo esc_attr( $body_background_color ); ?>;
+		background-color: <?php echo esc_attr( $css_variables['body_background_color'] ); ?>;
 		border-radius: 3px !important;
 	}
 
 	#template_header {
-		background-color: <?php echo esc_attr( $body_background_color ); ?>;
+		background-color: <?php echo esc_attr( $css_variables['body_background_color'] ); ?>;
 		border-radius: 3px 3px 0 0 !important;
-		color: <?php echo esc_attr( $body_text_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
 		border-bottom: 0;
 		font-weight: bold;
 		line-height: 100%;
 		vertical-align: middle;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 	}
 
 	#template_header h1 {
-		color: <?php echo esc_attr( $body_text_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
 		background-color: inherit;
 	}
 
@@ -77,12 +71,12 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	#template_header_image img {
-		width: <?php echo esc_attr( $logo_image_width ); ?>px;
+		width: <?php echo esc_attr( $css_variables['logo_image_width'] ); ?>px;
 	}
 
 	.email-logo-text {
-		color: <?php echo esc_attr( $link_color ); ?>;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		color: <?php echo esc_attr( $css_variables['link_color'] ); ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		font-size: 18px;
 	}
 
@@ -96,9 +90,9 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 
 	#template_footer #credit {
 		border: 0;
-		border-top: 1px solid <?php echo esc_attr( $body_border_color ); ?>;
-		color: <?php echo esc_attr( $footer_text_color ); ?>;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		border-top: 1px solid <?php echo esc_attr( $css_variables['body_border_color'] ); ?>;
+		color: <?php echo esc_attr( $css_variables['footer_text_color'] ); ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		font-size: 12px;
 		line-height: 140%;
 		text-align: center;
@@ -110,7 +104,7 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	#body_content {
-		background-color: <?php echo esc_attr( $body_background_color ); ?>;
+		background-color: <?php echo esc_attr( $css_variables['body_background_color'] ); ?>;
 	}
 
 	#body_content table td th {
@@ -121,8 +115,8 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	#body_content_inner {
-		color: <?php echo esc_attr( $body_text_color ); ?>;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		font-size: 16px;
 		line-height: 150%;
 		text-align: left;
@@ -133,7 +127,7 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	.td {
-		color: <?php echo esc_attr( $body_text_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
 		vertical-align: middle;
 	}
 
@@ -144,12 +138,12 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 
 	#template_footer #credit,
 	#template_footer #credit a {
-		color: <?php echo esc_attr( $footer_text_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['footer_text_color'] ); ?>;
 	}
 
 	h1 {
-		color: <?php echo esc_attr( $body_text_color ); ?>;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		font-size: 32px;
 		font-weight: 700;
 		letter-spacing: -1px;
@@ -159,9 +153,9 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	h2 {
-		color: <?php echo esc_attr( $body_text_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
 		display: block;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		font-size: 20px;
 		font-weight: bold;
 		line-height: 160%;
@@ -170,9 +164,9 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	h3 {
-		color: <?php echo esc_attr( $body_text_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['body_text_color'] ); ?>;
 		display: block;
-		font-family: <?php echo $font_family; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+		font-family: <?php echo $css_variables['font_family']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 		font-size: 16px;
 		font-weight: bold;
 		line-height: 160%;
@@ -181,7 +175,7 @@ $logo_image_width = apply_filters( 'orbit_branded_emails_logo_image_width', 200 
 	}
 
 	a {
-		color: <?php echo esc_attr( $link_color ); ?>;
+		color: <?php echo esc_attr( $css_variables['link_color'] ); ?>;
 		font-weight: normal;
 		text-decoration: underline;
 	}

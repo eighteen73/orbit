@@ -139,4 +139,112 @@ class BrandedEmails {
 
 		return $inlined_content;
 	}
+
+	/**
+	 * Retrieves a set of resolved and filtered CSS variables used for branded email templates.
+	 *
+	 * @return array Array of CSS variables for use in the email template.
+	 */
+	public static function get_css_variables() {
+		$global_settings = wp_get_global_settings();
+
+		return [
+			'background_color' => apply_filters(
+				'orbit_branded_emails_background_color',
+				'#ffffff'
+			),
+
+			'body_background_color' => apply_filters(
+				'orbit_branded_emails_body_background_color',
+				'#ffffff'
+			),
+
+			'body_border_color' => apply_filters(
+				'orbit_branded_emails_body_border_color',
+				self::orbit_branded_emails_resolve_color(
+					$global_settings['custom']['color']['border'] ?? '',
+					'#EDEFF1'
+				)
+			),
+
+			'body_text_color' => apply_filters(
+				'orbit_branded_emails_body_text_color',
+				self::orbit_branded_emails_resolve_color(
+					$global_settings['color']['contrast'] ?? '',
+					'#3F474D'
+				)
+			),
+
+			'link_color' => apply_filters(
+				'orbit_branded_emails_link_color',
+				self::orbit_branded_emails_resolve_color(
+					$global_settings['custom']['color']['link'] ?? '',
+					'#8549FF'
+				)
+			),
+
+			'footer_text_color' => apply_filters(
+				'orbit_branded_emails_footer_text_color',
+				self::orbit_branded_emails_resolve_color(
+					$global_settings['color']['contrast'] ?? '',
+					'#3F474D'
+				)
+			),
+
+			'font_family' => '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif',
+
+			'logo_image_width' => apply_filters( 'orbit_branded_emails_logo_image_width', 200 ),
+		];
+	}
+
+	/**
+	 * Resolves a color value from a theme.json setting to a usable HEX color string.
+	 *
+	 * This function accepts a color value which may be a direct HEX code or a CSS variable
+	 * (e.g. `var(--wp--preset--color--primary)` or `var(--wp--custom--color--custom-blue)`),
+	 * and attempts to resolve it to a valid HEX color by looking up the appropriate values
+	 * in the provided theme.json structure.
+	 *
+	 * It supports recursive resolution in case the referenced color is itself another variable.
+	 *
+	 * @param string $color_value The raw color value to resolve. Can be a HEX code or a CSS variable.
+	 * @param string $fallback Optional fallback value to return if resolution fails. Defaults to null.
+	 *
+	 * @return string|null The resolved HEX color code (e.g. "#ffffff"), or null if resolution fails.
+	 */
+	public static function orbit_branded_emails_resolve_color( $color_value, $fallback = null ) {
+		$theme_json = wp_get_global_settings();
+
+		// If it's already a hex code, just return it
+		if ( preg_match( '/^#(?:[0-9a-fA-F]{3}){1,2}$/', $color_value ) ) {
+			return $color_value;
+		}
+
+		// Match CSS variable format
+		if ( preg_match( '/var\(--wp--(preset|custom)--color--([a-zA-Z0-9_-]+)\)/', $color_value, $matches ) ) {
+			$type        = $matches[1]; // 'preset' or 'custom'
+			$color_slug  = $matches[2];
+
+			if ( $type === 'preset' ) {
+				$presets = $theme_json['settings']['color']['palette'] ?? [];
+
+				foreach ( $presets as $preset ) {
+					if ( $preset['slug'] === $color_slug ) {
+						return self::orbit_branded_emails_resolve_color( $preset['color'], $theme_json );
+					}
+				}
+			}
+
+			if ( $type === 'custom' ) {
+				$custom_colors = $theme_json['custom']['color'] ?? [];
+
+				if ( isset( $custom_colors[ $color_slug ] ) ) {
+					return self::orbit_branded_emails_resolve_color( $custom_colors[ $color_slug ], $theme_json );
+				}
+			}
+		}
+
+		// Return null if unable to resolve
+		return $fallback;
+	}
 }
