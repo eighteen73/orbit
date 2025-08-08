@@ -31,6 +31,8 @@ class BrandedEmails {
 
 		add_filter( 'wp_mail', [ $this, 'apply_branded_email_template' ] );
 		add_filter( 'gform_html_message_template_pre_send_email', [ $this, 'apply_branded_email_template_to_gf_notifications' ] );
+		add_filter( 'gform_email_background_color_label', [ $this, 'apply_branded_email_colours_to_gf_table_labels' ], 10, 3 );
+		add_filter( 'gform_email_background_color_data', [ $this, 'apply_branded_email_colours_to_gf_table_data' ], 10, 3 );
 	}
 
 	/**
@@ -255,5 +257,35 @@ class BrandedEmails {
 
 		// Return null if unable to resolve
 		return $fallback;
+	}
+
+	public static function apply_branded_email_colours_to_gf_table_labels( $color, $field, $lead ) {
+		$global_settings = wp_get_global_settings();
+
+		$tint_color = null;
+		$theme_palette = $global_settings['color']['palette']['theme'] ?? [];
+
+		foreach ( $theme_palette as $palette_item ) {
+			if ( isset( $palette_item['slug'] ) && $palette_item['slug'] === 'tint' ) {
+				$tint_color = self::orbit_branded_emails_resolve_color( $palette_item['color'] );
+				break;
+			}
+		}
+
+		$label_background_color = apply_filters(
+			'orbit_branded_emails_gf_label_bg_color',
+			$tint_color ?: $color
+		);
+
+		return $label_background_color ?: $color;
+	}
+
+	public static function apply_branded_email_colours_to_gf_table_data( $color, $field, $entry ) {
+		$data_background_color = apply_filters(
+			'orbit_branded_emails_gf_data_bg_color',
+			$color
+		);
+
+		return $data_background_color;
 	}
 }
