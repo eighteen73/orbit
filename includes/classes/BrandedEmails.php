@@ -2,7 +2,7 @@
 /**
  * Add branding email templates to site emails.
  *
- * @package         Orbit
+ * @package Orbit
  */
 
 namespace Eighteen73\Orbit;
@@ -11,8 +11,7 @@ use Exception;
 use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\CssInliner;
 
 /**
- * This class is built upon BE Media from Production so all due credit to those authors.
- * http://www.github.com/billerickson/be-media-from-production
+ * Branded Emails class.
  */
 class BrandedEmails {
 
