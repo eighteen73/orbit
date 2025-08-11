@@ -166,36 +166,36 @@ class BrandedEmails {
 			'body_border_color' => apply_filters(
 				'orbit_branded_emails_body_border_color',
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['custom']['color']['border'] ?? '',
+					'var(--wp--custom--color--border)'
 				) ?:
-				'#EDEFF1'
+				'#edeff1'
 			),
 
 			'body_text_color' => apply_filters(
 				'orbit_branded_emails_body_text_color',
 				get_option( 'woocommerce_email_text_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['color']['contrast'] ?? ''
+					'var(--wp--preset--color--contrast)'
 				) ?:
-				'#3F474D'
+				'#3f474d'
 			),
 
 			'link_color' => apply_filters(
 				'orbit_branded_emails_link_color',
 				get_option( 'woocommerce_email_base_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['custom']['color']['link'] ?? ''
+					'var(--wp--custom--color--link)'
 				) ?:
-				'#8549FF'
+				'#8549ff'
 			),
 
 			'footer_text_color' => apply_filters(
 				'orbit_branded_emails_footer_text_color',
 				get_option( 'woocommerce_email_footer_text_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
-					$global_settings['color']['contrast'] ?? ''
+					'var(--wp--preset--color--contrast)'
 				) ?:
-				'#3F474D'
+				'#3F474d'
 			),
 
 			'font_family' => '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif',
@@ -226,22 +226,22 @@ class BrandedEmails {
 	public static function orbit_branded_emails_resolve_color( $color_value, $fallback = null ) {
 		$theme_json = wp_get_global_settings();
 
-		// If it's already a hex code, just return it
+		// If already a hex code, just return it.
 		if ( preg_match( '/^#(?:[0-9a-fA-F]{3}){1,2}$/', $color_value ) ) {
 			return $color_value;
 		}
 
 		// Match CSS variable format
-		if ( preg_match( '/var\(--wp--(preset|custom)--color--([a-zA-Z0-9_-]+)\)/', $color_value, $matches ) ) {
-			$type        = $matches[1]; // 'preset' or 'custom'
-			$color_slug  = $matches[2];
+		if ( preg_match( '/var\(--wp--(preset|custom)--color--([a-zA-Z0-9_-]+(?:--[a-zA-Z0-9_-]+)*)\)/', $color_value, $matches ) ) {
+			$type       = $matches[1]; // 'preset' or 'custom'
+			$color_slug = $matches[2];
 
 			if ( $type === 'preset' ) {
-				$presets = $theme_json['settings']['color']['palette'] ?? [];
+				$presets = $theme_json['color']['palette']['theme'] ?? [];
 
 				foreach ( $presets as $preset ) {
 					if ( $preset['slug'] === $color_slug ) {
-						return self::orbit_branded_emails_resolve_color( $preset['color'], $theme_json );
+						return self::orbit_branded_emails_resolve_color( $preset['color'], $fallback );
 					}
 				}
 			}
@@ -249,37 +249,57 @@ class BrandedEmails {
 			if ( $type === 'custom' ) {
 				$custom_colors = $theme_json['custom']['color'] ?? [];
 
-				if ( isset( $custom_colors[ $color_slug ] ) ) {
-					return self::orbit_branded_emails_resolve_color( $custom_colors[ $color_slug ], $theme_json );
+				$keys = explode( '--', $color_slug );
+
+				$value = $custom_colors;
+				foreach ( $keys as $key ) {
+					if ( isset( $value[ $key ] ) ) {
+						$value = $value[ $key ];
+					} else {
+						$value = null;
+						break;
+					}
+				}
+
+				if ( $value ) {
+					return self::orbit_branded_emails_resolve_color( $value, $fallback );
 				}
 			}
 		}
 
-		// Return null if unable to resolve
 		return $fallback;
 	}
 
+	/**
+	 * Applies branded email background colors to Gravity Forms table label cells.
+	 *
+	 * @param string $color The default background color for the table label cell.
+	 * @param array  $field The Gravity Forms field data for the current cell.
+	 * @param array  $lead The Gravity Forms entry data for the current form submission.
+	 *
+	 * @return string The resolved background color after applying the filter.
+	 */
 	public static function apply_branded_email_colours_to_gf_table_labels( $color, $field, $lead ) {
-		$global_settings = wp_get_global_settings();
-
-		$tint_color = null;
-		$theme_palette = $global_settings['color']['palette']['theme'] ?? [];
-
-		foreach ( $theme_palette as $palette_item ) {
-			if ( isset( $palette_item['slug'] ) && $palette_item['slug'] === 'tint' ) {
-				$tint_color = self::orbit_branded_emails_resolve_color( $palette_item['color'] );
-				break;
-			}
-		}
-
 		$label_background_color = apply_filters(
 			'orbit_branded_emails_gf_label_bg_color',
-			$tint_color ?: $color
+			self::orbit_branded_emails_resolve_color(
+				'var(--wp--preset--color--tint)'
+			) ?:
+			$color
 		);
 
 		return $label_background_color ?: $color;
 	}
 
+	/**
+	 * Applies branded email background colors to Gravity Forms table data cells.
+	 *
+	 * @param string $color The default background color for the table data cell.
+	 * @param array  $field The Gravity Forms field data for the current cell.
+	 * @param array  $entry The Gravity Forms entry data for the current form submission.
+	 *
+	 * @return string The resolved background color after applying the filter.
+	 */
 	public static function apply_branded_email_colours_to_gf_table_data( $color, $field, $entry ) {
 		$data_background_color = apply_filters(
 			'orbit_branded_emails_gf_data_bg_color',
