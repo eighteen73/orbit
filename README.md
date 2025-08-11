@@ -80,6 +80,8 @@ The following filters can be used to override the default behavior of certain fe
 
 ### Branded Emails
 
+The following filters can be used to override default behaviour/values of branded email features.
+
 -   `orbit_enable_branded_emails`: Enable Orbit's branded emails feature. Default `true` (enabled).
 -   `orbit_branded_emails_header_logo`: Set the logo image in branded emails. Default `''` (empty).
 -   `orbit_branded_emails_background_color`: Set the background color of branded emails. Default `woocommerce_email_background_color || '#ffffff'`.
