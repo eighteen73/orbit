@@ -2,7 +2,7 @@
 /**
  * Add branding email templates to site emails.
  *
- * @package         Orbit
+ * @package Orbit
  */
 
 namespace Eighteen73\Orbit;
@@ -11,8 +11,7 @@ use Exception;
 use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\CssInliner;
 
 /**
- * This class is built upon BE Media from Production so all due credit to those authors.
- * http://www.github.com/billerickson/be-media-from-production
+ * Branded Emails class.
  */
 class BrandedEmails {
 
@@ -273,9 +272,9 @@ class BrandedEmails {
 	/**
 	 * Applies branded email background colors to Gravity Forms table label cells.
 	 *
-	 * @param string $color The default background color for the table label cell.
-	 * @param array  $field The Gravity Forms field data for the current cell.
-	 * @param array  $lead The Gravity Forms entry data for the current form submission.
+	 * @param string        $color The current background color.
+	 * @param GF_Field_Name $field The current field.
+	 * @param array         $lead The Gravity Forms entry data for the current form submission.
 	 *
 	 * @return string The resolved background color after applying the filter.
 	 */
@@ -292,13 +291,14 @@ class BrandedEmails {
 	}
 
 	/**
-	 * Applies branded email background colors to Gravity Forms table data cells.
+	 * Applies branded email colours to Gravity Forms table data.
 	 *
-	 * @param string $color The default background color for the table data cell.
-	 * @param array  $field The Gravity Forms field data for the current cell.
-	 * @param array  $entry The Gravity Forms entry data for the current form submission.
+	 * @see https://docs.gravityforms.com/gform_email_background_color_data/
 	 *
-	 * @return string The resolved background color after applying the filter.
+	 * @param string        $color The current background color.
+	 * @param GF_Field_Name $field The current field.
+	 * @param array         $entry The current entry.
+	 * @return string The modified color value.
 	 */
 	public static function apply_branded_email_colours_to_gf_table_data( $color, $field, $entry ) {
 		$data_background_color = apply_filters(
