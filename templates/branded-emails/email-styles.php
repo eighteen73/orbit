@@ -1,9 +1,10 @@
 <?php
 /**
  * Branded Email Styles
- * This file can be overridden in your theme.
  *
- * @package         Orbit
+ * This template can be overridden by copying it to yourtheme/orbit/branded-emails/email-styles.php.
+ *
+ * @package Orbit
  */
 
 namespace Eighteen73\Orbit;
