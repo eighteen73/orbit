@@ -147,8 +147,6 @@ class BrandedEmails {
 	 * @return array Array of CSS variables for use in the email template.
 	 */
 	public static function get_css_variables() {
-		$global_settings = wp_get_global_settings();
-
 		return [
 			'background_color' => apply_filters(
 				'orbit_branded_emails_background_color',
