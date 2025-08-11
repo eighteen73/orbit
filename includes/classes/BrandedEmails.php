@@ -259,6 +259,16 @@ class BrandedEmails {
 		return $fallback;
 	}
 
+	/**
+	 * Applies branded email colours to Gravity Forms table labels.
+	 *
+	 * @see https://docs.gravityforms.com/gform_email_background_color_label/
+	 *
+	 * @param string        $color The current background color.
+	 * @param GF_Field_Name $field The current field.
+	 * @param array         $lead The current lead.
+	 * @return string The modified color value.
+	 */
 	public static function apply_branded_email_colours_to_gf_table_labels( $color, $field, $lead ) {
 		$global_settings = wp_get_global_settings();
 
@@ -280,6 +290,16 @@ class BrandedEmails {
 		return $label_background_color ?: $color;
 	}
 
+	/**
+	 * Applies branded email colours to Gravity Forms table data.
+	 *
+	 * @see https://docs.gravityforms.com/gform_email_background_color_data/
+	 *
+	 * @param string        $color The current background color.
+	 * @param GF_Field_Name $field The current field.
+	 * @param array         $entry The current entry.
+	 * @return string The modified color value.
+	 */
 	public static function apply_branded_email_colours_to_gf_table_data( $color, $field, $entry ) {
 		$data_background_color = apply_filters(
 			'orbit_branded_emails_gf_data_bg_color',
