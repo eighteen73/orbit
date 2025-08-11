@@ -150,13 +150,13 @@ class BrandedEmails {
 		return [
 			'background_color' => apply_filters(
 				'orbit_branded_emails_background_color',
-				get_option( 'woocommerce_email_background_color' ) ?:
+				self::get_woocommerce_setting( 'woocommerce_email_background_color' ) ?:
 				'#ffffff'
 			),
 
 			'body_background_color' => apply_filters(
 				'orbit_branded_emails_body_background_color',
-				get_option( 'woocommerce_email_body_background_color' ) ?:
+				self::get_woocommerce_setting( 'woocommerce_email_body_background_color' ) ?:
 				'#ffffff'
 			),
 
@@ -170,7 +170,7 @@ class BrandedEmails {
 
 			'body_text_color' => apply_filters(
 				'orbit_branded_emails_body_text_color',
-				get_option( 'woocommerce_email_text_color' ) ?:
+				self::get_woocommerce_setting( 'woocommerce_email_text_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
 					'var(--wp--preset--color--contrast)'
 				) ?:
@@ -179,7 +179,7 @@ class BrandedEmails {
 
 			'link_color' => apply_filters(
 				'orbit_branded_emails_link_color',
-				get_option( 'woocommerce_email_base_color' ) ?:
+				self::get_woocommerce_setting( 'woocommerce_email_base_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
 					'var(--wp--custom--color--link)'
 				) ?:
@@ -188,18 +188,22 @@ class BrandedEmails {
 
 			'footer_text_color' => apply_filters(
 				'orbit_branded_emails_footer_text_color',
-				get_option( 'woocommerce_email_footer_text_color' ) ?:
+				self::get_woocommerce_setting( 'woocommerce_email_footer_text_color' ) ?:
 				self::orbit_branded_emails_resolve_color(
 					'var(--wp--preset--color--contrast)'
 				) ?:
 				'#3F474d'
 			),
 
-			'font_family' => '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif',
+			'font_family' => apply_filters(
+				'orbit_branded_emails_font_family',
+				self::get_woocommerce_setting( 'woocommerce_email_font_family' ) ?:
+				'"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif'
+			),
 
 			'logo_image_width' => apply_filters(
 				'orbit_branded_emails_logo_image_width',
-				get_option( 'woocommerce_email_header_image_width' ) ?:
+				self::get_woocommerce_setting( 'woocommerce_email_header_image_width' ) ?:
 				120
 			),
 		];
@@ -305,5 +309,22 @@ class BrandedEmails {
 		);
 
 		return $data_background_color;
+	}
+
+	/**
+	 * Checks if WooCommerce is active and retrieves a specific setting.
+	 *
+	 * Should only be used for settings that are expected to be set by WooCommerce.
+	 *
+	 * @param string $setting_name The name of the WooCommerce setting to retrieve.
+	 * @return mixed|null The value of the setting, or null if WooCommerce is not active or the setting does not exist.
+	 */
+	public static function get_woocommerce_setting( $setting_name ) {
+		// check if woocommerce is active
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return null;
+		}
+
+		return get_option( $setting_name ) ?: null;
 	}
 }
