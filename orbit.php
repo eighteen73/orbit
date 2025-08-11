@@ -45,6 +45,7 @@ add_action(
 		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
+		BrandedEmails::instance()->setup();
 		OtherFilters::instance()->setup();
 		HealthCheck::instance()->setup();
 		RemoteFiles::instance()->setup();
