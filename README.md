@@ -71,7 +71,7 @@ The following filters can be used to override default behaviour/values of brande
 -   `orbit_branded_emails_body_background_color`: Set the body background color of branded emails. Default `woocommerce_email_body_background_color || '#ffffff'`.
 -   `orbit_branded_emails_body_border_color`: Set the border color of branded emails. Default `var(--wp--custom--color--border) || '#edeff1'`.
 -   `orbit_branded_emails_body_text_color`: Set the body text color of branded emails. Default `woocommerce_email_text_color || var(--wp--preset--color--contrast) || '#3f474d'`.
--   `orbit_branded_emails_link_color`: Set the link color color of branded emails. Default `woocommerce_email_base_color || var(--wp--custom--color--link) || '#8549ff'`.
+-   `orbit_branded_emails_link_color`: Set the link color of branded emails. Default `woocommerce_email_base_color || var(--wp--custom--color--link) || '#8549ff'`.
 -   `orbit_branded_emails_footer_text_color`: Set the footer text color of branded emails. Default `woocommerce_email_footer_text_color || var(--wp--preset--color--contrast) || '#3F474d'`.
 -   `orbit_branded_emails_font_family`: Set the font family of branded emails. Default `woocommerce_email_font_family || '"Helvetica Neue", Helvetica, Roboto, Arial, sans-serif'`.
 -   `orbit_branded_emails_logo_image_width`: Set the logo image width in branded emails. Default `woocommerce_email_header_image_width || 120`.
