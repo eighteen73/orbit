@@ -5,8 +5,10 @@
  * @package         Orbit
  */
 
-namespace Eighteen73\Orbit;
+namespace Eighteen73\Orbit\Media;
 
+use Eighteen73\Orbit\Environment;
+use Eighteen73\Orbit\Singleton;
 use Roots\WPConfig\Config;
 use Roots\WPConfig\Exceptions\UndefinedConfigKeyException;
 

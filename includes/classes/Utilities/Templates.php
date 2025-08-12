@@ -5,7 +5,10 @@
  * @package         Orbit
  */
 
-namespace Eighteen73\Orbit;
+namespace Eighteen73\Orbit\Utilities;
+
+use Eighteen73\Orbit\Environment;
+use Eighteen73\Orbit\Singleton;
 
 /**
  * This class is built upon BE Media from Production so all due credit to those authors.
