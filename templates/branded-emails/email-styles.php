@@ -9,6 +9,8 @@
 
 namespace Eighteen73\Orbit;
 
+use Eighteen73\Orbit\Branding\BrandedEmails;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }

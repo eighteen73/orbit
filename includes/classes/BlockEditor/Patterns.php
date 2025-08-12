@@ -5,7 +5,9 @@
  * @package Orbit
  */
 
-namespace Eighteen73\Orbit;
+namespace Eighteen73\Orbit\BlockEditor;
+
+use Eighteen73\Orbit\Singleton;
 
 /**
  * Patterns class.

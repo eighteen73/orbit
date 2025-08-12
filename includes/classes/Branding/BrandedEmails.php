@@ -5,9 +5,12 @@
  * @package Orbit
  */
 
-namespace Eighteen73\Orbit;
+namespace Eighteen73\Orbit\Branding;
 
 use Exception;
+use Eighteen73\Orbit\Singleton;
+use Eighteen73\Orbit\Environment;
+use Eighteen73\Orbit\Utilities\Templates;
 use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\CssInliner;
 
 /**
