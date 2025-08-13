@@ -25,8 +25,8 @@
   "extra": {
     "mozart": {
         "dep_namespace": "Eighteen73\\Orbit\\Dependencies\\",
-        "dep_directory": "/includes/Dependencies/",
-        "classmap_directory": "/includes/classes/dependencies/",
+        "dep_directory": "/includes/lib/",
+        "classmap_directory": "/includes/classes/lib/",
         "classmap_prefix": "Eighteen73_Orbit_",
         "packages": [
             "pelago/emogrifier"
