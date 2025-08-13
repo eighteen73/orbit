@@ -5,8 +5,9 @@
  * @package Orbit
  */
 
-namespace Eighteen73\Orbit;
+namespace Eighteen73\Orbit\Monitoring;
 
+use Eighteen73\Orbit\Singleton;
 use WP_REST_Request;
 
 /**

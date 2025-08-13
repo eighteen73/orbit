@@ -29,7 +29,7 @@ require_once 'autoload.php';
 
 DisallowIndexing\DisallowIndexing::instance()->setup();
 Performance\Fast404::instance()->setup();
-
+ThirdParty\WooCommerce::instance()->setup();
 
 add_action(
 	'init',
@@ -45,9 +45,9 @@ add_action(
 		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
-		BrandedEmails::instance()->setup();
-		OtherFilters::instance()->setup();
-		HealthCheck::instance()->setup();
-		RemoteFiles::instance()->setup();
+		Branding\BrandedEmails::instance()->setup();
+		Monitoring\HealthCheck::instance()->setup();
+		Media\RemoteFiles::instance()->setup();
+		BlockEditor\Patterns::instance()->setup();
 	}
 );
