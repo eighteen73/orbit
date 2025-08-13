@@ -5,7 +5,7 @@
 	<!-- Scan all files in directory -->
 	<file>.</file>
 	<exclude-pattern type="relative">lib/packages/*</exclude-pattern>
-	<exclude-pattern type="relative">includes/Dependencies/*</exclude-pattern>
+	<exclude-pattern type="relative">includes/lib/*</exclude-pattern>
 
 	<!-- Scan only PHP files -->
 	<arg name="extensions" value="php"/>
