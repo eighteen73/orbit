@@ -262,7 +262,7 @@ class BrandedEmails {
 					}
 				}
 
-				if ( $value ) {
+				if ( is_string( $value ) && $value !== '' ) {
 					return self::orbit_branded_emails_resolve_color( $value, $fallback );
 				}
 			}
