@@ -42,6 +42,7 @@ add_action(
 		Capabilities\Editor::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
+		Security\Headers::instance()->setup();
 		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
