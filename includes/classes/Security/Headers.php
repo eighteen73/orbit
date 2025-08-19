@@ -31,8 +31,30 @@ class Headers {
 	public function set_security_headers( $headers ) {
 
 		$default_security_headers = [
-			'X-Frame-Options' => 'SAMEORIGIN', // Prevent clickjacking
+			// Cross-origin hardening
+			'Cross-Origin-Opener-Policy'   => 'same-origin',
+			'Cross-Origin-Resource-Policy' => 'same-origin',
+
+			// Sensible privacy default
+			'Referrer-Policy' => 'strict-origin-when-cross-origin',
+
+			// Stops MIME sniffing
+			'X-Content-Type-Options' => 'nosniff',
+
+			// Prevent clickjacking inside iframes (legacy)
+			'X-Frame-Options' => 'SAMEORIGIN',
 		];
+
+		$default_csp = [
+			'upgrade-insecure-requests',
+			"default-src 'self'",
+		];
+		$default_security_headers['Content-Security-Policy'] = trim( implode( '; ', $default_csp ) );
+
+		// Only if SSL
+		if ( is_ssl() ) {
+			$default_security_headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains';
+		}
 
 		$security_headers = apply_filters( 'orbit_default_security_headers', $default_security_headers );
 
