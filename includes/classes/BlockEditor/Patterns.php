@@ -36,7 +36,10 @@ class Patterns {
 	 * @return void
 	 */
 	public function remove_woocommerce_patterns(): void {
-		$patterns = \WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+		if ( false === ( $patterns = get_transient( 'orbit_registered_patterns' ) ) ) {
+			$patterns = \WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+			set_transient( 'orbit_registered_patterns', $patterns, 300 );
+		}
 
 		if ( ! empty( $patterns ) ) {
 			foreach ( $patterns as $pattern ) {
