@@ -34,9 +34,8 @@
     }
   },
   "scripts": {
-    "test": [
-      "phpcs"
-    ],
+    "lint": "./vendor/bin/phpcs",
+    "format": "./vendor/bin/phpcbf",
     "post-install-cmd": [
         "\"vendor/bin/mozart\" compose",
         "composer dump-autoload"
