@@ -5,7 +5,7 @@
   "author": "eighteen73",
 	"license": "MIT License",
 	"homepage": "https://github.com/eighteen73/orbit",
-  "scripts": {
+  	"scripts": {
 		"postinstall": "composer install -o",
 		"format": "npm run format:css && npm run format:js && format:php",
 		"format:css": "stylelint --fix \"./css/*.css\"",
@@ -21,7 +21,7 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"pot": "wp i18n make-pot . languages/example-block.pot --domain=example-block --exclude=node_modules,vendor,.git"
 	},
-  "devDependencies": {
+	"devDependencies": {
 		"@eighteen73/eslint-config-wordpress": "latest",
 		"@eighteen73/stylelint-config-wordpress": "latest",
 		"@wordpress/browserslist-config": "latest",
