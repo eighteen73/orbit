@@ -42,18 +42,4 @@ class Plugin {
 		ThirdParty\WooCommerce::instance()->setup();
 		ThirdParty\Altcha::instance()->setup();
 	}
-
-	/**
-	 * Plugin activation.
-	 *
-	 * @return void
-	 */
-	public static function activation(): void {}
-
-	/**
-	 * Plugin deactivation.
-	 *
-	 * @return void
-	 */
-	public static function deactivation(): void {}
 }

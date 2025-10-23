@@ -26,7 +26,3 @@ require_once 'autoload.php';
 
 // Initialise the plugin.
 Plugin::instance()->setup();
-
-// Register activation and deactivation hooks.
-register_activation_hook( __FILE__, [ Plugin::class, 'activation' ] );
-register_deactivation_hook( __FILE__, [ Plugin::class, 'deactivation' ] );
