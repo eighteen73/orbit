@@ -19,8 +19,19 @@ class CleanUI {
 
 	/**
 	 * Setup module
+	 *
+	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		add_action( 'admin_menu', [ $this, 'clean_ui_menu_items' ] );
 		add_action( 'admin_bar_menu', [ $this, 'clean_ui_toolbar_items' ], 999 );
 		add_action( 'wp_dashboard_setup', [ $this, 'clean_ui_dashboard_widgets' ] );

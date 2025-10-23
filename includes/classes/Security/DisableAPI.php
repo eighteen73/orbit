@@ -16,14 +16,24 @@ class DisableAPI {
 	use Singleton;
 
 	/**
-	 * Run on init
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( apply_filters( 'orbit_enable_rest_api_user_endpoints', false ) ) {
 			return;
 		}
+
 		add_filter( 'rest_endpoints', [ $this, 'disable_users' ] );
 	}
 

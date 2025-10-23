@@ -18,14 +18,24 @@ class HideVersion {
 	const VERSIONED_URL_REGEX = '/(.+\?(?:ver|version)=)([^&]+)(.*)/';
 
 	/**
-	 * Run on init
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( apply_filters( 'orbit_enable_expose_wordpress_version', false ) ) {
 			return;
 		}
+
 		remove_action( 'wp_head', 'wp_generator' );
 		add_filter( 'the_generator', '__return_empty_string' );
 		add_filter( 'style_loader_src', [ $this, 'obfuscate_script_or_style_version' ], 20000 );

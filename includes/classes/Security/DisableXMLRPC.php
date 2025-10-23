@@ -16,14 +16,24 @@ class DisableXMLRPC {
 	use Singleton;
 
 	/**
-	 * Run on init
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( apply_filters( 'orbit_enable_xmlrpc', false ) ) {
 			return;
 		}
+
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 		remove_action( 'wp_head', 'rsd_link' );
 	}

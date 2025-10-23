@@ -22,11 +22,20 @@ class BrandedEmails {
 	use Singleton;
 
 	/**
-	 * Primary constructor
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( ! apply_filters( 'orbit_enable_branded_emails', true ) ) {
 			return;
 		}

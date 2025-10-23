@@ -37,11 +37,20 @@ class RemoteFiles {
 	public array $directories = [];
 
 	/**
-	 * Primary constructor
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( ! $this->is_safe_environment() ) {
 			return;
 		}

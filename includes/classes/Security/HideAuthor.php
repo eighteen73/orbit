@@ -16,11 +16,20 @@ class HideAuthor {
 	use Singleton;
 
 	/**
-	 * Run on init
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		add_action( 'template_redirect', [ $this, 'author_page_404' ] );
 	}
 
