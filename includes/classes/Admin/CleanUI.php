@@ -41,8 +41,10 @@ class CleanUI {
 
 	/**
 	 * Remove menu items
+	 *
+	 * @return void
 	 */
-	public function clean_ui_menu_items() {
+	public function clean_ui_menu_items(): void {
 		if ( ! apply_filters( 'orbit_enable_menu_item_dashboard', true ) ) {
 			remove_menu_page( 'index.php' );
 		}
@@ -61,7 +63,7 @@ class CleanUI {
 	 *
 	 * @return void
 	 */
-	public function clean_ui_toolbar_items( $menu ) {
+	public function clean_ui_toolbar_items( $menu ): void {
 		$menu->remove_node( 'comments' );
 		$menu->remove_node( 'customize' );
 		$menu->remove_node( 'dashboard' );
@@ -81,8 +83,10 @@ class CleanUI {
 
 	/**
 	 * Remove dahboard widgets
+	 *
+	 * @return void
 	 */
-	public function clean_ui_dashboard_widgets() {
+	public function clean_ui_dashboard_widgets(): void {
 		global $wp_meta_boxes;
 
 		unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_site_health'] );
@@ -101,8 +105,10 @@ class CleanUI {
 
 	/**
 	 * Nice logo for the login page
+	 *
+	 * @return void
 	 */
-	public function clean_ui_logo() {
+	public function clean_ui_logo(): void {
 		if ( ! apply_filters( 'orbit_enable_login_logo', true ) ) {
 			return;
 		}

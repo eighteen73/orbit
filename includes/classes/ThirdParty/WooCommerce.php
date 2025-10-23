@@ -20,7 +20,7 @@ class WooCommerce {
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 
 		// Force WooCommerce tracking to always be disabled.
 		// This setting loads additional patterns from PTK.

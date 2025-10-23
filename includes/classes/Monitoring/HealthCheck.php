@@ -59,7 +59,7 @@ class HealthCheck {
 	 * @param WP_REST_Request $data The request data
 	 * @return string
 	 */
-	public function run_health_check( $data ) {
+	public function run_health_check( $data ): string {
 		return 'ok';
 	}
 }

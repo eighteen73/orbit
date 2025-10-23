@@ -38,7 +38,7 @@ class HideAuthor {
 	 *
 	 * @return void
 	 */
-	public function author_page_404() {
+	public function author_page_404(): void {
 		global $wp_query;
 
 		if ( is_author() ) {

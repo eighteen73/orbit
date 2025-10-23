@@ -25,7 +25,7 @@ class Templates {
 	 * @param string $template_name The name of the template file.
 	 * @return string The path to the template file.
 	 */
-	private static function get_template( $template_name ) {
+	private static function get_template( $template_name ): string {
 		$theme_template = get_theme_file_path( '//orbit//' . $template_name );
 
 		if ( file_exists( $theme_template ) ) :
@@ -41,7 +41,7 @@ class Templates {
 	 * @param string $template_name The name of the template file.
 	 * @param array  $args          Optional. Associative array of variables to make available in the template.
 	 */
-	public static function include_template( string $template_name, array $args = [] ) {
+	public static function include_template( string $template_name, array $args = [] ): array {
 		$template_path = self::get_template( $template_name );
 
 		if ( file_exists( $template_path ) ) {

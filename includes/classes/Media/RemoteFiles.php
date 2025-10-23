@@ -86,7 +86,7 @@ class RemoteFiles {
 	 *
 	 * @return mixed
 	 */
-	public function image_src( $image ) {
+	public function image_src( $image ): mixed {
 		if ( $image === false || empty( $image ) ) {
 			return $image;
 		}
