@@ -1,20 +1,6 @@
 pre-commit:
   parallel: true
   jobs:
-    - run: npm run lint:css
-      glob:
-        - "*.scss"
-        - "*.css"
-      stage_fixed: true
-
-    - run: npm run lint:js
-      glob:
-        - "*.js"
-        - "*.jsx"
-        - "*.ts"
-        - "*.tsx"
-      stage_fixed: true
-
-    - run: npm run lint:php
+    - run: composer run lint
       glob: "*.php"
       stage_fixed: true
