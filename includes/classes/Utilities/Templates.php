@@ -41,7 +41,7 @@ class Templates {
 	 * @param string $template_name The name of the template file.
 	 * @param array  $args          Optional. Associative array of variables to make available in the template.
 	 */
-	public static function include_template( string $template_name, array $args = [] ): array {
+	public static function include_template( string $template_name, array $args = [] ): void {
 		$template_path = self::get_template( $template_name );
 
 		if ( file_exists( $template_path ) ) {
