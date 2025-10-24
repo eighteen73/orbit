@@ -20,7 +20,7 @@ class Altcha {
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		add_filter( 'altcha_challenge_url', [ $this, 'altcha_challenge_url' ] );
 	}
 

@@ -15,10 +15,7 @@
 
 namespace Eighteen73\Orbit;
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 // Useful global constants.
 define( 'ORBIT_URL', plugin_dir_url( __FILE__ ) );
@@ -27,28 +24,5 @@ define( 'ORBIT_INC', ORBIT_PATH . 'includes/' );
 
 require_once 'autoload.php';
 
-DisallowIndexing\DisallowIndexing::instance()->setup();
-Performance\Fast404::instance()->setup();
-ThirdParty\WooCommerce::instance()->setup();
-ThirdParty\Altcha::instance()->setup();
-
-add_action(
-	'init',
-	function () {
-		Admin\CleanUI::instance()->setup();
-		Admin\HideUpdates::instance()->setup();
-		Admin\EnvironmentIcon::instance()->setup();
-		Capabilities\GravityForms::instance()->setup();
-		Capabilities\Users::instance()->setup();
-		Capabilities\Editor::instance()->setup();
-		Security\DisableAPI::instance()->setup();
-		Security\DisableXMLRPC::instance()->setup();
-		Security\HideAuthor::instance()->setup();
-		Security\HideVersion::instance()->setup();
-		Security\RemoveHeadLinks::instance()->setup();
-		Branding\BrandedEmails::instance()->setup();
-		Monitoring\HealthCheck::instance()->setup();
-		Media\RemoteFiles::instance()->setup();
-		BlockEditor\Patterns::instance()->setup();
-	}
-);
+// Initialise the plugin.
+Plugin::instance()->setup();

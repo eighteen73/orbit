@@ -17,13 +17,23 @@ class HealthCheck {
 	use Singleton;
 
 	/**
-	 * Run on init
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		add_action( 'rest_api_init', [ $this, 'add_endpoint' ] );
 	}
+
 
 	/**
 	 * Add the API endpoint
@@ -49,7 +59,7 @@ class HealthCheck {
 	 * @param WP_REST_Request $data The request data
 	 * @return string
 	 */
-	public function run_health_check( $data ) {
+	public function run_health_check( $data ): string {
 		return 'ok';
 	}
 }
