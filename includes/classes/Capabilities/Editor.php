@@ -39,6 +39,8 @@ class Editor {
 
 		$caps = [
 			'edit_theme_options',
+			'manage_privacy_options',
+			'manage_options',
 		];
 
 		foreach ( $roles as $role_name ) {
