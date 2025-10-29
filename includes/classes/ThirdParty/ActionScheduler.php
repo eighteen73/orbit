@@ -33,7 +33,7 @@ class ActionScheduler {
 	 * @return int Modified retention period in seconds.
 	 */
 	public function set_action_scheduler_retention_period( int $period ): int {
-		return apply_filters( 'orbit_action_scheduler_retention_period', WEEK_IN_SECONDS * 4 );
+		return apply_filters( 'orbit_action_scheduler_retention_period', WEEK_IN_SECONDS * 2 );
 	}
 
 	/**
