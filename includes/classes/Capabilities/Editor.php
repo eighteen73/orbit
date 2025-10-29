@@ -17,13 +17,17 @@ class Editor {
 
 	/**
 	 * Setup module
+	 *
+	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		add_action( 'admin_init', [ $this, 'manage_editor_caps' ] );
 	}
 
 	/**
 	 * Add or remove site editor capabilities based on a filter.
+	 *
+	 * @return void
 	 */
 	public function manage_editor_caps(): void {
 		$disable_user_caps = ! apply_filters( 'orbit_enable_editor_caps_access', true );

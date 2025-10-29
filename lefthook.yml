@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - run: composer run lint
+      glob: "*.php"
+      stage_fixed: true

@@ -21,7 +21,7 @@ class Patterns {
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		if ( ! apply_filters( 'orbit_enable_disable_external_patterns', true ) ) {
 			return;
 		}
@@ -56,7 +56,7 @@ class Patterns {
 	 * @param array            $handler         Route handler used for the request.
 	 * @return mixed
 	 */
-	public function filter_woocommerce_patterns_rest( $dispatch_result, $request, $route, $handler ) {
+	public function filter_woocommerce_patterns_rest( $dispatch_result, $request, $route, $handler ): mixed {
 		// Check if this is a block patterns request
 		if ( strpos( $route, '/wp/v2/block-patterns/patterns' ) !== 0 ) {
 			return $dispatch_result;
