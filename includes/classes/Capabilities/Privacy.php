@@ -18,42 +18,49 @@ class Privacy {
 	/**
 	 * Setup module
 	 */
-	public function setup() {
-		add_action( 'admin_init', [ $this, 'manage_privacy_caps' ] );
+	public function setup(): void {
+		add_filter( 'map_meta_cap', [ $this, 'remove_manage_options_requirement' ], 10, 3 );
 	}
 
 	/**
-	 * Add or remove privacy capabilities based on a filter.
+	 * Removes the 'manage_options' capability requirement for certain user roles
+	 * when accessing the privacy options page.
+	 *
+	 * @param array  $caps    The capabilities required for the requested capability.
+	 * @param string $cap     The capability being checked (meta capability).
+	 * @param int    $user_id The user ID for which capabilities are being checked.
+	 *
+	 * @return array The modified list of capabilities.
 	 */
-	public function manage_privacy_caps(): void {
-		$disable_user_caps = ! apply_filters( 'orbit_enable_privacy_caps_access', true );
+	public function remove_manage_options_requirement( $caps, $cap, $user_id ): array {
+		$disable_user_caps = ! apply_filters( 'orbit_enable_privacy_page_access', true );
+
+		if ( $disable_user_caps ) {
+			return $caps;
+		}
 
 		$roles = [
 			'editor',
 			'shop_manager',
 		];
 
-		$caps = [
-			'manage_privacy_options',
-			'manage_options',
-		];
+		if ( $cap === 'manage_privacy_options' ) {
+			$user = get_userdata( $user_id );
 
-		foreach ( $roles as $role_name ) {
-			$role = get_role( $role_name );
-
-			if ( ! $role ) {
-				continue;
+			if ( ! $user ) {
+				return $caps;
 			}
 
-			foreach ( $caps as $cap ) {
-				if ( $disable_user_caps ) {
-					if ( $role->has_cap( $cap ) ) {
-						$role->remove_cap( $cap );
+			if ( array_intersect( $user->roles, $roles ) ) {
+				$caps = array_filter(
+					$caps,
+					function ( $capability ) {
+						return $capability !== 'manage_options';
 					}
-				} elseif ( ! $role->has_cap( $cap ) ) {
-						$role->add_cap( $cap );
-				}
+				);
 			}
 		}
+
+		return $caps;
 	}
 }
