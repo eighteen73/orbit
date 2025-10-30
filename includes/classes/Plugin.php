@@ -41,5 +41,6 @@ class Plugin {
 		Security\RemoveHeadLinks::instance()->setup();
 		ThirdParty\WooCommerce::instance()->setup();
 		ThirdParty\Altcha::instance()->setup();
+		ThirdParty\ActionScheduler::instance()->setup();
 	}
 }
