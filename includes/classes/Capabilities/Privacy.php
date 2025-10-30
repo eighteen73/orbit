@@ -1,6 +1,6 @@
 <?php
 /**
- * Add site editor capabilities to editors and shop managers
+ * Add privacy capabilities to editors and shop managers
  *
  * @package Orbit
  */
