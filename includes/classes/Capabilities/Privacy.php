@@ -10,27 +10,23 @@ namespace Eighteen73\Orbit\Capabilities;
 use Eighteen73\Orbit\Singleton;
 
 /**
- * Add site editor capabilities to editors and shop managers
+ * Add privacy capabilities to editors and shop managers
  */
-class Editor {
+class Privacy {
 	use Singleton;
 
 	/**
 	 * Setup module
-	 *
-	 * @return void
 	 */
-	public function setup(): void {
-		add_action( 'admin_init', [ $this, 'manage_editor_caps' ] );
+	public function setup() {
+		add_action( 'admin_init', [ $this, 'manage_privacy_caps' ] );
 	}
 
 	/**
-	 * Add or remove site editor capabilities based on a filter.
-	 *
-	 * @return void
+	 * Add or remove privacy capabilities based on a filter.
 	 */
-	public function manage_editor_caps(): void {
-		$disable_user_caps = ! apply_filters( 'orbit_enable_editor_caps_access', true );
+	public function manage_privacy_caps(): void {
+		$disable_user_caps = ! apply_filters( 'orbit_enable_privacy_caps_access', true );
 
 		$roles = [
 			'editor',
@@ -38,7 +34,8 @@ class Editor {
 		];
 
 		$caps = [
-			'edit_theme_options',
+			'manage_privacy_options',
+			'manage_options',
 		];
 
 		foreach ( $roles as $role_name ) {
