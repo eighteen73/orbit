@@ -30,6 +30,7 @@ class Plugin {
 		Capabilities\GravityForms::instance()->setup();
 		Capabilities\Users::instance()->setup();
 		Capabilities\Editor::instance()->setup();
+		Capabilities\Privacy::instance()->setup();
 		DisallowIndexing\DisallowIndexing::instance()->setup();
 		Media\RemoteFiles::instance()->setup();
 		Monitoring\HealthCheck::instance()->setup();
