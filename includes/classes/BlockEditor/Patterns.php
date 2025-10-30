@@ -36,10 +36,7 @@ class Patterns {
 	 * @return void
 	 */
 	public function remove_woocommerce_patterns(): void {
-		if ( false === ( $patterns = get_transient( 'orbit_registered_patterns' ) ) ) {
-			$patterns = \WP_Block_Patterns_Registry::get_instance()->get_all_registered();
-			set_transient( 'orbit_registered_patterns', $patterns, 300 );
-		}
+		$patterns = $this->get_registered_patterns();
 
 		if ( ! empty( $patterns ) ) {
 			foreach ( $patterns as $pattern ) {
@@ -48,6 +45,31 @@ class Patterns {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get all registered patterns, using cache if available.
+	 *
+	 * WordPress core does not provide a public global pattern cache:
+	 * - WP_Block_Patterns_Registry has no internal caching (in-memory registry only)
+	 * - WP_Theme::get_pattern_cache() is private and only caches theme patterns
+	 * - WooCommerce BlockPatterns cache is plugin-specific and not publicly accessible
+	 *
+	 * Therefore, we use our own transient cache to avoid repeatedly calling
+	 * get_all_registered() which, while lightweight, is still unnecessary overhead.
+	 *
+	 * @return array Array of registered patterns.
+	 */
+	private function get_registered_patterns(): array {
+		$cache_key = 'orbit_registered_patterns';
+		$patterns  = get_transient( $cache_key );
+
+		if ( false === $patterns ) {
+			$patterns = \WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+			set_transient( $cache_key, $patterns, 300 );
+		}
+
+		return $patterns;
 	}
 
 	/**
