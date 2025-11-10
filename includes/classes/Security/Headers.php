@@ -46,17 +46,15 @@ class Headers {
 
 			// Good default for non-sensitive resources
 			'Cache-Control' => 'no-cache',
-		];
 
-		$default_csp = [
-			'upgrade-insecure-requests',
-			"default-src 'self'",
+			// Permissive CSP (websites should customise this, ideally)
+			'Content-Security-Policy' => "default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:",
 		];
-		$default_security_headers['Content-Security-Policy'] = trim( implode( '; ', $default_csp ) );
 
 		// Only if SSL
 		if ( is_ssl() ) {
 			$default_security_headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains';
+			$default_security_headers['Content-Security-Policy'] .= '; upgrade-insecure-requests';
 		}
 
 		$security_headers = apply_filters( 'orbit_default_security_headers', $default_security_headers );
