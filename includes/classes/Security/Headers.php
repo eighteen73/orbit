@@ -43,6 +43,9 @@ class Headers {
 
 			// Prevent clickjacking inside iframes (legacy)
 			'X-Frame-Options' => 'SAMEORIGIN',
+
+			// Good default for non-sensitive resources
+			'Cache-Control' => 'Cache-Control: no-cache',
 		];
 
 		$default_csp = [
