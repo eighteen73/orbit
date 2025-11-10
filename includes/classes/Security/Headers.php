@@ -45,7 +45,7 @@ class Headers {
 			'X-Frame-Options' => 'SAMEORIGIN',
 
 			// Good default for non-sensitive resources
-			'Cache-Control' => 'Cache-Control: no-cache',
+			'Cache-Control' => 'no-cache',
 		];
 
 		$default_csp = [
