@@ -10,7 +10,7 @@ namespace Eighteen73\Orbit\Security;
 use Eighteen73\Orbit\Singleton;
 
 /**
- * Completely disable XML-RPC
+ * Add a sensible baseline set of security headers to the response.
  */
 class Headers {
 	use Singleton;
@@ -19,7 +19,7 @@ class Headers {
 	 * Setup module
 	 */
 	public function setup() {
-		add_action( 'wp_headers', [ $this, 'set_security_headers' ], 99, 1 );
+		add_filter( 'wp_headers', [ $this, 'set_security_headers' ], 99, 1 );
 	}
 
 	/**
