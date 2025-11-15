@@ -44,9 +44,6 @@ class Headers {
 			// Prevent clickjacking inside iframes (legacy)
 			'X-Frame-Options' => 'SAMEORIGIN',
 
-			// Good default for non-sensitive resources
-			'Cache-Control' => 'no-cache',
-
 			// Permissive CSP (websites should customise this, ideally)
 			'Content-Security-Policy' => "default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:",
 		];
