@@ -21,7 +21,7 @@ class Patterns {
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		if ( ! apply_filters( 'orbit_enable_disable_external_patterns', true ) ) {
 			return;
 		}
@@ -36,7 +36,7 @@ class Patterns {
 	 * @return void
 	 */
 	public function remove_woocommerce_patterns(): void {
-		$patterns = \WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+		$patterns = $this->get_registered_patterns();
 
 		if ( ! empty( $patterns ) ) {
 			foreach ( $patterns as $pattern ) {
@@ -48,6 +48,31 @@ class Patterns {
 	}
 
 	/**
+	 * Get all registered patterns, using cache if available.
+	 *
+	 * WordPress core does not provide a public global pattern cache:
+	 * - WP_Block_Patterns_Registry has no internal caching (in-memory registry only)
+	 * - WP_Theme::get_pattern_cache() is private and only caches theme patterns
+	 * - WooCommerce BlockPatterns cache is plugin-specific and not publicly accessible
+	 *
+	 * Therefore, we use our own transient cache to avoid repeatedly calling
+	 * get_all_registered() which, while lightweight, is still unnecessary overhead.
+	 *
+	 * @return array Array of registered patterns.
+	 */
+	private function get_registered_patterns(): array {
+		$cache_key = 'orbit_registered_patterns';
+		$patterns  = get_transient( $cache_key );
+
+		if ( false === $patterns ) {
+			$patterns = \WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+			set_transient( $cache_key, $patterns, 300 );
+		}
+
+		return $patterns;
+	}
+
+	/**
 	 * Filter WooCommerce patterns from REST API responses.
 	 *
 	 * @param mixed            $dispatch_result Dispatch result, will be used if not empty.
@@ -56,7 +81,7 @@ class Patterns {
 	 * @param array            $handler         Route handler used for the request.
 	 * @return mixed
 	 */
-	public function filter_woocommerce_patterns_rest( $dispatch_result, $request, $route, $handler ) {
+	public function filter_woocommerce_patterns_rest( $dispatch_result, $request, $route, $handler ): mixed {
 		// Check if this is a block patterns request
 		if ( strpos( $route, '/wp/v2/block-patterns/patterns' ) !== 0 ) {
 			return $dispatch_result;

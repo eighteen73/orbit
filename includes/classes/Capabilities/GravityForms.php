@@ -17,13 +17,17 @@ class GravityForms {
 
 	/**
 	 * Setup module
+	 *
+	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		add_action( 'admin_init', [ $this, 'manage_gravity_forms_caps' ] );
 	}
 
 	/**
 	 * Add or remove Gravity Forms capabilities based on a filter.
+	 *
+	 * @return void
 	 */
 	public function manage_gravity_forms_caps(): void {
 		$disable_gf_access = ! apply_filters( 'orbit_enable_gravity_forms_access', true );

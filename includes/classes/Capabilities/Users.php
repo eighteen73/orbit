@@ -17,13 +17,17 @@ class Users {
 
 	/**
 	 * Setup module
+	 *
+	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		add_action( 'admin_init', [ $this, 'manage_user_caps' ] );
 	}
 
 	/**
 	 * Add or remove user-related capabilities based on a filter.
+	 *
+	 * @return void
 	 */
 	public function manage_user_caps(): void {
 		$disable_user_caps = ! apply_filters( 'orbit_enable_user_caps_access', true );

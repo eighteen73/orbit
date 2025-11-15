@@ -26,7 +26,7 @@
     "mozart": {
         "dep_namespace": "Eighteen73\\Orbit\\Dependencies\\",
         "dep_directory": "/includes/lib/",
-        "classmap_directory": "/includes/classes/lib/",
+        "classmap_directory": "/includes/lib/",
         "classmap_prefix": "Eighteen73_Orbit_",
         "packages": [
             "pelago/emogrifier"
@@ -34,9 +34,8 @@
     }
   },
   "scripts": {
-    "test": [
-      "phpcs"
-    ],
+    "lint": "./vendor/bin/phpcs",
+    "format": "./vendor/bin/phpcbf",
     "post-install-cmd": [
         "\"vendor/bin/mozart\" compose",
         "composer dump-autoload"

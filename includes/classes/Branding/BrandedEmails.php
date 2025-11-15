@@ -22,11 +22,20 @@ class BrandedEmails {
 	use Singleton;
 
 	/**
-	 * Primary constructor
+	 * Setup module
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( ! apply_filters( 'orbit_enable_branded_emails', true ) ) {
 			return;
 		}
@@ -43,7 +52,7 @@ class BrandedEmails {
 	 * @param array $args Array of arguments passed to wp_mail().
 	 * @return array Modified $args array with the email message wrapped in branded HTML.
 	 */
-	public function apply_branded_email_template( $args ) {
+	public function apply_branded_email_template( $args ): array {
 		$headers = [];
 
 		// Convert headers to an array if they aren't already
@@ -110,7 +119,7 @@ class BrandedEmails {
 	 * @param string $template The original email template string (usually empty).
 	 * @return string The modified email template with placeholders for message and subject.
 	 */
-	public function apply_branded_email_template_to_gf_notifications( $template ) {
+	public function apply_branded_email_template_to_gf_notifications( $template ): string {
 		ob_start();
 
 		Templates::include_template(
@@ -134,7 +143,7 @@ class BrandedEmails {
 	 * @param string|null $email_content Content that will receive inline styles.
 	 * @return string The email content with inline styles applied.
 	 */
-	public function style_inline( $email_content ) {
+	public function style_inline( $email_content ): string {
 		try {
 			$inlined_content = CssInliner::fromHtml( $email_content )->inlineCss()->render();
 		} catch ( Exception $e ) {
@@ -149,7 +158,7 @@ class BrandedEmails {
 	 *
 	 * @return array Array of CSS variables for use in the email template.
 	 */
-	public static function get_css_variables() {
+	public static function get_css_variables(): array {
 		return [
 			'background_color' => apply_filters(
 				'orbit_branded_emails_background_color',
@@ -283,7 +292,7 @@ class BrandedEmails {
 	 *
 	 * @return string The resolved background color after applying the filter.
 	 */
-	public static function apply_branded_email_colours_to_gf_table_labels( $color, $field, $lead ) {
+	public static function apply_branded_email_colours_to_gf_table_labels( $color, $field, $lead ): string {
 		$label_background_color = apply_filters(
 			'orbit_branded_emails_gf_label_bg_color',
 			self::orbit_branded_emails_resolve_color(
@@ -305,7 +314,7 @@ class BrandedEmails {
 	 * @param array         $entry The current entry.
 	 * @return string The modified color value.
 	 */
-	public static function apply_branded_email_colours_to_gf_table_data( $color, $field, $entry ) {
+	public static function apply_branded_email_colours_to_gf_table_data( $color, $field, $entry ): string {
 		$data_background_color = apply_filters(
 			'orbit_branded_emails_gf_data_bg_color',
 			$color

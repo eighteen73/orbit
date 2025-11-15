@@ -26,7 +26,6 @@ final class StyleRule
     private $containingAtRule;
 
     /**
-     * @param DeclarationBlock $declarationBlock
      * @param string $containingAtRule e.g. `@media screen and (max-width: 480px)`
      */
     public function __construct(DeclarationBlock $declarationBlock, string $containingAtRule = '')
@@ -36,15 +35,16 @@ final class StyleRule
     }
 
     /**
-     * @return array<int, string> the selectors, e.g. `["h1", "p"]`
+     * @return array<non-empty-string> the selectors, e.g. `["h1", "p"]`
      */
     public function getSelectors(): array
     {
-        /** @var array<int, Selector> $selectors */
         $selectors = $this->declarationBlock->getSelectors();
         return \array_map(
             static function (Selector $selector): string {
-                return $selector->getSelector();
+                $selectorAsString = $selector->getSelector();
+                \assert($selectorAsString !== '');
+                return $selectorAsString;
             },
             $selectors
         );
@@ -74,7 +74,7 @@ final class StyleRule
     }
 
     /**
-     * @returns string e.g. `@media screen and (max-width: 480px)`, or an empty string
+     * @return string e.g. `@media screen and (max-width: 480px)`, or an empty string
      */
     public function getContainingAtRule(): string
     {

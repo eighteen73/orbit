@@ -20,8 +20,19 @@ class EnvironmentIcon {
 
 	/**
 	 * Setup module
+	 *
+	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize module
+	 *
+	 * @return void
+	 */
+	public function init(): void {
 		if ( ! $this->is_allowed() ) {
 			return;
 		}
@@ -55,8 +66,10 @@ class EnvironmentIcon {
 	 * Add the environment name to the admin toolbar
 	 *
 	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar instance.
+	 *
+	 * @return void
 	 */
-	public function add_environment_name_to_toolbar( \WP_Admin_Bar $wp_admin_bar ) {
+	public function add_environment_name_to_toolbar( \WP_Admin_Bar $wp_admin_bar ): void {
 		$env = wp_get_environment_type();
 
 		$wp_admin_bar->add_node(

@@ -8,6 +8,8 @@ use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\OutputFormat;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Property\Selector\SpecificityCalculator;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Renderable;
 
+use function Safe\preg_match;
+
 /**
  * Class representing a single CSS selector. Selectors have to be split by the comma prior to being passed into this
  * class.
@@ -15,19 +17,34 @@ use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Renderable;
 class Selector implements Renderable
 {
     /**
-     * regexp for specificity calculations
-     *
-     * @var string
+     * @var non-empty-string
      *
      * @internal since 8.5.2
      */
     public const SELECTOR_VALIDATION_RX = '/
         ^(
             (?:
-                [a-zA-Z0-9\\x{00A0}-\\x{FFFF}_^$|*="\'~\\[\\]()\\-\\s\\.:#+>,]* # any sequence of valid unescaped characters
-                (?:\\\\.)?                                                      # a single escaped character
-                (?:([\'"]).*?(?<!\\\\)\\2)?                                     # a quoted text like [id="example"]
-            )*
+                # any sequence of valid unescaped characters, except quotes
+                [a-zA-Z0-9\\x{00A0}-\\x{FFFF}_^$|*=~\\[\\]()\\-\\s\\.:#+>,]++
+                |
+                # one or more escaped characters
+                (?:\\\\.)++
+                |
+                # quoted text, like in `[id="example"]`
+                (?:
+                    # opening quote
+                    ([\'"])
+                    (?:
+                        # sequence of characters except closing quote or backslash
+                        (?:(?!\\g{-1}|\\\\).)++
+                        |
+                        # one or more escaped characters
+                        (?:\\\\.)++
+                    )*+ # zero or more times
+                    # closing quote or end (unmatched quote is currently allowed)
+                    (?:\\g{-1}|$)
+                )
+            )*+ # zero or more times
         )$
         /ux';
 
@@ -42,7 +59,7 @@ class Selector implements Renderable
     public static function isValid(string $selector): bool
     {
         // Note: We need to use `static::` here as the constant is overridden in the `KeyframeSelector` class.
-        $numberOfMatches = \preg_match(static::SELECTOR_VALIDATION_RX, $selector);
+        $numberOfMatches = preg_match(static::SELECTOR_VALIDATION_RX, $selector);
 
         return $numberOfMatches === 1;
     }
