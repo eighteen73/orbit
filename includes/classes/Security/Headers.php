@@ -45,7 +45,13 @@ class Headers {
 			'X-Frame-Options' => 'SAMEORIGIN',
 
 			// Permissive CSP (websites should customise this, ideally)
-			'Content-Security-Policy' => "default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:",
+			'Content-Security-Policy' => implode('; ', [
+				"default-src 'self' https:",
+				"img-src 'self' https: data: blob:",
+				"script-src 'self' https: 'unsafe-inline'",
+				"style-src 'self' https: 'unsafe-inline'",
+				"frame-ancestors 'self'",
+			]),
 		];
 
 		// Only if SSL
