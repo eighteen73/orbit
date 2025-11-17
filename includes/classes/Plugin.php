@@ -37,6 +37,7 @@ class Plugin {
 		Performance\Fast404::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
+		Security\Headers::instance()->setup();
 		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
