@@ -40,6 +40,7 @@ class Plugin {
 		Security\Headers::instance()->setup();
 		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
+		Security\RateLimits::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
 		ThirdParty\WooCommerce::instance()->setup();
 		ThirdParty\Altcha::instance()->setup();
