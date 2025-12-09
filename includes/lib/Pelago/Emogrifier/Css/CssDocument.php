@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\Css;
 
-use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\Utilities\Preg;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\CSSList\AtRuleBlockList as CssAtRuleBlockList;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\CSSList\Document as SabberwormCssDocument;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Parser as CssParser;
@@ -15,6 +14,8 @@ use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Renderable as CssRenderable;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\RuleSet\DeclarationBlock as CssDeclarationBlock;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\RuleSet\RuleSet as CssRuleSet;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Settings as ParserSettings;
+
+use function Safe\preg_match;
 
 /**
  * Parses and stores a CSS document from a string of CSS, and provides methods to obtain the CSS in parts or as data
@@ -61,8 +62,7 @@ final class CssDocument
      */
     private function hasNestedAtRule(string $css): bool
     {
-        return (new Preg())
-                ->match('/@(?:media|supports|(?:-webkit-|-moz-|-ms-|-o-)?+(keyframes|document))\\b/', $css) !== 0;
+        return preg_match('/@(?:media|supports|(?:-webkit-|-moz-|-ms-|-o-)?+(keyframes|document))\\b/', $css) !== 0;
     }
 
     /**
@@ -137,8 +137,7 @@ final class CssDocument
                 $allowedMediaTypes
             );
             $mediaTypesMatcher = \implode('|', $escapedAllowedMediaTypes);
-            $isAllowed
-                = (new Preg())->match('/^\\s*+(?:only\\s++)?+(?:' . $mediaTypesMatcher . ')/i', $mediaType) !== 0;
+            $isAllowed = preg_match('/^\\s*+(?:only\\s++)?+(?:' . $mediaTypesMatcher . ')/i', $mediaType) !== 0;
         } else {
             $isAllowed = true;
         }

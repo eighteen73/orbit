@@ -1,13 +1,18 @@
 {
 	"name": "eighteen73/orbit",
-  "description": "Opinionated WordPress behaviour overrides",
-	"type": "wordpress-muplugin",
+	"description": "Opinionated WordPress behaviour overrides",
 	"license": "MIT",
-	"minimum-stability": "stable",
+	"type": "wordpress-muplugin",
 	"require": {
 		"php": ">=8.0",
 		"pelago/emogrifier": "^8.0"
 	},
+	"require-dev": {
+		"coenjacobs/mozart": "^0.7.1",
+		"eighteen73/wordpress-coding-standards": "^2.0.0",
+		"ergebnis/composer-normalize": "^2.48"
+	},
+	"minimum-stability": "stable",
 	"autoload": {
 		"psr-4": {
 			"Eighteen73\\Orbit\\": "includes/classes/"
@@ -15,34 +20,33 @@
 	},
 	"config": {
 		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"ergebnis/composer-normalize": true
+		},
+		"sort-packages": true
+	},
+	"extra": {
+		"mozart": {
+			"classmap_directory": "/includes/lib/",
+			"classmap_prefix": "Eighteen73_Orbit_",
+			"dep_directory": "/includes/lib/",
+			"dep_namespace": "Eighteen73\\Orbit\\Dependencies\\",
+			"packages": [
+				"pelago/emogrifier"
+			]
 		}
 	},
-	"require-dev": {
-		"eighteen73/wordpress-coding-standards": "^2.0.0",
-		"coenjacobs/mozart": "^0.7.1"
-	},
-  "extra": {
-    "mozart": {
-        "dep_namespace": "Eighteen73\\Orbit\\Dependencies\\",
-        "dep_directory": "/includes/lib/",
-        "classmap_directory": "/includes/lib/",
-        "classmap_prefix": "Eighteen73_Orbit_",
-        "packages": [
-            "pelago/emogrifier"
-        ]
-    }
-  },
-  "scripts": {
-    "lint": "./vendor/bin/phpcs",
-    "format": "./vendor/bin/phpcbf",
-    "post-install-cmd": [
-        "\"vendor/bin/mozart\" compose",
-        "composer dump-autoload"
-    ],
-    "post-update-cmd": [
-        "\"vendor/bin/mozart\" compose",
-        "composer dump-autoload"
-    ]
-  }
+	"scripts": {
+		"post-install-cmd": [
+			"\"vendor/bin/mozart\" compose",
+			"composer dump-autoload"
+		],
+		"post-update-cmd": [
+			"composer normalize",
+			"\"vendor/bin/mozart\" compose",
+			"composer dump-autoload"
+		],
+		"format": "./vendor/bin/phpcbf",
+		"lint": "./vendor/bin/phpcs"
+	}
 }
