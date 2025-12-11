@@ -35,12 +35,12 @@ class Plugin {
 		Media\RemoteFiles::instance()->setup();
 		Monitoring\HealthCheck::instance()->setup();
 		Performance\Fast404::instance()->setup();
+		Security\CheckoutHardening::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
 		Security\Headers::instance()->setup();
 		Security\HideAuthor::instance()->setup();
 		Security\HideVersion::instance()->setup();
-		Security\RateLimits::instance()->setup();
 		Security\RemoveHeadLinks::instance()->setup();
 		ThirdParty\WooCommerce::instance()->setup();
 		ThirdParty\Altcha::instance()->setup();
