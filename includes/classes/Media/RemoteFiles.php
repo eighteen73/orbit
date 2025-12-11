@@ -9,8 +9,6 @@ namespace Eighteen73\Orbit\Media;
 
 use Eighteen73\Orbit\Environment;
 use Eighteen73\Orbit\Singleton;
-use Roots\WPConfig\Config;
-use Roots\WPConfig\Exceptions\UndefinedConfigKeyException;
 
 /**
  * This class is built upon BE Media from Production so all due credit to those authors.
@@ -281,23 +279,15 @@ class RemoteFiles {
 	public function get_files_url(): ?string {
 		$files_url = getenv( 'ORBIT_REMOTE_FILES_URL' );
 
-		if ( ! $files_url ) {
-			try {
-				$files_url = Config::get( 'ORBIT_REMOTE_FILES_URL' );
-			} catch ( UndefinedConfigKeyException $e ) {
-				// continue to satellite fallback
-			}
+		if ( ! $files_url && defined( 'ORBIT_REMOTE_FILES_URL' ) ) {
+			$files_url = ORBIT_ENABLE_FAST_404;
 		}
 
 		if ( ! $files_url ) {
 			$files_url = getenv( 'SATELLITE_PRODUCTION_URL' );
 
-			if ( ! $files_url ) {
-				try {
-					$files_url = Config::get( 'SATELLITE_PRODUCTION_URL' );
-				} catch ( UndefinedConfigKeyException $e ) {
-					return null;
-				}
+			if ( ! $files_url && defined( 'SATELLITE_PRODUCTION_URL' ) ) {
+				$files_url = SATELLITE_PRODUCTION_URL;
 			}
 		}
 

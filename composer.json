@@ -4,13 +4,13 @@
 	"license": "MIT",
 	"type": "wordpress-muplugin",
 	"require": {
-		"php": ">=8.0",
-		"pelago/emogrifier": "^8.0"
+		"php": ">=8.0"
 	},
 	"require-dev": {
 		"coenjacobs/mozart": "^0.7.1",
 		"eighteen73/wordpress-coding-standards": "^2.0.0",
-		"ergebnis/composer-normalize": "^2.48"
+		"ergebnis/composer-normalize": "^2.48",
+		"pelago/emogrifier": "^8.0"
 	},
 	"minimum-stability": "stable",
 	"autoload": {
@@ -38,7 +38,7 @@
 	},
 	"scripts": {
 		"post-install-cmd": [
-			"\"vendor/bin/mozart\" compose",
+			"command -v vendor/bin/mozart >/dev/null 2>&1 || exit 0; vendor/bin/mozart compose",
 			"composer dump-autoload"
 		],
 		"post-update-cmd": [
