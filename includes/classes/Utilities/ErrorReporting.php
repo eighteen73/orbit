@@ -38,8 +38,8 @@ class ErrorReporting {
 	 * @return void
 	 */
 	public function init(): void {
-		if ( defined( 'ORBIT_ERROR_REPORTING' ) ) {
-			$error_level = ORBIT_ERROR_REPORTING;
+		if ( defined( 'ORBIT_ERROR_REPORTING' ) && ! empty( ORBIT_ERROR_REPORTING ) ) {
+			$error_level = (int) ORBIT_ERROR_REPORTING;
 		} else {
 			$error_level = E_ERROR
 						   + E_WARNING
