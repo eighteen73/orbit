@@ -8,8 +8,6 @@
 namespace Eighteen73\Orbit\Performance;
 
 use Eighteen73\Orbit\Singleton;
-use Roots\WPConfig\Config;
-use Roots\WPConfig\Exceptions\UndefinedConfigKeyException;
 
 /**
  * Fast 404 response on static assets
@@ -134,10 +132,10 @@ class Fast404 {
 	 * @return bool|null True to enable fast 404s, false to enable, or null if undefined.
 	 */
 	private function get_enable_fast_404(): ?bool {
-		try {
-			return filter_var( Config::get( 'ORBIT_ENABLE_FAST_404' ), FILTER_VALIDATE_BOOLEAN );
-		} catch ( UndefinedConfigKeyException $e ) {
+		if ( ! defined( 'ORBIT_ENABLE_FAST_404' ) ) {
 			return null;
 		}
+
+		return filter_var( ORBIT_ENABLE_FAST_404, FILTER_VALIDATE_BOOLEAN );
 	}
 }

@@ -45,5 +45,6 @@ class Plugin {
 		ThirdParty\WooCommerce::instance()->setup();
 		ThirdParty\Altcha::instance()->setup();
 		ThirdParty\ActionScheduler::instance()->setup();
+		Utilities\ErrorReporting::instance()->setup();
 	}
 }
