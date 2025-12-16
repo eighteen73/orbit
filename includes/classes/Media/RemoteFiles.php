@@ -280,7 +280,7 @@ class RemoteFiles {
 		$files_url = getenv( 'ORBIT_REMOTE_FILES_URL' );
 
 		if ( ! $files_url && defined( 'ORBIT_REMOTE_FILES_URL' ) ) {
-			$files_url = ORBIT_ENABLE_FAST_404;
+			$files_url = ORBIT_REMOTE_FILES_URL;
 		}
 
 		if ( ! $files_url ) {
