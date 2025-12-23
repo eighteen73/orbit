@@ -48,12 +48,12 @@ class Headers {
 			'Content-Security-Policy' => implode(
 				'; ',
 				[
-					"default-src 'self' https:",
+					"default-src 'self' https: wss:",
 					"img-src 'self' https: data: blob:",
-					"script-src 'self' https: blob: 'unsafe-inline' 'unsafe-eval'",
+					"script-src 'self' https: blob: wss: 'unsafe-inline' 'unsafe-eval'",
 					"style-src 'self' https: 'unsafe-inline'",
 					"font-src 'self' https: data:",
-					"worker-src 'self' https: blob:",
+					"worker-src 'self' https: blob: wss:",
 					"frame-ancestors 'self'",
 				]
 			),
