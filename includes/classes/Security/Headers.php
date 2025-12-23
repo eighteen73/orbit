@@ -50,7 +50,7 @@ class Headers {
 				[
 					"default-src 'self' https:",
 					"img-src 'self' https: data: blob:",
-					"script-src 'self' https: 'unsafe-inline' 'unsafe-eval'",
+					"script-src 'self' https: blob: 'unsafe-inline' 'unsafe-eval'",
 					"style-src 'self' https: 'unsafe-inline'",
 					"font-src 'self' https: data:",
 					"worker-src 'self' https: blob:",
