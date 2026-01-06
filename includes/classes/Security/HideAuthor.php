@@ -30,6 +30,10 @@ class HideAuthor {
 	 * @return void
 	 */
 	public function init(): void {
+		if ( apply_filters( 'orbit_enable_author_pages', false ) ) {
+			return;
+		}
+
 		add_action( 'template_redirect', [ $this, 'author_page_404' ] );
 	}
 

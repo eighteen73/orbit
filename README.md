@@ -43,6 +43,7 @@ If necessary, you may install it manually by downloading a Zip archive from [Git
     - Oembed links
     - Windows Live Writer manifest links
 - Set sensible security headers
+- Disable author pages for posts
 
 ### Capabilities
 
@@ -97,6 +98,7 @@ The following filters can be used to override the default behavior of certain fe
 -   `orbit_enable_xmlrpc`: Enable or disable XML-RPC functionality. Default `false` (disabled).
 -   `orbit_enable_expose_wordpress_version`: Show or hide the WordPress version in the site's frontend markup. Default `false` (hidden).
 -   `orbit_default_security_headers`: Set an array of security headers.
+-   `orbit_enable_author_pages`: Enable or disable author pages for posts. Default `false` (disabled).
 
 ### Capabilities
 
