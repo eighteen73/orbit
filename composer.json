@@ -10,7 +10,7 @@
 		"coenjacobs/mozart": "^0.7.1",
 		"eighteen73/wordpress-coding-standards": "^2.0.0",
 		"ergebnis/composer-normalize": "^2.48",
-		"pelago/emogrifier": "^8.0"
+		"pelago/emogrifier": "7.3"
 	},
 	"minimum-stability": "stable",
 	"autoload": {

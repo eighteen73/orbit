@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\Css;
 
-use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\OutputFormat;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Property\Selector;
 use Eighteen73\Orbit\Dependencies\Sabberworm\CSS\RuleSet\DeclarationBlock;
 
@@ -26,6 +25,7 @@ final class StyleRule
     private $containingAtRule;
 
     /**
+     * @param DeclarationBlock $declarationBlock
      * @param string $containingAtRule e.g. `@media screen and (max-width: 480px)`
      */
     public function __construct(DeclarationBlock $declarationBlock, string $containingAtRule = '')
@@ -35,16 +35,15 @@ final class StyleRule
     }
 
     /**
-     * @return array<non-empty-string> the selectors, e.g. `["h1", "p"]`
+     * @return array<int, string> the selectors, e.g. `["h1", "p"]`
      */
     public function getSelectors(): array
     {
+        /** @var array<int, Selector> $selectors */
         $selectors = $this->declarationBlock->getSelectors();
         return \array_map(
             static function (Selector $selector): string {
-                $selectorAsString = $selector->getSelector();
-                \assert($selectorAsString !== '');
-                return $selectorAsString;
+                return (string) $selector;
             },
             $selectors
         );
@@ -53,16 +52,9 @@ final class StyleRule
     /**
      * @return string the CSS declarations, separated and followed by a semicolon, e.g., `color: red; height: 4px;`
      */
-    public function getDeclarationsAsText(): string
+    public function getDeclarationAsText(): string
     {
-        $rules = $this->declarationBlock->getRules();
-        $renderedRules = [];
-        $outputFormat = OutputFormat::create();
-        foreach ($rules as $rule) {
-            $renderedRules[] = $rule->render($outputFormat);
-        }
-
-        return \implode(' ', $renderedRules);
+        return \implode(' ', $this->declarationBlock->getRules());
     }
 
     /**
@@ -74,7 +66,7 @@ final class StyleRule
     }
 
     /**
-     * @return string e.g. `@media screen and (max-width: 480px)`, or an empty string
+     * @returns string e.g. `@media screen and (max-width: 480px)`, or an empty string
      */
     public function getContainingAtRule(): string
     {

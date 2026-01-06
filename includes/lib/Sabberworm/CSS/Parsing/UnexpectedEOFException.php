@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Parsing;
 
 /**
@@ -9,4 +7,6 @@ namespace Eighteen73\Orbit\Dependencies\Sabberworm\CSS\Parsing;
  *
  * Extends `UnexpectedTokenException` in order to preserve backwards compatibility.
  */
-final class UnexpectedEOFException extends UnexpectedTokenException {}
+class UnexpectedEOFException extends UnexpectedTokenException
+{
+}
