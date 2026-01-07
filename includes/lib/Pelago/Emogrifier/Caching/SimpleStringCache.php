@@ -23,14 +23,14 @@ namespace Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\Caching;
 final class SimpleStringCache
 {
     /**
-     * @var array<non-empty-string, string>
+     * @var array<string, string>
      */
     private $values = [];
 
     /**
      * Checks whether there is an entry stored for the given key.
      *
-     * @param non-empty-string $key
+     * @param string $key the key to check; must not be empty
      *
      * @throws \InvalidArgumentException
      */
@@ -45,7 +45,9 @@ final class SimpleStringCache
      * Returns the entry stored for the given key, and throws an exception if the value does not exist
      * (which helps keep the return type simple).
      *
-     * @param non-empty-string $key
+     * @param string $key the key to of the item to retrieve; must not be empty
+     *
+     * @return string the retrieved value; may be empty
      *
      * @throws \BadMethodCallException
      */
@@ -61,9 +63,10 @@ final class SimpleStringCache
     /**
      * Sets or overwrites an entry.
      *
-     * @param non-empty-string $key
+     * @param string $key the key to of the item to set; must not be empty
+     * @param string $value the value to set; can be empty
      *
-     * @throws \InvalidArgumentException
+     * @throws \BadMethodCallException
      */
     public function set(string $key, string $value): void
     {

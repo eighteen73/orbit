@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\HtmlProcessor;
 
 use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\Utilities\DeclarationBlockParser;
-
-use function Safe\preg_match;
-use function Safe\preg_replace_callback;
+use Eighteen73\Orbit\Dependencies\Pelago\Emogrifier\Utilities\Preg;
 
 /**
  * This class can evaluate CSS custom properties that are defined and used in inline style attributes.
@@ -80,7 +78,8 @@ final class CssVariableEvaluator extends AbstractHtmlProcessor
      */
     private function replaceVariablesInPropertyValue(string $propertyValue): string
     {
-        $pattern = '/
+        return (new Preg())->replaceCallback(
+            '/
                 var\\(
                     \\s*+
                     # capture variable name including `--` prefix
@@ -121,24 +120,16 @@ final class CssVariableEvaluator extends AbstractHtmlProcessor
                         )
                     )?+
                 \\)
-            /x';
-
-        $callable = \Closure::fromCallable([$this, 'getPropertyValueReplacement']);
-        if (\function_exists('Safe\\preg_replace_callback')) {
-            $result = preg_replace_callback($pattern, $callable, $propertyValue);
-        } else {
-            // @phpstan-ignore-next-line The safe version is only available in "thecodingmachine/safe" for PHP >= 8.1.
-            $result = \preg_replace_callback($pattern, $callable, $propertyValue);
-        }
-        \assert(\is_string($result));
-
-        return $result;
+            /x',
+            \Closure::fromCallable([$this, 'getPropertyValueReplacement']),
+            $propertyValue
+        );
     }
 
     /**
      * @param array<non-empty-string, string> $declarations
      *
-     * @return array<non-empty-string, string>|null `null` is returned if no substitutions were made.
+     * @return ?array<non-empty-string, string> `null` is returned if no substitutions were made.
      */
     private function replaceVariablesInDeclarations(array $declarations): ?array
     {
@@ -185,11 +176,10 @@ final class CssVariableEvaluator extends AbstractHtmlProcessor
         $style = $element->getAttribute('style');
 
         // Avoid parsing declarations if none use or define a variable
-        if (preg_match('/(?<![\\w\\-])--[\\w\\-]/', $style) !== 0) {
+        if ((new Preg())->match('/(?<![\\w\\-])--[\\w\\-]/', $style) !== 0) {
             $declarations = (new DeclarationBlockParser())->parse($style);
-            $variableDefinitions =
-                $this->getVariableDefinitionsFromDeclarations($declarations) + $ancestorVariableDefinitions;
-            $this->currentVariableDefinitions = $variableDefinitions;
+            $variableDefinitions = $this->currentVariableDefinitions
+                = $this->getVariableDefinitionsFromDeclarations($declarations) + $ancestorVariableDefinitions;
 
             $newDeclarations = $this->replaceVariablesInDeclarations($declarations);
             if ($newDeclarations !== null) {
