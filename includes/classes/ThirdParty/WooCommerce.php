@@ -34,7 +34,7 @@ class WooCommerce {
 		 * Including rate-limiting, nonce validation, same-origin checks, and session validation.
 		 */
 
-		if ( (bool) apply_filters( 'orbit_enable_woocommerce_checkout_hardening', true ) ) {
+		if ( (bool) apply_filters( 'orbit_enable_woocommerce_checkout_hardening', false ) ) {
 
 			// Store API: nonce + same-origin + rate limit
 			add_filter( 'rest_pre_dispatch', [ $this, 'harden_store_api' ], 10, 3 );
