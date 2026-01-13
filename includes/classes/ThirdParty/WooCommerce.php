@@ -34,19 +34,23 @@ class WooCommerce {
 		 * Including rate-limiting, nonce validation, same-origin checks, and session validation.
 		 */
 
-		// Store API: nonce + same-origin + rate limit
-		add_filter( 'rest_pre_dispatch', [ $this, 'harden_store_api' ], 10, 3 );
+		if ( (bool) apply_filters( 'orbit_enable_woocommerce_checkout_hardening', true ) ) {
 
-		// Store API: native rate limiter (for good measure)
-		add_filter( 'woocommerce_store_api_rate_limit_options', [ $this, 'native_store_api_rate_limit' ] );
-		add_filter( 'woocommerce_store_api_rate_limit_id', [ $this, 'native_store_api_rate_limit_fingerprint' ] );
+			// Store API: nonce + same-origin + rate limit
+			add_filter( 'rest_pre_dispatch', [ $this, 'harden_store_api' ], 10, 3 );
 
-		// Classic checkout AJAX: nonce + same-origin + rate limit
-		add_action( 'init', [ $this, 'harden_classic_checkout' ] );
+			// Store API: native rate limiter (for good measure)
+			add_filter( 'woocommerce_store_api_rate_limit_options', [ $this, 'native_store_api_rate_limit' ] );
+			add_filter( 'woocommerce_store_api_rate_limit_id', [ $this, 'native_store_api_rate_limit_fingerprint' ] );
 
-		// Classic checkout AJAX: honeypot
-		add_filter( 'woocommerce_checkout_fields', [ $this, 'classic_checkout_honeypot' ] );
-		add_action( 'woocommerce_after_checkout_validation', [ $this, 'classic_checkout_honeypot_validation' ], 10, 2 );
+			// Classic checkout AJAX: nonce + same-origin + rate limit
+			add_action( 'init', [ $this, 'harden_classic_checkout' ] );
+
+			// Classic checkout AJAX: honeypot
+			add_filter( 'woocommerce_checkout_fields', [ $this, 'classic_checkout_honeypot' ] );
+			add_action( 'woocommerce_after_checkout_validation', [ $this, 'classic_checkout_honeypot_validation' ], 10, 2 );
+
+		}
 	}
 
 	/*********************
