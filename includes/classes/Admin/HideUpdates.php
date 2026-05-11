@@ -134,6 +134,10 @@ class HideUpdates {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
+		if ( ! is_admin_bar_showing() ) {
+			return;
+		}
+
 		wp_enqueue_style( 'hide_updates_css', WPMU_PLUGIN_URL . '/orbit/css/hide-updates.css' );
 	}
 }
