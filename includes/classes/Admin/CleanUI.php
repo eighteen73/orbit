@@ -114,9 +114,16 @@ class CleanUI {
 		}
 
 		$image = (string) apply_filters( 'orbit_login_logo_url', '' );
-		$width = 250;
+		$width = (int) apply_filters( 'orbit_login_logo_width', 250 );
 
-		if ( ! $image || $image === '' ) {
+		if ( $image === '' ) {
+			echo '<style> .login h1 { display: none; } </style>';
+			return;
+		}
+
+		$image = esc_url( $image );
+
+		if ( $image === '' ) {
 			echo '<style> .login h1 { display: none; } </style>';
 			return;
 		}
