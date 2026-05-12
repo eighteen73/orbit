@@ -14,6 +14,21 @@ composer require eighteen73/orbit
 
 If necessary, you may install it manually by downloading a Zip archive from [GitHub](https://github.com/eighteen73/orbit) and extracting it to your plugins directory.
 
+## Vendored Dependencies
+
+Orbit ships a small number of vendored third-party libraries (currently `pelago/emogrifier` and its transitive dependencies) under `includes/lib/`, namespaced via [Mozart](https://github.com/coenjacobs/mozart) into `Eighteen73\Orbit\Dependencies\…` to avoid collisions with other plugins.
+
+To refresh these after pulling a new Composer release of a vendored package:
+
+```shell
+composer install
+composer update <vendor>/<package>
+vendor/bin/mozart compose
+composer dump-autoload
+```
+
+Security advisories that affect any of the vendored packages **must** be applied here as well as in any Composer-installed copies; the `includes/lib/` tree is a snapshot and will not be patched automatically by `composer update`.
+
 ## Summary of Features
 
 ### Branded Emails
@@ -88,6 +103,7 @@ The following filters can be used to override the default behavior of certain fe
 -   `orbit_enable_toolbar_item_new_content`: Control the visibility of the "New Content" item in the toolbar. Default `true` (visible).
 -   `orbit_enable_login_logo`: Enable replacement of the login logo. Default `true` (enabled).
 -   `orbit_login_logo_url`: Provide a URL to replace the default WordPress login logo. No default.
+-   `orbit_login_logo_width`: Width (in pixels) for the replacement login logo. Default `250`.
 -   `orbit_enable_admin_environment_name`: Control the display of the environment name in the admin area. Default `true` (enabled).
 
 ### Security

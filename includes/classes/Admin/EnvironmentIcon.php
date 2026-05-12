@@ -11,9 +11,7 @@ use Eighteen73\Orbit\Singleton;
 use WP_Admin_Bar;
 
 /**
- * Hide update options for non-admin users
- *
- * Inspired by https://wordpress.org/plugins/hide-updates/
+ * Add an icon to the toolbar to indicate the environment
  */
 class EnvironmentIcon {
 	use Singleton;
@@ -90,6 +88,10 @@ class EnvironmentIcon {
 	 * @return void
 	 */
 	public function enqueue_plugin_styles(): void {
+		if ( ! is_admin_bar_showing() ) {
+			return;
+		}
+
 		wp_enqueue_style( 'orbit-environment-icon-css', WPMU_PLUGIN_URL . '/orbit/css/environment-icon.css' );
 	}
 }

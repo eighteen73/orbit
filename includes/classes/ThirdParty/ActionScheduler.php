@@ -10,17 +10,17 @@ namespace Eighteen73\Orbit\ThirdParty;
 use Eighteen73\Orbit\Singleton;
 
 /**
- * Modifications to Altcha.
+ * Modifications to Action Scheduler.
  */
 class ActionScheduler {
 	use Singleton;
 
 	/**
-	 * Run on init
+	 * Setup module.
 	 *
 	 * @return void
 	 */
-	public function setup() {
+	public function setup(): void {
 		add_filter( 'action_scheduler_retention_period', [ $this, 'set_action_scheduler_retention_period' ] );
 		add_filter( 'action_scheduler_default_cleaner_statuses', [ $this, 'set_action_scheduler_default_cleaner_statuses' ] );
 		add_filter( 'action_scheduler_cleanup_batch_size', [ $this, 'set_action_scheduler_cleanup_batch_size' ] );

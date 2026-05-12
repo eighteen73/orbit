@@ -7,27 +7,15 @@
 
 namespace Eighteen73\Orbit\DisallowIndexing;
 
+use Eighteen73\Orbit\Environment;
 use Eighteen73\Orbit\Singleton;
 
 /**
  * Disallow robot indexing in non-production environments
  */
 class DisallowIndexing {
+	use Environment;
 	use Singleton;
-
-	/**
-	 * Whether this feature is enabled or not
-	 *
-	 * @var bool
-	 */
-	private bool $enabled;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->enabled = $this->is_enabled();
-	}
 
 	/**
 	 * Integrate into WordPress
@@ -45,7 +33,7 @@ class DisallowIndexing {
 	 * @return bool
 	 */
 	public function is_enabled(): bool {
-		return wp_get_environment_type() !== 'production';
+		return $this->environment() !== 'production';
 	}
 
 	/**
@@ -54,7 +42,7 @@ class DisallowIndexing {
 	 * @return int
 	 */
 	public function disallow(): int {
-		if ( ! $this->enabled ) {
+		if ( ! $this->is_enabled() ) {
 			return 1;
 		}
 
@@ -67,7 +55,7 @@ class DisallowIndexing {
 	 * @return void|null
 	 */
 	public function show_notice() {
-		if ( ! $this->enabled ) {
+		if ( ! $this->is_enabled() ) {
 			return null;
 		}
 
@@ -75,7 +63,7 @@ class DisallowIndexing {
 			/* translators: 1: Plugin name, 2: Current environment. */
 			__( '%1$s Search engine indexing has been discouraged because the current environment is %2$s.', 'orbit' ),
 			'<strong>Orbit:</strong>',
-			'<code>' . wp_get_environment_type() . '</code>'
+			'<code>' . esc_html( $this->environment() ) . '</code>'
 		);
 
 		echo wp_kses(

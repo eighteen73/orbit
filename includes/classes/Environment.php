@@ -2,7 +2,7 @@
 /**
  * An environment reader trait for wide installation support
  *
- * @package         Orbit
+ * @package Orbit
  */
 
 namespace Eighteen73\Orbit;

@@ -50,15 +50,17 @@ class Users {
 				continue;
 			}
 
-			foreach ( $caps as $cap ) {
+			if ( $role->has_cap( 'delete_users' ) ) {
 				$role->remove_cap( 'delete_users' );
+			}
 
-				if ( $disable_user_caps ) {
-					if ( $role->has_cap( $cap ) ) {
-						$role->remove_cap( $cap );
-					}
-				} elseif ( ! $role->has_cap( $cap ) ) {
-						$role->add_cap( $cap );
+			foreach ( $caps as $cap ) {
+				$has_cap = $role->has_cap( $cap );
+
+				if ( $disable_user_caps && $has_cap ) {
+					$role->remove_cap( $cap );
+				} elseif ( ! $disable_user_caps && ! $has_cap ) {
+					$role->add_cap( $cap );
 				}
 			}
 		}
