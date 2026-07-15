@@ -26,6 +26,7 @@ class Plugin {
 		Admin\HideUpdates::instance()->setup();
 		Admin\EnvironmentIcon::instance()->setup();
 		BlockEditor\Patterns::instance()->setup();
+		BlockEditor\SyncedPatterns::instance()->setup();
 		Branding\BrandedEmails::instance()->setup();
 		Capabilities\GravityForms::instance()->setup();
 		Capabilities\Users::instance()->setup();
