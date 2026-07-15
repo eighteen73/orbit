@@ -75,6 +75,57 @@ Security advisories that affect any of the vendored packages **must** be applied
 
 - Adds endpoint "/wp-json/orbit/up" for use as quick website availability check
 - Load media files from a production URL in non-production environments (requires `ORBIT_REMOTE_FILES_URL` environment variable/constant)
+- Syncs theme patterns marked `Synced: true` into WordPress synced patterns (`wp_block`) so design updates from the theme roll out to every existing instance
+
+### Synced theme patterns
+
+Orbit can turn theme pattern files into real synced patterns (with pattern overrides), so the theme remains the source of truth in version control.
+
+**Authoring (theme file)**
+
+1. Add a pattern under `patterns/` as usual.
+2. Opt in with a header value of `true`, `yes`, or `1`:
+
+```php
+<?php
+/**
+ * Title: Feature cards
+ * Slug: mytheme/feature-cards
+ * Categories: featured
+ * Synced: true
+ */
+?>
+<!-- wp:group ... -->
+```
+
+3. Mark overridable fields with `core/pattern-overrides` bindings and stable `metadata.name` values (those names are a public API — renaming them orphans existing instance content).
+
+**Runtime (Orbit)**
+
+- On `init`, Orbit compares a cheap **file fingerprint** (theme + pattern file mtimes/sizes) to a cached option — same idea as core’s theme pattern cache.
+- When the fingerprint is unchanged, Orbit only re-registers in-memory `core/block` refs from cache (no file includes, no DB upserts).
+- When files change (e.g. after deploy), it finds Synced theme patterns (child wins over parent for the same slug), creates/updates matching `wp_block` posts, then stores the new cache.
+- The theme pattern is re-registered so `<!-- wp:pattern {"slug":"mytheme/feature-cards"} /-->` resolves to a `core/block` ref.
+- The synced pattern appears in the editor Patterns UI like other synced patterns; inserting it stores a ref so layout updates propagate to all instances.
+- REST updates to Orbit-managed synced patterns are blocked — change the theme file instead.
+- Cache clears automatically on theme switch; you can also delete the `orbit_synced_theme_patterns_cache` option to force a full sync.
+
+**Orbit vs Block Theme Developer**
+
+| Tool | Responsibility |
+|------|----------------|
+| **Orbit** (always installed) | Runtime sync: theme `Synced` patterns → `wp_block` on every environment |
+| **Block Theme Developer** (local only) | Authoring/export of patterns and template parts to theme files |
+
+Do not rely on Block Theme Developer for production sync.
+
+**Override naming contract**
+
+Treat each overridable block’s `metadata.name` (e.g. `Card Title 1`) as stable. Layout/style changes in the theme file will update every instance; override values survive only when those names still exist on the updated pattern.
+
+**Not every pattern should be Synced**
+
+Use Synced for library patterns clients should keep on-brand site-wide. Leave one-off page scaffolds unsynced (WP 7.0 `contentOnly` still locks casual structural edits on those).
 
 ## Available Filters
 
@@ -133,6 +184,10 @@ The following filters can be used to override the default behavior of certain fe
 ### Other Features
 
 -   `orbit_remote_files_url`: Override the production URL used for loading remote media files. Default value comes from `ORBIT_REMOTE_FILES_URL`.
+-   `orbit_enable_synced_theme_patterns`: Enable Orbit’s theme → synced pattern sync. Default `true` (enabled).
+-   `orbit_synced_theme_patterns`: Filter the list of synced pattern data arrays discovered from theme files (full sync only).
+-   `orbit_synced_theme_patterns_fingerprint_parts`: Filter fingerprint segments used for the sync cache.
+-   `orbit_enable_disable_external_patterns`: Enable removal of external (e.g. WooCommerce) patterns. Default `true` (enabled).
 
 ### Examples
 
