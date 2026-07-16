@@ -187,6 +187,7 @@ The following filters can be used to override the default behavior of certain fe
 -   `orbit_enable_synced_theme_patterns`: Enable Orbit’s theme → synced pattern sync. Default `true` (enabled).
 -   `orbit_synced_theme_patterns`: Filter the list of synced pattern data arrays discovered from theme files (full sync only).
 -   `orbit_synced_theme_patterns_fingerprint_parts`: Filter fingerprint segments used for the sync cache.
+-   `orbit_allow_theme_synced_pattern_updates`: Allow REST/Site Editor updates to Orbit-managed synced patterns. Default `false`. Block Theme Developer enables this in file mode.
 -   `orbit_enable_disable_external_patterns`: Enable removal of external (e.g. WooCommerce) patterns. Default `true` (enabled).
 
 ### Examples
