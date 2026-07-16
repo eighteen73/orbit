@@ -75,6 +75,7 @@ Security advisories that affect any of the vendored packages **must** be applied
 
 - Adds endpoint "/wp-json/orbit/up" for use as quick website availability check
 - Load media files from a production URL in non-production environments (requires `ORBIT_REMOTE_FILES_URL` environment variable/constant)
+- Reduce PHP error-log noise while preserving serious errors (configurable via `ORBIT_ERROR_REPORTING`)
 
 ## Available Filters
 
@@ -151,3 +152,21 @@ add_filter( 'orbit_enable_menu_item_posts', '__return_false' );
 // Example: Disable the login logo replacement (Orbit enables it by default)
 add_filter( 'orbit_enable_login_logo', '__return_false' );
 ```
+
+## Error Reporting
+
+Orbit overrides WordPress' PHP error reporting defaults to keep error logs useful. In development environments it suppresses deprecated and user-deprecated messages. In all other environments it also suppresses warnings, user warnings, notices, and user notices. Other errors continue through any previously registered error handler, or fall back to PHP's standard error handling.
+
+Orbit re-registers its handler at several points during the WordPress lifecycle so these defaults remain effective if another plugin changes the active error handler or calls `error_reporting()`.
+
+Define `ORBIT_ERROR_REPORTING` in `wp-config.php` to customise this behaviour:
+
+```php
+// Use a custom PHP error-reporting bitmask.
+define( 'ORBIT_ERROR_REPORTING', E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED );
+
+// Or disable Orbit's error-reporting override entirely.
+define( 'ORBIT_ERROR_REPORTING', false );
+```
+
+When a custom bitmask is provided, Orbit passes it to `error_reporting()`. Its handler still suppresses the environment-specific noisy error levels described above; use `false` if another component should have full control of both the reporting level and error handler.
