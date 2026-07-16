@@ -387,6 +387,19 @@ class SyncedPatterns {
 			return $response;
 		}
 
+		/**
+		 * Allow REST updates to Orbit-managed synced theme patterns.
+		 *
+		 * Block Theme Developer enables this in file mode so patterns can be
+		 * authored in the Site Editor and written back to theme files.
+		 *
+		 * @param bool $allow Whether to allow the update. Default false.
+		 * @param int  $post_id Pattern post ID.
+		 */
+		if ( apply_filters( 'orbit_allow_theme_synced_pattern_updates', false, (int) $post->ID ) ) {
+			return $response;
+		}
+
 		return new WP_Error(
 			'orbit_cannot_update_theme_synced_pattern',
 			__( 'This synced pattern is managed by the theme. Update the theme pattern file instead.', 'orbit' ),
@@ -407,21 +420,36 @@ class SyncedPatterns {
 
 		if ( $post instanceof WP_Post ) {
 			$existing_hash = (string) get_post_meta( $post->ID, self::META_HASH, true );
+			$desired_name  = $this->post_name_from_slug( $pattern['slug'] );
 
-			if ( $existing_hash === $hash && $post->post_title === $pattern['title'] ) {
+			if (
+				$existing_hash === $hash
+				&& $post->post_title === $pattern['title']
+				&& $post->post_name === $desired_name
+				&& '1' === (string) get_post_meta( $post->ID, self::META_MANAGED, true )
+			) {
 				$this->sync_pattern_terms( $post->ID, $pattern );
+				$this->trash_duplicate_managed_patterns( $pattern['slug'], (int) $post->ID );
 				return (int) $post->ID;
 			}
 
-			$updated = wp_update_post(
-				[
-					'ID'           => $post->ID,
-					'post_title'   => $pattern['title'],
-					'post_content' => $content,
-					'post_status'  => 'publish',
-				],
-				true
-			);
+			$update = [
+				'ID'           => $post->ID,
+				'post_title'   => $pattern['title'],
+				'post_content' => $content,
+				'post_status'  => 'publish',
+			];
+
+			// Trash slug duplicates before renaming to avoid post_name collisions.
+			$this->trash_duplicate_managed_patterns( $pattern['slug'], (int) $post->ID );
+
+			// Align editor-created short names (btd-example) to Orbit names (ollie-btd-example).
+			if ( $post->post_name !== $desired_name ) {
+				$this->trash_posts_with_name( $desired_name, (int) $post->ID, $pattern['slug'] );
+				$update['post_name'] = $desired_name;
+			}
+
+			$updated = wp_update_post( $update, true );
 
 			if ( is_wp_error( $updated ) ) {
 				return 0;
@@ -460,12 +488,83 @@ class SyncedPatterns {
 
 		delete_post_meta( $post_id, 'wp_pattern_sync_status' );
 		$this->sync_pattern_terms( (int) $post_id, $pattern );
+		$this->trash_duplicate_managed_patterns( $pattern['slug'], (int) $post_id );
 
 		return (int) $post_id;
 	}
 
 	/**
+	 * Trash extra managed wp_block posts for the same theme slug.
+	 *
+	 * @param string $slug    Theme pattern slug.
+	 * @param int    $keep_id Post ID to keep.
+	 * @return void
+	 */
+	private function trash_duplicate_managed_patterns( string $slug, int $keep_id ): void {
+		$query = new WP_Query(
+			[
+				'post_type'              => 'wp_block',
+				'post_status'            => [ 'publish', 'draft', 'private' ],
+				'posts_per_page'         => 20,
+				'post__not_in'           => [ $keep_id ],
+				'no_found_rows'          => true,
+				'ignore_sticky_posts'    => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => [
+					'relation' => 'AND',
+					[
+						'key'   => self::META_MANAGED,
+						'value' => '1',
+					],
+					[
+						'key'   => self::META_SLUG,
+						'value' => $slug,
+					],
+				],
+			]
+		);
+
+		foreach ( $query->posts as $duplicate ) {
+			if ( $duplicate instanceof WP_Post ) {
+				wp_trash_post( (int) $duplicate->ID );
+			}
+		}
+	}
+
+	/**
+	 * Trash wp_block posts occupying a post_name when claiming a theme slug.
+	 *
+	 * @param string $post_name Desired post_name.
+	 * @param int    $keep_id   Post ID to keep.
+	 * @param string $slug      Theme pattern slug being claimed.
+	 * @return void
+	 */
+	private function trash_posts_with_name( string $post_name, int $keep_id, string $slug ): void {
+		$posts = get_posts(
+			[
+				'post_type'      => 'wp_block',
+				'post_status'    => [ 'publish', 'draft', 'private' ],
+				'name'           => $post_name,
+				'posts_per_page' => 20,
+				'post__not_in'   => [ $keep_id ],
+			]
+		);
+
+		foreach ( $posts as $collision ) {
+			$collision_slug = (string) get_post_meta( $collision->ID, self::META_SLUG, true );
+			if ( '' === $collision_slug || $collision_slug === $slug ) {
+				wp_trash_post( (int) $collision->ID );
+			}
+		}
+	}
+
+	/**
 	 * Find an Orbit-managed wp_block by theme pattern slug.
+	 *
+	 * Also claims an existing user-created synced pattern when its post_name
+	 * matches the short slug (e.g. btd-example) or Orbit-style name
+	 * (e.g. ollie-btd-example), so BTD → file → Orbit does not duplicate.
 	 *
 	 * @param string $slug Theme pattern slug.
 	 * @return WP_Post|null
@@ -498,24 +597,61 @@ class SyncedPatterns {
 			return $query->posts[0];
 		}
 
-		$by_name = get_posts(
-			[
-				'post_type'      => 'wp_block',
-				'post_status'    => 'any',
-				'name'           => $this->post_name_from_slug( $slug ),
-				'posts_per_page' => 1,
-			]
+		$candidate_names = array_values(
+			array_unique(
+				array_filter(
+					[
+						$this->post_name_from_slug( $slug ),
+						$this->short_slug_from_slug( $slug ),
+					]
+				)
+			)
 		);
 
-		if ( empty( $by_name[0] ) || ! $by_name[0] instanceof WP_Post ) {
-			return null;
-		}
+		foreach ( $candidate_names as $post_name ) {
+			$by_name = get_posts(
+				[
+					'post_type'              => 'wp_block',
+					'post_status'            => [ 'publish', 'draft', 'private' ],
+					'name'                   => $post_name,
+					'posts_per_page'         => 1,
+					'no_found_rows'          => true,
+					'ignore_sticky_posts'    => true,
+					'update_post_meta_cache' => true,
+					'update_post_term_cache' => false,
+				]
+			);
 
-		if ( '1' === (string) get_post_meta( $by_name[0]->ID, self::META_MANAGED, true ) ) {
+			if ( empty( $by_name[0] ) || ! $by_name[0] instanceof WP_Post ) {
+				continue;
+			}
+
+			$existing_slug = (string) get_post_meta( $by_name[0]->ID, self::META_SLUG, true );
+
+			// Do not steal a post already claimed for a different theme pattern.
+			if ( '' !== $existing_slug && $existing_slug !== $slug ) {
+				continue;
+			}
+
 			return $by_name[0];
 		}
 
 		return null;
+	}
+
+	/**
+	 * Short pattern slug without the theme namespace.
+	 *
+	 * @param string $slug Full or short slug.
+	 * @return string
+	 */
+	private function short_slug_from_slug( string $slug ): string {
+		if ( str_contains( $slug, '/' ) ) {
+			$parts = explode( '/', $slug );
+			$slug  = (string) end( $parts );
+		}
+
+		return sanitize_title( $slug );
 	}
 
 	/**
