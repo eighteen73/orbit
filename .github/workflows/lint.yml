@@ -3,7 +3,7 @@ name: Lint
 on:
   pull_request:
     branches:
-      - main, develop
+      - main
     types: [opened, synchronize, reopened]
 
 jobs:
