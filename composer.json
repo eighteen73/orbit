@@ -9,6 +9,7 @@
 	"require-dev": {
 		"coenjacobs/mozart": "^0.7.1",
 		"eighteen73/wordpress-coding-standards": "^2.0.0",
+		"enshrined/svg-sanitize": "^0.22.0",
 		"ergebnis/composer-normalize": "^2.48",
 		"pelago/emogrifier": "7.3"
 	},
@@ -32,6 +33,7 @@
 			"dep_directory": "/includes/lib/",
 			"dep_namespace": "Eighteen73\\Orbit\\Dependencies\\",
 			"packages": [
+				"enshrined/svg-sanitize",
 				"pelago/emogrifier"
 			]
 		}

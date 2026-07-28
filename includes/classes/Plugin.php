@@ -34,6 +34,7 @@ class Plugin {
 		Capabilities\Privacy::instance()->setup();
 		DisallowIndexing\DisallowIndexing::instance()->setup();
 		Media\RemoteFiles::instance()->setup();
+		Media\Svg::instance()->setup();
 		Monitoring\HealthCheck::instance()->setup();
 		Performance\Fast404::instance()->setup();
 		Security\DisableAPI::instance()->setup();

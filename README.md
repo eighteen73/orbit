@@ -16,7 +16,7 @@ If necessary, you may install it manually by downloading a Zip archive from [Git
 
 ## Vendored Dependencies
 
-Orbit ships a small number of vendored third-party libraries (currently `pelago/emogrifier` and its transitive dependencies) under `includes/lib/`, namespaced via [Mozart](https://github.com/coenjacobs/mozart) into `Eighteen73\Orbit\Dependencies\…` to avoid collisions with other plugins.
+Orbit ships a small number of vendored third-party libraries (currently `pelago/emogrifier`, `enshrined/svg-sanitize`, and their transitive dependencies) under `includes/lib/`, namespaced via [Mozart](https://github.com/coenjacobs/mozart) into `Eighteen73\Orbit\Dependencies\…` to avoid collisions with other plugins.
 
 To refresh these after pulling a new Composer release of a vendored package:
 
@@ -75,6 +75,12 @@ Security advisories that affect any of the vendored packages **must** be applied
 
 - Adds endpoint "/wp-json/orbit/up" for use as quick website availability check
 - Load media files from a production URL in non-production environments (requires `ORBIT_REMOTE_FILES_URL` environment variable/constant)
+- Allow SVG uploads with sanitization and media library previews (inspired by [Safe SVG](https://github.com/10up/safe-svg); configurable via `orbit_enable_svg_uploads`)
+  - Anyone with the `upload_files` capability can upload SVGs when the feature is enabled
+  - Uploads are sanitized with `enshrined/svg-sanitize` plus Orbit’s stricter defaults (no `<style>`/`<a>`, fragment-only `href`s, remote references removed)
+  - Gzipped `.svgz` uploads are **disabled by default** (`orbit_enable_svgz_uploads`); when enabled, decompression is size- and ratio-limited
+  - Sanitized SVGs are intended for use as `<img src="…">` (or CSS backgrounds). **Do not inline** upload SVGs into HTML without a separate inline-SVG policy — standalone or inlined SVGs can still be active documents
+  - For stronger isolation, serve `wp-content/uploads` from a cookieless domain and/or apply restrictive CSP/`Content-Disposition` rules for `*.svg` at the web server
 - Reduce PHP error-log noise while preserving serious errors (configurable via `ORBIT_ERROR_REPORTING`)
 - Syncs theme patterns marked `Synced: true` into WordPress synced patterns (`wp_block`) so design updates from the theme roll out to every existing instance
 
@@ -185,6 +191,17 @@ The following filters can be used to override the default behavior of certain fe
 ### Other Features
 
 -   `orbit_remote_files_url`: Override the production URL used for loading remote media files. Default value comes from `ORBIT_REMOTE_FILES_URL`.
+-   `orbit_enable_svg_uploads`: Enable SVG upload sanitization and media library support. Default `true` (enabled).
+-   `orbit_enable_svgz_uploads`: Allow gzipped `.svgz` uploads (still sanitized, with decompression limits). Default `false` (disabled).
+-   `orbit_svg_max_decompressed_bytes`: Maximum uncompressed size when decoding gzipped SVGs. Default `10485760` (10 MiB).
+-   `orbit_svg_max_compression_ratio`: Maximum uncompressed/compressed ratio when decoding gzipped SVGs. Default `100`.
+-   `orbit_svg_allowed_tags`: Filter the allowlist of SVG tags used during sanitization (after Orbit’s default removals).
+-   `orbit_svg_allowed_attributes`: Filter the allowlist of SVG attributes used during sanitization (after Orbit’s default removals).
+-   `orbit_svg_disallowed_tags`: Tags removed from the library defaults before `orbit_svg_allowed_tags`. Default `['a', 'style']`.
+-   `orbit_svg_disallowed_attributes`: Attributes removed from the library defaults before `orbit_svg_allowed_attributes`. Default `['style']`.
+-   `orbit_svg_allow_style`: Keep `<style>` elements and `style` attributes after sanitization. Default `false`.
+-   `orbit_svg_allow_external_hrefs`: Allow `http://` / `https://` in `href` / `xlink:href`. Default `false`.
+-   `orbit_svg_allow_root_relative_hrefs`: Allow root-relative paths such as `/path` in `href` / `xlink:href`. Default `false`.
 -   `orbit_enable_synced_theme_patterns`: Enable Orbit’s theme → synced pattern sync. Default `true` (enabled).
 -   `orbit_synced_theme_patterns`: Filter the list of synced pattern data arrays discovered from theme files (full sync only).
 -   `orbit_synced_theme_patterns_fingerprint_parts`: Filter fingerprint segments used for the sync cache.
