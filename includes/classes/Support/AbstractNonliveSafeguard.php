@@ -59,7 +59,7 @@ abstract class AbstractNonliveSafeguard implements NonliveSafeguards {
 		$message = sprintf(
 			/* translators: 1: Plugin name */
 			__( '%1$s Non-live site safeguards are active to prevent live transactions or external service calls on this instance.', 'orbit' ),
-			'<strong>Orbit Safeguard:</strong>'
+			'<strong>Orbit:</strong>'
 		);
 
 		echo wp_kses(
