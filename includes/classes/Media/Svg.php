@@ -239,29 +239,32 @@ class Svg {
 		$possible_sizes = apply_filters(
 			'image_size_names_choose',
 			[
-				'full'      => __( 'Full Size' ),
 				'thumbnail' => __( 'Thumbnail' ),
 				'medium'    => __( 'Medium' ),
 				'large'     => __( 'Large' ),
+				'full'      => __( 'Full Size' ),
 			]
 		);
 
-		$sizes = [];
+		$registered_sizes = wp_get_registered_image_subsizes();
+		$sizes            = [];
 
 		foreach ( $possible_sizes as $size => $label ) {
-			$default_height = 2000;
-			$default_width  = 2000;
-
-			if ( 'full' === $size && $dimensions ) {
-				$default_height = $dimensions['height'];
-				$default_width  = $dimensions['width'];
+			if ( 'full' === $size ) {
+				$width  = is_array( $dimensions ) ? (int) ( $dimensions['width'] ?? 0 ) : 0;
+				$height = is_array( $dimensions ) ? (int) ( $dimensions['height'] ?? 0 ) : 0;
+			} elseif ( isset( $registered_sizes[ $size ] ) ) {
+				$width  = (int) $registered_sizes[ $size ]['width'];
+				$height = (int) $registered_sizes[ $size ]['height'];
+			} else {
+				continue;
 			}
 
 			$sizes[ $size ] = [
-				'height'      => get_option( "{$size}_size_w", $default_height ),
-				'width'       => get_option( "{$size}_size_h", $default_width ),
+				'height'      => $height,
+				'width'       => $width,
 				'url'         => $response['url'],
-				'orientation' => 'portrait',
+				'orientation' => ( $height > $width ) ? 'portrait' : 'landscape',
 			];
 		}
 
