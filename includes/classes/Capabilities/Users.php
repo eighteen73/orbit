@@ -22,6 +22,7 @@ class Users {
 	 */
 	public function setup(): void {
 		add_action( 'admin_init', [ $this, 'manage_user_caps' ] );
+		add_filter( 'map_meta_cap', [ $this, 'allow_create_users_on_multisite' ], 10, 3 );
 	}
 
 	/**
@@ -64,5 +65,44 @@ class Users {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Let editors and shop managers create users on Multisite.
+	 *
+	 * WordPress maps create_users to do_not_allow unless the user is a super
+	 * admin or the network add_new_users option is enabled. Orbit already
+	 * grants the primitive cap, so restore it for the same roles.
+	 *
+	 * @param array  $caps    Primitive capabilities required for the check.
+	 * @param string $cap     Capability being checked.
+	 * @param int    $user_id User ID being checked.
+	 * @return array
+	 */
+	public function allow_create_users_on_multisite( $caps, $cap, $user_id ): array {
+		if ( $cap !== 'create_users' || ! is_multisite() ) {
+			return $caps;
+		}
+
+		if ( ! apply_filters( 'orbit_enable_user_caps_access', true ) ) {
+			return $caps;
+		}
+
+		$user = get_userdata( $user_id );
+
+		if ( ! $user ) {
+			return $caps;
+		}
+
+		$roles = [
+			'editor',
+			'shop_manager',
+		];
+
+		if ( ! array_intersect( $user->roles, $roles ) ) {
+			return $caps;
+		}
+
+		return [ 'create_users' ];
 	}
 }
