@@ -18,6 +18,7 @@ For manual installation or non-Composer environments, see the [Installation Guid
 
 ## Features Overview
 
+- **Site Editor Policy**: The Site Editor is only available on `local` and `development` environments. Elsewhere its menu items, toolbar link, dashboard welcome panel and post-editor template mode are removed, REST writes to templates, template parts and global styles are rejected, and existing database overrides are ignored so theme files are always the source of truth. Override with the `orbit_enable_site_editor` filter.
 - **[Synced Theme Patterns](https://docs.eighteen73.co.uk/wordpress/plugins/orbit/synced-patterns)**: Keeps block theme pattern files in version control while syncing them to real database patterns with block overrides.
 - **[Branded Emails](https://docs.eighteen73.co.uk/wordpress/plugins/orbit/branded-emails)**: Wraps system emails and Gravity Forms notifications in responsive HTML with WooCommerce styling parity.
 - **[UI Cleanup](https://docs.eighteen73.co.uk/wordpress/plugins/orbit/ui-cleanup)**: Simplifies admin menus, toolbar nodes, and dashboard widgets, with custom login logo and environment indicator badge support.
