@@ -1,6 +1,7 @@
 <?php
 /**
- * Add site editor capabilities to editors and shop managers
+ * Add site editor capabilities to editors and shop managers, without the
+ * Themes page that comes with them.
  *
  * @package Orbit
  */
@@ -22,6 +23,35 @@ class Editor {
 	 */
 	public function setup(): void {
 		add_action( 'admin_init', [ $this, 'manage_editor_caps' ] );
+		add_action( 'admin_menu', [ $this, 'remove_themes_page' ], 999 );
+		add_action( 'load-themes.php', [ $this, 'redirect_themes_page' ] );
+	}
+
+	/**
+	 * Hide Appearance > Themes from users who can't switch themes.
+	 *
+	 * `edit_theme_options` (needed for Menus) is enough for core to show the
+	 * Themes page, though it only describes the active theme. Appearance then
+	 * opens on its first remaining item.
+	 *
+	 * @return void
+	 */
+	public function remove_themes_page(): void {
+		if ( ! current_user_can( 'switch_themes' ) ) {
+			remove_submenu_page( 'themes.php', 'themes.php' );
+		}
+	}
+
+	/**
+	 * Send users who can't switch themes from the Themes page to Menus.
+	 *
+	 * @return void
+	 */
+	public function redirect_themes_page(): void {
+		if ( ! current_user_can( 'switch_themes' ) ) {
+			wp_safe_redirect( admin_url( 'nav-menus.php' ) );
+			exit;
+		}
 	}
 
 	/**
