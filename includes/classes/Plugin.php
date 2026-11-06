@@ -25,6 +25,7 @@ class Plugin {
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
 		Admin\EnvironmentIcon::instance()->setup();
+		BlockEditor\FontLibrary::instance()->setup();
 		BlockEditor\Patterns::instance()->setup();
 		BlockEditor\SiteEditor::instance()->setup();
 		BlockEditor\SyncedPatterns::instance()->setup();
