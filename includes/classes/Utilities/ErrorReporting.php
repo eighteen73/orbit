@@ -26,6 +26,17 @@ class ErrorReporting {
 	private $previous_handler = null;
 
 	/**
+	 * Whether an error is currently being handled.
+	 *
+	 * Guards against infinite recursion when the previous handler chain loops back to this
+	 * instance (e.g. Query Monitor stores our handler as its "previous" one, then we re-register
+	 * and store Query Monitor's handler as ours).
+	 *
+	 * @var bool
+	 */
+	private $handling = false;
+
+	/**
 	 * Setup module
 	 *
 	 * @return void
@@ -110,9 +121,20 @@ class ErrorReporting {
 			return true;
 		}
 
+		// The handler chain has looped back to us, so stop here and let the outer call finish.
+		if ( $this->handling ) {
+			return false;
+		}
+
 		// For all other errors, forward to the previous handler if it exists.
 		if ( $this->previous_handler && is_callable( $this->previous_handler ) ) {
-			return (bool) call_user_func( $this->previous_handler, $errno, $errstr, $errfile, $errline );
+			$this->handling = true;
+
+			try {
+				return (bool) call_user_func( $this->previous_handler, $errno, $errstr, $errfile, $errline );
+			} finally {
+				$this->handling = false;
+			}
 		}
 
 		// Fallback to PHP's standard error logger.
