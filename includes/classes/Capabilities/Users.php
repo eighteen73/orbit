@@ -33,6 +33,17 @@ class Users {
 	public function manage_user_caps(): void {
 		$disable_user_caps = ! apply_filters( 'orbit_enable_user_caps_access', true );
 
+		/**
+		 * Whether editors and shop managers can delete users.
+		 *
+		 * Off by default. Requires orbit_enable_user_caps_access to be enabled.
+		 * WooCommerce still prevents these roles from deleting administrators,
+		 * and limits shop managers to deleting customers.
+		 *
+		 * @param bool $enabled Whether to allow deleting users.
+		 */
+		$enable_delete_users = ! $disable_user_caps && apply_filters( 'orbit_enable_delete_users_access', false );
+
 		$roles = [
 			'editor',
 			'shop_manager',
@@ -51,7 +62,11 @@ class Users {
 				continue;
 			}
 
-			if ( $role->has_cap( 'delete_users' ) ) {
+			$has_delete_users = $role->has_cap( 'delete_users' );
+
+			if ( $enable_delete_users && ! $has_delete_users ) {
+				$role->add_cap( 'delete_users' );
+			} elseif ( ! $enable_delete_users && $has_delete_users ) {
 				$role->remove_cap( 'delete_users' );
 			}
 
