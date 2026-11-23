@@ -2,9 +2,9 @@ name: PHP Checks
 
 on:
   push:
-    branches: ["trunk"]
+    branches: ["main", "develop"]
   pull_request:
-    branches: ["trunk"]
+    branches: ["main", "develop"]
 
 permissions:
   contents: read
