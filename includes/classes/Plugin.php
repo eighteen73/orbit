@@ -25,7 +25,11 @@ class Plugin {
 		Admin\CleanUI::instance()->setup();
 		Admin\HideUpdates::instance()->setup();
 		Admin\EnvironmentIcon::instance()->setup();
+		BlockEditor\BlockDirectory::instance()->setup();
+		BlockEditor\CodeEditing::instance()->setup();
+		BlockEditor\FontLibrary::instance()->setup();
 		BlockEditor\Patterns::instance()->setup();
+		BlockEditor\SiteEditor::instance()->setup();
 		BlockEditor\SyncedPatterns::instance()->setup();
 		Branding\BrandedEmails::instance()->setup();
 		Capabilities\GravityForms::instance()->setup();
@@ -35,6 +39,7 @@ class Plugin {
 		DisallowIndexing\DisallowIndexing::instance()->setup();
 		Media\RemoteFiles::instance()->setup();
 		Monitoring\HealthCheck::instance()->setup();
+		Notifications\DisableEmails::instance()->setup();
 		Performance\Fast404::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();

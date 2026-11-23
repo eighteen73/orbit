@@ -39,6 +39,7 @@ class HideUpdates {
 		add_action( 'admin_menu', [ $this, 'hide_updates_submenu_page' ] );
 		add_action( 'admin_bar_menu', [ $this, 'hide_updates_toolbar_item' ], 999 );
 		add_action( 'admin_init', [ $this, 'block_admin_pages' ] );
+		add_action( 'admin_init', [ $this, 'remove_update_nag' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_plugin_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_plugin_styles' ] );
 	}
@@ -82,6 +83,18 @@ class HideUpdates {
 	 */
 	public function hide_updates_toolbar_item( \WP_Admin_Bar $menu ): void {
 		$menu->remove_node( 'updates' );
+	}
+
+	/**
+	 * Don't print WordPress's "WordPress x.y is available! Please notify the
+	 * site administrator." notice: it asks people who can't update to phone
+	 * the agency. Core adds it with the admin's includes, after `init`.
+	 *
+	 * @return void
+	 */
+	public function remove_update_nag(): void {
+		remove_action( 'admin_notices', 'update_nag', 3 );
+		remove_action( 'network_admin_notices', 'update_nag', 3 );
 	}
 
 	/**
