@@ -39,6 +39,7 @@ class Plugin {
 		DisallowIndexing\DisallowIndexing::instance()->setup();
 		Media\RemoteFiles::instance()->setup();
 		Monitoring\HealthCheck::instance()->setup();
+		Notifications\DisableEmails::instance()->setup();
 		Performance\Fast404::instance()->setup();
 		Security\DisableAPI::instance()->setup();
 		Security\DisableXMLRPC::instance()->setup();
