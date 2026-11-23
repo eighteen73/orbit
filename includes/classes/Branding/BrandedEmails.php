@@ -89,12 +89,16 @@ class BrandedEmails {
 		// Add HTML Content-Type
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 
+		// Plain-text emails rely on the email client to auto-link URLs, which most don't do
+		// once the email is HTML. Link them here so URLs (e.g. password reset links) stay usable.
+		$message = is_string( $args['message'] ) ? make_clickable( $args['message'] ) : $args['message'];
+
 		ob_start();
 
 		Templates::include_template(
 			'branded-emails/email-template.php',
 			[
-				'email_content' => $args['message'],
+				'email_content' => $message,
 				'email_subject' => isset( $args['subject'] ) ? $args['subject'] : '',
 			]
 		);
